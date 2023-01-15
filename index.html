@@ -14,50 +14,92 @@
   </head>
   <body>
     <header class="header-container">
-      <!-- <div class="menu-btn-mobile"> -->
-      <!-- <img src="./images/hyperactive_logo.ca677e3d.png" alt="logo" /> -->
-      <div class="lines" id="menu-button-mobile">
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-      </div>
-      <!-- </div> -->
-
       <div class="nav-bar">
-        <div class="logo">
-          <img src="./images/hyperactive_logo.ca677e3d.png" alt="logo" />
+        <div class="logo" id="logo">
+          <img
+            class="logo-img"
+            src="./images/hyperactive_logo.ca677e3d.png"
+            alt="logo"
+          />
           <div>בית הספר להיי-טק הטוב ביותר!</div>
         </div>
 
-        <div class="links" id="career"><a href="#">קריירות</a></div>
-        <div class="links">
-          <a href="#">למה ללמוד אצלנו?</a>
+        <div class="navigator-bar" id-="navigator-bar">
+          <div class="links career" id="career">
+            קריירות
+            <ul class="none" id="career-list">
+              <li class="career-type">
+                <a href="#" class="links-career"> ethical hacking</a>
+              </li>
+              <li class="career-type">
+                <a href="#" class="links-career">system administration</a>
+              </li>
+              <li class="career-type">
+                <a href="#" class="links-career">seo/social/sales& marketing</a>
+              </li>
+              <li class="career-type">
+                <a href="#" class="links-career">qa & automation</a>
+              </li>
+              <li class="career-type">
+                <a href="#" class="links-career">ui/ux</a>
+              </li>
+              <li class="career-type">
+                <a href="#" class="links-career">full stack</a>
+              </li>
+              <li class="career-type">
+                <a href="#" class="links-career">embedded</a>
+              </li>
+              <li class="career-type">
+                <a href="#" class="links-career">ios/android</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="links">
+            <a href="#">למה ללמוד אצלנו?</a>
+          </div>
+          <div class="links" id="our-grads">
+            <a href="#">כאן תמצאו את הבוגרים שלנו</a>
+          </div>
+          <div class="links" id="about-us">
+            <a href="#">קצת עלינו</a>
+          </div>
+          <div class="links" id="how-it-work">
+            <a href="#">איך זה עובד</a>
+          </div>
+          <div class="links" id="questions">
+            <a href="#">שאלות שכנראה תשאלו</a>
+          </div>
+          <div class="links" id="for-the-public">
+            <a href="#">שירות לציבור</a>
+          </div>
         </div>
 
-        <div class="links" id="our-grads">
-          <a href="#">כאן תמצאו את הבוגרים שלנו</a>
+        <div class="mobile-menu-container" id="menu-button-mobile">
+          <div class="icon-menu" id="icon-menu">
+            <div class="line" id="line-top"></div>
+            <div class="line" id="line-mid"></div>
+            <div class="line" id="line-bottom"></div>
+          </div>
         </div>
-
-        <div class="links" id="about-us">
-          <a href="#">קצת עלינו</a>
-        </div>
-
-        <div class="links" id="how-it-work">
-          <a href="#">איך זה עובד</a>
-        </div>
-
-        <div class="links" id="questions">
-          <a href="#">שאלות שכנראה תשאלו</a>
-        </div>
-
-        <div class="links" id="for-the-public">
-          <a href="#">שירות לציבור</a>
-        </div>
+        <ul class="mobile-menu none" id="mobile-menu">
+          <li><a href="#">בית</a></li>
+          <li><a href="#">קריירות</a></li>
+          <li><a href="#">כאן תמצאו את הבוגרים שלנו</a></li>
+          <li><a href="#">קצת עלינו</a></li>
+          <li><a href="#">איך זה עובד</a></li>
+          <li><a href="#">שאלות שכנראה תשאלו</a></li>
+          <li><a href="#">שירות לציבור</a></li>
+          <li></li>
+        </ul>
       </div>
+      <!-- </div> -->
 
       <div class="poster-headline">
-        <div class="div1">לא עבדת?</div>
-        <div class="div2">לא שילמת!</div>
+        <div class="div1">
+          לא עבדת?
+          <span class="span1">לא שילמת!</span>
+        </div>
       </div>
 
       <div class="subtext-head">
@@ -65,7 +107,471 @@
       </div>
     </header>
 
-    <main class="main-container"></main>
+    <main class="main-container">
+      <div class="first-part-main">
+        <div class="header-and-courses">
+          <h1>מה הקריירה שלך בהיי-טק?</h1>
+          <div class="curses-container">
+            <div class="course">
+              <div>
+                <img src="./images/qa.png" alt="qa" />
+                <div>בדיקת תוכנה | qa & automation</div>
+              </div>
+            </div>
+            <div class="course">
+              <div>
+                <img src="./images/seo.png" alt="seo" />
+                <div>שיווק דיגיטלי | seo/socail/sales&marketing</div>
+              </div>
+            </div>
+            <div class="course">
+              <div>
+                <img src="./images/sysAdmin.png" alt="sysAdmin" />
+                <div>ניהול רשתות ומחשוב | system administration</div>
+              </div>
+            </div>
+            <div class="course">
+              <div>
+                <img src="./images/ethical_hacking.png" alt="hacking" />
+                <div>סייבר ואבטחת מידע | ethical hacking</div>
+              </div>
+            </div>
+            <div class="course">
+              <div>
+                <img src="./images/embedded.png" alt="embedded" />
+                <div>פיתוח מערכות משובצות מחשב | embedded</div>
+              </div>
+            </div>
+            <div class="course">
+              <div>
+                <img src="./images/ios.png" alt="mobile" />
+                <div>פיתוח אפליקציות מובייל | ios/android</div>
+              </div>
+            </div>
+            <div class="course">
+              <div>
+                <img src="./images/fullstack.png" alt="software dev" />
+                <div>פיתוח תוכנה dot net/java/php | full stack</div>
+              </div>
+            </div>
+            <div class="course">
+              <div>
+                <img src="./images/ui.png" alt="ui/ux" />
+                <div>עיצוב גרפי | ui/ux</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="main-form">
+          <h2>רוצה לשמוע עוד?</h2>
+          <form action="#" class="contact-form-main">
+            <div class="main-input">
+              <label for="name-input-main">שם מלא</label>
+              <div class="sepa"></div>
+              <input type="text" id="name-input-main" required />
+            </div>
+            <div class="main-input">
+              <label for="phone-input-main">טלפון</label>
+              <div class="sepa"></div>
+              <input type="tel" id="phone-input-main" required />
+            </div>
+
+            <div class="main-input">
+              <label for="email-input-main">אי-מייל</label>
+              <div class="sepa"></div>
+              <input type="email" id="email-input-main" required />
+            </div>
+          </form>
+
+          <div class="check-box-main">
+            <input
+              type="checkbox"
+              id="takanon-main"
+              name="takanon-main"
+              value="takanon-main"
+            />
+            <label for="takanon-main"
+              >אני מאשר קבלת עדכונים ומבצעים מהייפראקטיב בכפופף לתקנון.</label
+            >
+          </div>
+
+          <a href="#">מדיניות פרטיות משתמשים</a>
+          <a href="#">הצהרת נגישות</a>
+          <button type="submit" class="contact-btn" id="contect-btn-main">
+            דברו איתי!
+          </button>
+        </div>
+      </div>
+
+      <div class="second-part-main">
+        <h1>למה ללמוד אצלנו?</h1>
+        <div class="first-section">
+          <p class="first-line">
+            יש הרבה סיבות מדוע ללמוד אצלנו ומדוע אנחנו בית הספר להיי-טק הטוב
+            בישראל. אבל בסופו של דבר הכל נובע מביסה אחת פשוטה:
+          </p>
+          <p class="second-line">
+            אתם רוצים לפתוח קריירה בענף ההיי-טק והולכים ללמוד קורס רק מסיבה אחת
+            - להתקבל לעבודה!
+          </p>
+          <p class="third-line">
+            אנחנו בית הספר היחיד שמרוויח כסף <strong>רק ואך ורק</strong> אם אכן
+            תתקבלו לעבודה.
+          </p>
+        </div>
+
+        <div class="second-section">
+          <div class="background-black-part">
+            <p class="first-part-in-paragraph">
+              <span>בשאר השוק</span> - תגיעו להתעניין בלימודים ותקבלו מאנשי
+              המכירות יחס נפלא, תשמעו <u>הבטחות מהממות</u>, ויופעלו עליכם
+              <u
+                >תרגילים שיווקיים מכל הבא ליד כדוגמת ״התחייבות לעבודה״ חסרת כל
+                משמעות,</u
+              >
+              ירשמו אתכם לקורס ויגבו מכם מראש שכר לימוד מלא. מרגע זה בגדול בית
+              הספר עשה את שלו - תצליחו, לא תצליחו, תמצאו עבודה, לא תמצאו עבודה
+              זה כבר פחות משנה. בהתאם ברוב בתי הספר, למרות מאמצים וכוונות טובות
+              בדרך כלל, מתגלות הבעיות הבאות:
+            </p>
+
+            <!-- </div> -->
+
+            <!-- <p class="second-section-in-paragraph"> -->
+
+            <ol>
+              <li>
+                <p>
+                  לא קיים תהליך אבחון ומיון אמיתי - ״יועצי לימודים״ הינם בעצם
+                  אנשי מכירות, המתוגמלים על פי כמות הנרשמים, ובהתאם רושמים המון
+                  מועמדים שאין להם מראש סיכוי אמיתי להצליח בקורסים ולהתקבל
+                  לעבודה בסיום ההכשרה.
+                </p>
+              </li>
+              <li>
+                <p>
+                  קורסים הכוללים הרבה מועמדים חלשים מתנהלים בקצב איטי. כתוצאה
+                  מכך למרות כמות שעות לימוד גדולה, ״על הנייר״, מספיקים לעבור על
+                  הנושאים בצורה שטחית בלבד.ללא קשר לכישורי המדריכים ״על הנייר״,
+                  רוב המדריכים
+                </p>
+              </li>
+              <li>
+                <p>
+                  ללא קשר לכישורי המדריכים ״על הנייר״, רוב המדריכים משתכרים נמוך
+                  יחסית למקובל בענף ההיי-טק ואיכות ההוראה נפגעת בהתאם.
+                </p>
+              </li>
+              <li>
+                <p>
+                  בסיום ההכשרה גוף ההשמה המצומצם יוצא ידי חובה בפעילות מועטה,
+                  מול הבוגרים.
+                </p>
+              </li>
+            </ol>
+
+            <!-- </p> -->
+
+            <p class="third-section-in-paragraph">
+              כתוצאה מכך, ברוב בתי הספר , בדרך כלל כמחצית התלמידים נושרים מהקורס
+              עד שהקורס מסתיים, וכמות הבוגרים שמצליחים להשתלב בתעשיית ההיי-טק
+              במקצוע אותו למדו בקורס נמוכה מאוד. לצערנו, בעידן הקורונה, מסתיים
+              לעיתים קורס מבלי שאפילו בוגר אחד מוצא עבודה בתפקיד אליו הוכשר...
+            </p>
+          </div>
+
+          <div class="backgorund-white-part">
+            <div class="head-paragraph">
+              <p>
+                <span>אצלנו</span> לעומת זאת הכך הפוך - אם לא תתקבלו לעבודה
+                בתחום אותו למדתם אצלנו לא תשלמו בכלל שכר לימוד! בהתאם הדברים
+                מתנהלים בצורה הבאה
+              </p>
+            </div>
+
+            <div class="paragraph-list">
+              <ol>
+                <li>
+                  <p>
+                    כשתפנו אלינו תעברו תהליך אבחון, יעוץ ומיון מקצועי אמיתי.
+                    לצערנו רוב המועמדים מקבלים תשובה ישירה וכנה שהתחום לא מתאים
+                    להם, שלא נקבל אותם לקורס וחבל על בזבוז הזמן שלהם.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    רק מועמדים שאנחנו מאמינים שיש להם סיכוי טוב לסיים את הקורסים
+                    בהצלחה ולהתקבל לעבודה - מתקבלים לקורסים. בהתאם הקורסים
+                    מתנהלים ברמה גבוה ובקצב מהיר והנושאים נלמדים יסודית ומעמיקה.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    צוות ההדרכה ושיטות ההדרכה הינן המתקדמות והחדשניות ביותר שכן
+                    המטרה העליונה שלנו להכשיר את המועמדים ברמה הגבוה ביותר.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    עם סיום ההכשרה נכנס לפעולה מנגנון ההשמה המקצועי והמתוקצב
+                    היטב שלנו ורק לאחר שתלמיד מתקבל לעבודה בתחום אותו למד, אז
+                    ורק אז, סוף סוף אנחנו מקבלים את גמולנו - תשלום עבור ההכשרה!
+                  </p>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="third-part-main">
+        <h2>כאן תמצאו את הבוגרים שלנו</h2>
+        <div>
+          <img src="./images/companys_icons/at&t.png" alt="at&t" />
+          <img src="./images/companys_icons/allot.svg" alt="allot" />
+          <img src="./images/companys_icons/avg.jpg" alt="avg" />
+          <img src="./images/companys_icons/checkPoint.png" alt="check-point" />
+          <img src="./images/companys_icons/cisco.jpg" alt="cisco" />
+          <img src="./images/companys_icons/comverse.png" alt="comverse" />
+          <img src="./images/companys_icons/emet.png" alt="emet" />
+          <img src="./images/companys_icons/gini-apps.png" alt="gini-apps" />
+          <img src="./images/companys_icons/globalbit.png" alt="globalbit" />
+          <img src="./images/companys_icons/goliver.png" alt="goliver" />
+          <img src="./images/companys_icons/linnovate.png" alt="linnovate" />
+          <img src="./images/companys_icons/hp.png" alt="hp" />
+          <img src="./images/companys_icons/iai.png" alt="iai" />
+          <img src="./images/companys_icons/ibm.png" alt="ibm" />
+          <img src="./images/companys_icons/idigital.jpeg" alt="idigital" />
+          <img src="./images/companys_icons/intel.png" alt="intel" />
+          <img src="./images/companys_icons/ironsource.png" alt="iron-source" />
+          <img
+            src="./images/companys_icons/liveperson.webp"
+            alt="Live-person"
+          />
+          <img src="./images/companys_icons/noname.jpg" alt="unknown" />
+          <img src="./images/companys_icons/matrix.jpg" alt="matrix" />
+          <img src="./images/companys_icons/moblin.png" alt="moblin" />
+          <img src="./images/companys_icons/ness.png" alt="ness" />
+          <img src="./images/companys_icons/nice.jpeg" alt="nice" />
+          <img src="./images/companys_icons/ono.png" alt="ono" />
+          <img src="./images/companys_icons/orbotech.png" alt="orbotech" />
+          <img src="./images/companys_icons/pelephon.png" alt="pelephone" />
+          <img
+            src="./images/companys_icons/no_name_near_pelephone.png"
+            alt="no_name_near_pelephone"
+          />
+          <img src="./images/companys_icons/binat.png" alt="binat" />
+          <img src="./images/companys_icons/fishmedia.png" alt="fish-media" />
+          <img src="./images/companys_icons/airsoft.png" alt="air-soft" />
+          <img src="./images/companys_icons/amadocs.png" alt="amadocs" />
+          <img src="./images/companys_icons/bambi.png" alt="bambi" />
+          <img src="./images/companys_icons/bezeq.png" alt="bezeq" />
+          <img src="./images/companys_icons/gini-apps.png" alt="gini-apps" />
+          <img src="./images/companys_icons/cardlatch.png" alt="card-latch" />
+          <img src="./images/companys_icons/devSense.png" alt="devSense" />
+          <img
+            src="./images/companys_icons/commitSystem.png"
+            alt="commit-system"
+          />
+          <img src="./images/companys_icons/ebay.jpg" alt="ebay" />
+          <img src="./images/companys_icons/emc.png" alt="emc" />
+          <img src="./images/companys_icons/fieldbit.png" alt="fieldbit" />
+          <img src="./images/companys_icons/globalbit.png" alt="globalbit" />
+          <img src="./images/companys_icons/H.webp" alt="H" />
+          <img src="./images/companys_icons/deomoblie.png" alt="deomobile" />
+          <img src="./images/companys_icons/inmanage.png" alt="in-manage" />
+          <img
+            src="./images/companys_icons/intuitionRobotics.png"
+            alt="intuitionRobotics"
+          />
+          <img src="./images/companys_icons/isloveya.png" alt="isloveya" />
+          <img src="./images/companys_icons/clal.png" alt="clal" />
+          <img src="./images/companys_icons/lemonada.png" alt="lemonada" />
+          <img src="./images/companys_icons/log_on.png" alt="log-on" />
+          <img src="./images/companys_icons/malamTeam.png" alt="malam" />
+          <img src="./images/companys_icons/matrix.jpg" alt="matrix" />
+          <img src="./images/companys_icons/microsoft.jpg" alt="microsoft" />
+          <img src="./images/companys_icons/moblin.png" alt="moblin" />
+          <img src="./images/companys_icons/ngSoft.png" alt="ng-soft" />
+          <img
+            src="./images/companys_icons/omnitelecom.svg"
+            alt="omnitelecom"
+          />
+          <img
+            src="./images/companys_icons/pocketlink.jpg"
+            alt="pocket-links"
+          />
+          <img src="./images/companys_icons/qualitest.png" alt="qualitest" />
+          <img src="./images/companys_icons/quickode.png" alt="quickode" />
+          <img
+            src="./images/companys_icons/round robin.png"
+            alt="round-robin"
+          />
+          <img src="./images/companys_icons/sanDisk.png" alt="san-disk" />
+          <img src="./images/companys_icons/syte.svg" alt="syte" />
+          <img src="./images/companys_icons/test_pro.png" alt="test-pro" />
+          <img src="./images/companys_icons/travelList.png" alt="travelList" />
+          <img src="./images/companys_icons/via.png" alt="via" />
+          <img src="./images/companys_icons/wix" alt="wix" />
+          <img src="./images/companys_icons/yael.png" alt="yael-group" />
+          <img src="./images/companys_icons/zap.png" alt="zap" />
+          <img src="./images/companys_icons/zigit.png" alt="zigit" />
+          <img src="./images/companys_icons/poalim.jpeg" alt="poalim" />
+          <img src="./images/companys_icons/leumi.jpeg" alt="leumi" />
+        </div>
+      </div>
+
+      <div class="four-part-main">
+        <h2>קצת עלינו</h2>
+        <div class="about-us">
+          <p>
+            הייפראקטיב הוקמה ב- 2004 על ידי צוות בראשות טל שחור, יזם היי-טק
+            ותיק.
+            <br />
+            <br />
+            צוות ההדרכה בחברה הינו מהוותיקים והמנוסים בישראל. חלקנו הקמנו בעבר
+            בתי ספר להיי-טק אחרים, חלקנו עבדנו בתפקידי ניהול, שיווק והדרכה בבתי
+            ספר אחרים.
+          </p>
+
+          <p>
+            לאורך השנים הכשרנו אלפי עובדים לענף ההי-טק בכל התמחות ומיומנות
+            אפשרית. לאורך השנים היינו תמיד חדשניים - היינו הראשונים ללמד באופן
+            מקצועי טכנולוגיות חדשות.
+          </p>
+          <p>
+            בית הספר היחיד שפיתח מערכות יעודיות ואימץ באופן מלא שיטות הדרכה
+            מתקדמות מרחוק - שנים לפני שמישהו שמע על נגיף הקורונה.
+          </p>
+          <p class="three-par">
+            <b>בשנות הפעילות הראשונות שלנו</b> העברנו קורסי הכשרה במודל המקובל
+            בשוק - קורסים במגוון תחומים גדול המקבילים לקיים בשוק ובתשלום מראש.
+
+            <strong>לאחר מכן הקמנו את מיזם "תלפיות היי-טק"</strong> תלפיות
+            היי-טק מתמקד בהכשרה ארוכה ומעמיקה מאוד של אנשי פיתוח,במגוון גדול של
+            טכנולוגיות ובמודל בו התלמידים לא משלמים כלל שכר לימוד ומתחייבים
+            לעבוד אצלנו מספר שנים.
+            <strong>כעת, לאור התקופה הקשה העוברת על המשק הישראלי</strong> כאשר
+            מאות אלפי מובטלים מחפשים כיוון מקצועי ונושאים עיניהם אל תעשיית
+            ההיי-טק, החלטנו להטות כתף, להיות החלוצים
+            <strong
+              >ולהפוך לבית הספר היחיד, שמציע מסגרות הכשרה חסרות סיכון במודל "לא
+              עבדת לא שילמת".</strong
+            >
+          </p>
+          <p>
+            הייפראקטיב הינה ״מכללת בוטיק״ - אנחנו סלקטיביים מאוד ומטפלים בכמות
+            מצומצמת של מועמדים שמשכנעים אותנו שיש להם את מה שנדרש כדי לפתח
+            קריירה משגשגת בענף ההי-טק. אנו מלווים באופן צמוד את הבוגרים גם לאחר
+            שהתקבלו לעבודה לאורך הקריירה שלהם - בעצות טובות, הפעלת קשרים כשנדרש
+            ושרותי סוכן אישי צמוד - אנו רואים בבוגרינו משאב רב ערך לתעשית
+            ההיי-טק והמשק הישראלי והם מקבלים את מלוא התמיכה לה הם ראויים בהתאם.
+          </p>
+        </div>
+
+        <div class="how-it-work">
+          <div class="diagnosis block-design" id="diagnosis">
+            <div class="header-diagnos">
+              <p>אבחון, יעוץ ומיון</p>
+              <div class="sign" id="sign">
+                <div class="line"></div>
+                <div class="line"></div>
+              </div>
+            </div>
+            <div class="context-diagnos" id="context-diagnos">
+              <p>
+                לאורך שנים גיבשנו תהליך מדעי לבדיקת התאמה לתחומי העיסוק השונים
+                בענף ההיי-טק
+              </p>
+              <p>
+                מועמדים רבים פונים אלינו לאחר שהתקבלו לקורסים בבתי ספר אחרים
+                ומתאכזבים לקבל מאיתנו תשובה שלילית. חשוב להבין כי אנחנו מרוויחים
+                רק כאשר מועמד מתקבל לעבודה ולכן נדרשים לבחינה מעמיקה בהרבה
+                שבוחנת את פוטנציאל המועמד לעמוד ב-2 הדרישות המרכזיות לעבודה
+                בתפקידים בענף ההיי-טק:
+              </p>
+              <ol>
+                <li>פרופיל אישיותי מתאים.</li>
+                <li>יכולת טכנית וידע מקצועי מעמיק.</li>
+              </ol>
+              <p>
+                בשלב ראשון תגישו מועמדות דרך האתר. לאחר מכן יתקיים ראיון טלפוני
+                ראשון שלאחריו תתבקשו להשלים פרטים ונתונים נוספים הנדרשים לשלב
+                המיון הראשון. בשלב שני תקבלו מבדקי בית לפתרון בזמן מוגבל ומתואם
+                מראש. בשלב שלישי תזומנו לראיון אישי עם מנהל ההדרכה ולמבדקי קבלה
+                נוספים. אנחנו מעריכים את המועמדים שלנו ומתחייבים לחזור לכל מועמד
+                עם תשובה.
+              </p>
+            </div>
+          </div>
+
+          <div class="training-path block-design" id="training">
+            <div class="header-training">
+              <p>מסלול הכשרה</p>
+              <div class="sign" id="sign-train">
+                <div class="line"></div>
+                <div class="line"></div>
+              </div>
+            </div>
+            <div class="context-training" id="context-training">
+              <p>
+                למועמדים שיעברו בהצלחה את תהליכי האבחון ימונה מנהל תוכנית אישי.
+                המנהל האישי ישב עם המועמד ויגדיר עימו מסגרת הכשרה מותאמת אישית.
+                המסגרת תקבע בהתאם לשאיפות וההעדפות התעסוקתיות של המועמד, יכולת
+                המועמד להתמקד אך ורק בלימודים או הצורך של המועמד ללמוד במסלול
+                ערב במקביל להמשך עבודה במקום העבודה הנוכחי שלו ובהתאם לרקע
+                הלימודי/אקדמי הקודם של המועמד וציוני בדיקות ההתאמה שלו.
+              </p>
+              <p>
+                כל מסלולי ההכשרה כוללים הן בסיס תיאורטי רחב, הן ידע טכני פרקטי
+                והן פרוייקטים מעשיים. ההכשרות השונות מועברות בתקופת הקורונה
+                בלימודים מרחוק תוך שילוב טכנולוגיות מתקדמות יחודיות שפותחו לאורך
+                השנים בהייפראקטיב - הכשרות פרונטליות רגילות, מנטורינג על ידי
+                אנשי מקצוע מהתעשיה, פרוייקטים אישיים, סדנאות מיוחדות בקבוצות
+                קטנות.
+              </p>
+            </div>
+          </div>
+          <div class="new-career block-design" id="career-work">
+            <div class="header-career">
+              <p>קריירה חדשה</p>
+              <div class="sign" id="sign-career">
+                <div class="line"></div>
+                <div class="line"></div>
+              </div>
+            </div>
+            <div class="context-career" id="context-career">
+              <p>
+                עשיתם את זה, נכנסתם לענף ההיי-טק. אתם עובדים באחת מחברות ההיי-טק
+                המובילות בישראל. אנחנו עדיין עומדים לרשותכם לעזרה, ליתר בטחון.
+                אם תרצו גם נסייע לכם כסוכן אישי להמשיך לקדם אתכם בענף לתפקידים
+                ומשכורות גבוהים יותר לאורך הקריירה.
+              </p>
+            </div>
+          </div>
+
+          <div class="process block-design" id="process">
+            <div class="header-process">
+              <p>תהליך השיבוץ</p>
+              <div class="sign" id="sign-process">
+                <div class="line"></div>
+                <div class="line"></div>
+              </div>
+            </div>
+            <div class="context-process" id="context-process">
+              <p>
+                עם סיום ההכשרה, תעברו לטיפול מחלקת ההשמה - תעברו סדנת הכנה
+                ואימון מתקדם לקראת ראיונות עבודה, תעברו סדרת ראיונות אצל לקוחות
+                עד שתתקבלו לעבודה המיוחלת במקצוע אותו למדתם. רק לאחר שנקלטתם
+                בעבודה תסדירו את תשלום שכר הלימוד על הקורס אותו עברתם…
+              </p>
+            </div>
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </main>
 
     <footer class="footer-page">
       <div class="text-footer">
@@ -75,16 +581,16 @@
       </div>
       <form action="#" class="contact-form">
         <div class="footer-input">
-          <label>שם מלא</label>
+          <label for="name-input">שם מלא</label>
           <input type="text" required id="name-input" />
         </div>
         <div class="footer-input">
-          <label>טלפון</label>
+          <label for="phone-input">טלפון</label>
           <input type="tel" required id="phone-input" />
         </div>
 
         <div class="footer-input">
-          <label>אי-מייל</label>
+          <label for="email-input">אי-מייל</label>
           <input type="email" required id="email-input" />
         </div>
 
@@ -98,8 +604,10 @@
           >אני מאשר קבלת עדכונים ומבצעים מהייפראקטיב בכפופף לתקנון.</label
         >
       </div>
+      <!-- <div class="footer-links"> -->
       <a href="#">מדיניות פרטיות משתמשים</a>
       <a href="#">הצהרת נגישות</a>
+      <!-- </div> -->
     </footer>
 
     <script src="./logic.js"></script>
