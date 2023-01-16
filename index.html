@@ -11,6 +11,10 @@
       href="./images/hyperactive_logo.ca677e3d.png"
     />
     <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
   </head>
   <body>
     <header class="header-container">
@@ -81,19 +85,19 @@
             <div class="line" id="line-mid"></div>
             <div class="line" id="line-bottom"></div>
           </div>
+
+          <ul class="mobile-menu none" id="mobile-menu">
+            <li><a href="#">בית</a></li>
+            <li><a href="#">קריירות</a></li>
+            <li><a href="#">כאן תמצאו את הבוגרים שלנו</a></li>
+            <li><a href="#">קצת עלינו</a></li>
+            <li><a href="#">איך זה עובד</a></li>
+            <li><a href="#">שאלות שכנראה תשאלו</a></li>
+            <li><a href="#">שירות לציבור</a></li>
+            <li></li>
+          </ul>
         </div>
-        <ul class="mobile-menu none" id="mobile-menu">
-          <li><a href="#">בית</a></li>
-          <li><a href="#">קריירות</a></li>
-          <li><a href="#">כאן תמצאו את הבוגרים שלנו</a></li>
-          <li><a href="#">קצת עלינו</a></li>
-          <li><a href="#">איך זה עובד</a></li>
-          <li><a href="#">שאלות שכנראה תשאלו</a></li>
-          <li><a href="#">שירות לציבור</a></li>
-          <li></li>
-        </ul>
       </div>
-      <!-- </div> -->
 
       <div class="poster-headline">
         <div class="div1">
@@ -107,7 +111,45 @@
       </div>
     </header>
 
-    <main class="main-container">
+    <main class="main-container" id="main-container">
+      <div class="none" id="modal-container">
+        <div class="modal">
+          <div class="modal-sign" id="modal-sign">
+            <div class="line" id="line1"></div>
+            <div class="line" id="line2"></div>
+          </div>
+
+          <div class="contact-modal">
+            <div class="header-modal">
+              <h2>
+                מעוניינים לקבל ייעוץ חינם לגבי לימודי הייטק? השאירו פרטים!
+              </h2>
+              <form action="#" class="modal-form">
+                <input type="text" class="modal-input" placeholder="שם מלא" />
+                <input
+                  type="text"
+                  class="modal-input"
+                  placeholder="מספר טלפון"
+                />
+                <input type="text" class="modal-input" placeholder="אי-מייל" />
+                <div class="modal-checkbox">
+                  <input
+                    type="checkbox"
+                    name="modal-checkbox"
+                    id="modal-checkbox"
+                  />
+                  <label for="modal-checkbox"
+                    >אני מאשר קבל עדכונים ומבצעים מהייפראקטיב</label
+                  >
+                </div>
+
+                <button type="button">דברו איתי>></button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="first-part-main">
         <div class="header-and-courses">
           <h1>מה הקריירה שלך בהיי-טק?</h1>
@@ -273,7 +315,7 @@
 
             <!-- </p> -->
 
-            <p class="third-section-in-paragraph">
+            <p class="first-part-in-paragraph">
               כתוצאה מכך, ברוב בתי הספר , בדרך כלל כמחצית התלמידים נושרים מהקורס
               עד שהקורס מסתיים, וכמות הבוגרים שמצליחים להשתלב בתעשיית ההיי-טק
               במקצוע אותו למדו בקורס נמוכה מאוד. לצערנו, בעידן הקורונה, מסתיים
@@ -469,14 +511,14 @@
             ההיי-טק והמשק הישראלי והם מקבלים את מלוא התמיכה לה הם ראויים בהתאם.
           </p>
         </div>
-
+        <h1>איך זה עובד</h1>
         <div class="how-it-work">
           <div class="diagnosis block-design" id="diagnosis">
             <div class="header-diagnos">
               <p>אבחון, יעוץ ומיון</p>
               <div class="sign" id="sign">
-                <div class="line"></div>
-                <div class="line"></div>
+                <div class="line" id="line-top-diagnos"></div>
+                <div class="line" id="lin-bottom-diagnos"></div>
               </div>
             </div>
             <div class="context-diagnos" id="context-diagnos">
@@ -510,8 +552,8 @@
             <div class="header-training">
               <p>מסלול הכשרה</p>
               <div class="sign" id="sign-train">
-                <div class="line"></div>
-                <div class="line"></div>
+                <div class="line" id="line-top-training"></div>
+                <div class="line" id="line-bottom-training"></div>
               </div>
             </div>
             <div class="context-training" id="context-training">
@@ -537,8 +579,8 @@
             <div class="header-career">
               <p>קריירה חדשה</p>
               <div class="sign" id="sign-career">
-                <div class="line"></div>
-                <div class="line"></div>
+                <div class="line" id="line-top-career"></div>
+                <div class="line" id="line-bottom-career"></div>
               </div>
             </div>
             <div class="context-career" id="context-career">
@@ -555,8 +597,8 @@
             <div class="header-process">
               <p>תהליך השיבוץ</p>
               <div class="sign" id="sign-process">
-                <div class="line"></div>
-                <div class="line"></div>
+                <div class="line" id="line-top-process"></div>
+                <div class="line" id="line-bottom-process"></div>
               </div>
             </div>
             <div class="context-process" id="context-process">
@@ -569,6 +611,345 @@
             </div>
           </div>
           <div></div>
+        </div>
+      </div>
+
+      <div class="five-part-main">
+        <h2>שאלות שכנראה תשאלו</h2>
+        <div class="questions-part">
+          <div class="questions">
+            <div class="question-and-answer" id="question-01">
+              <div class="quest">
+                איך אני יכול לדעת איזה מקצוע בהיי-טק מתאים לי?
+                <!-- <div class="sign-question">
+                  <div class="line" id="line-quest"></div>
+                  <div class="line" id="line-quest"></div>
+                </div> -->
+              </div>
+
+              <div class="none" id="answer-01">
+                הגש מועמדות באמצעות הטופס ונתחיל בתהליך האבחון, היעוץ והמיון
+                המקצועי שלנו ללא כל עלות וללא כל מחויבות. נחזיק לך אצבעות שתמצא
+                מתאים לאחד המקצועות בענף ההיי-טק!
+              </div>
+            </div>
+
+            <div class="question-and-answer" id="question-02">
+              <div class="quest">
+                סיימתי קורס בבית ספר אחר ולא מצאתי עבודה, מה אני יכול לעשות?
+              </div>
+
+              <div class="none" id="answer-02">
+                <p>
+                  קודם כל אתה יכול להתנחם בכך שאינך יוצא דופן, חיפוש קצר בקבוצות
+                  פייסבוק יגלה לך שרוב בוגרי הקורסים נקלעים לאותה סיטואציה שאתה
+                  הגעת אליה.
+                </p>
+                <p>יש 3 אפשרויות למה סיימת קורס בבית ספר אחר ולא מצאת עבודה:</p>
+                <ol>
+                  <li>הקורס שלמדת לא היה מקיף ו/או לא הועבר ברמה הנדרשת</li>
+                  <li>אתה לא מתאים לתחום אליו קיבלו אותך ללימודים.</li>
+                  <li>
+                    אתה לא מתאים מבחינת הפרופיל האישיותי למקצוע שלמדת ו/או ״לא
+                    יודע איך לעבור ראיון״
+                  </li>
+                </ol>
+                <p>
+                  הגש אלינו מועמדות באמצעות הטופס, נתחיל בתהליך האבחון, היעוץ
+                  והמיון המקצועי שלנו ללא כל עלות וללא כל מחויבות. בסיום התהליך
+                  נוכל לתת לך תשובה מדויקת מה הסיבה שלא התקבלת לעבודה. במידה
+                  ויתברר שאתה מתאים לתחום אותו למדת ובעל פרופיל אישיותי מתאים,
+                  נתאים לך השלמת הכשרה מותאמת אישית שתכניס אותך לענף. כאמור, על
+                  הכשרות אצלנו לא משלמים שקל אם לא מתקבלים לעבודה…
+                </p>
+              </div>
+            </div>
+
+            <div class="question-and-answer" id="question-03">
+              <div class="quest">
+                יש לי תואר אקדמי במדעי המחשב ולא מצאתי עבודה, מה אני יכול לעשות?
+              </div>
+
+              <div class="none" id="answer-03">
+                <p>
+                  גם בוגרי תואר ראשון במדעי המחשב ממכללות נתקלים בימים אלה
+                  בקשיים גדולים בקבלה לעבודה הראשונה בענף ההיי-טק. במיוחד כאשר
+                  הם מחפשים עבודה ראשונה בפיתוח תוכנה.
+                </p>
+                <p>
+                  יש 2 אפשרויות מדוע סיימת תואר אקדמי במכללה ולא מצאת עבודה:
+                </p>
+                <ol>
+                  <li>
+                    למרות רקע תאורטי רחב, חסר לך ידע פרקטי במקצוע המבוקש בענף
+                    ההי-טק - במיוחד כשדברים אמורים בפיתוח תוכנה.
+                  </li>
+                  <li>
+                    אתה לא מתאים מבחינת הפרופיל האישיותי למקצוע המבוקש ו/או ״לא
+                    יודע איך לעבור ראיון״.
+                  </li>
+                  <p>
+                    הגש אלינו מועמדות באמצעות הטופס, נתחיל בתהליך האבחון, היעוץ
+                    והמיון המקצועי שלנו ללא כל עלות וללא כל מחויבות. בסיום
+                    התהליך נוכל לתת לך תשובה מדויקת מה הסיבה שלא התקבלת לעבודה.
+                    במידה ויתברר שאתה מתאים למקצוע אליו ברצונך להתקבל, נתאים לך
+                    השלמת הכשרה מותאמת אישית שתכניס אותך לענף. כאמור, על הכשרות
+                    אצלנו לא משלמים שקל אם לא מתקבלים לעבודה…
+                  </p>
+                </ol>
+              </div>
+            </div>
+
+            <div class="question-and-answer" id="question-04">
+              <div class="quest">
+                סיימתי קורס בבית ספר אחר ולא מצאתי עבודה, אני שוקל ללמוד תואר
+                במדעי המחשב, זה יעזור לי?
+              </div>
+
+              <div class="none" id="answer-04">
+                יכול להיות שכן ויכול להיות שלא. אם תסיים תואר במדעי המחשב
+                באוניברסיטה כמו הטכניון, אוניברסיטת תל אביב ודומיה בממוצע 85+ זה
+                בפירוש יעזור. לעומת זאת תואר במדעי המחשב מחלק מהמכללות יעזור
+                הרבה פחות וכשמדובר על קבלה לעבודה בפיתוח תוכנה במקרים רבים לא
+                ישנה את המצב. פנה אלינו להליך האבחון, היעוץ והמיון המקצועי שלנו
+                ללא כל עלות וללא כל מחויבות.
+              </div>
+            </div>
+
+            <div class="question-and-answer" id="question-05">
+              <div class="quest">
+                אני מעונין להיות פרי לנסר, האם ניתן עדיין ללמוד אצלכם?
+              </div>
+
+              <div class="none" id="answer-05">
+                מי שאיננו מעונין להתקבל לעבודה כשכיר אלא להיות פרילנסר עדיין
+                נדרש לעבור את תהליכי המיון כדי לוודא את התאמתו לקורס ולמקצוע.
+                במידה ויעבור את תהליכי המיון יוכל להתקבל ללימודים לאחר שיסדיר את
+                התשלום על הקורס המבוקש.
+              </div>
+            </div>
+
+            <div class="question-and-answer" id="question-06">
+              <div class="quest">
+                כבר יש לי מקום עבודה, האם ניתן עדיין ללמוד אצלכם?
+              </div>
+
+              <div class="none" id="answer-06">
+                מי שכבר יש לו מקום עבודה ואיננו מעונין להחליף את מקום העבודה
+                שלו, עדיין נדרש לעבור את תהליכי המיון כדי לוודא את התאמתו לקורס
+                ולמקצוע. במידה ויעבור את תהליכי המיון יוכל להתקבל ללימודים לאחר
+                שיסדיר את התשלום על הקורס המבוקש.
+              </div>
+            </div>
+
+            <div class="question-and-answer" id="question-07">
+              <div class="quest">איך מגישים מועמדות?</div>
+
+              <div class="none" id="answer-07">
+                באמצעות <a href="#">טופס המועמדות באתר</a>
+              </div>
+            </div>
+          </div>
+          <div class="questions">
+            <div class="question-and-answer" id="question-08">
+              <div class="quest">מה זאת אומרת לא עבדת? לא שילמת!</div>
+
+              <div class="none" id="answer-08">
+                מאוד פשוט, ללא אותיות קטנות, רק כשתתקבל לעבודה תשלם על הקורס
+                שלמדת. לא התקבלת לעבודה? לא שילמת לנו שקל.
+              </div>
+            </div>
+
+            <div class="question-and-answer" id="question-09">
+              <div class="quest">אני רוצה ללמוד אבל אין לי כסף, מה לעשות?</div>
+
+              <div class="none" id="answer-09">
+                הכל בסדר. אצלנו זוֹ לא בעיה. לא תצטרכו לשלם מראש. לא תצטרכו לקחת
+                הלוואה. שום דבר תשלמו על הלימודים רק אחרי שתתחילו לעבוד וגם אז
+                התשלום יתבצע בתשלום חודשי קטן קבוע.
+              </div>
+            </div>
+
+            <div class="question-and-answer" id="question-10">
+              <div class="quest">איפה יש לכם סניפים/ איפה אתם מלמדים?</div>
+
+              <div class="none" id="answer-10">
+                בתקופת הקורונה אנחנו מלמדים בכל מקום בארץ on line באמצעות שיטות
+                הדרכה מתקדמות.
+              </div>
+            </div>
+
+            <div class="question-and-answer" id="question-11">
+              <div class="quest">מתי מתקיימים מיונים לקורסים השונים?</div>
+
+              <div class="none" id="answer-11">
+                מיונים מתקיימים כל הזמן באופן שוטף.
+              </div>
+            </div>
+
+            <div class="question-and-answer" id="question-12">
+              <div class="quest">מתי מתחילים קורסים?</div>
+
+              <div class="none" id="answer-12">
+                קורסים מתחילים לאורך כל השנה באופן שוטף. בדרך כלל, מועמדים שעברו
+                את תהליכי המיון בהצלחה, לא צריכים להמתין יותר מ-3-4 שבועות
+                לתחילת ההכשרה.
+              </div>
+            </div>
+
+            <div class="question-and-answer" id="question-13">
+              <div class="quest">האם ניתן לעבוד תוך כדי ההכשרות?</div>
+
+              <div class="none" id="answer-13">
+                ניתן לעבוד תוך כדי ההכשרות אם בוחרים במסלול ערב.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="six-part-main">
+        <h2>שירות לציבור</h2>
+        <div class="public-service-container">
+          <div class="public-questions">
+            <div class="public-question-and-answer" id="public-service-01">
+              <div class="public-quest">
+                בכל מיני בתי ספר הבטיחו לי ״התחייבות לעבודה״ ב״חוזה חתום״, זה
+                אמיתי?
+              </div>
+
+              <div class="none" id="public-answer-01">
+                בקיצור - ממש לא.
+                <p>
+                  בפירוט: אם ב״חוזה החתום״ היה כתוב שבכל מקרה כלל שכר הלימוד
+                  יוחזר אם לא תתקבל עבודה, היתה לזה משמעות.
+                </p>
+
+                <p>
+                  בפועל מונח ה״התחיבות לעבודה״ משמש בתי ספר שונים כתרגיל שיווקי
+                  חסר כל משמעות. בדרך כלל ה״חוזה החתום״ מסייג את ההתחיבות בצורך
+                  לעמוד במגוון תנאים שאו שאינם אובייקטיביים, או שהינם בלתי
+                  אפשריים.
+                </p>
+
+                <p>
+                  בנוסף בדרך כלל ״החוזה החתום״ מאפשר לבתי הספר לא לקיים את
+                  ההתחייבות לספק עבודה ו״לפצות״ את התלמיד בפיצוי חסר משמעות. חלק
+                  מבתי הספר מציעים החזר כספי שמהווה חלק זעום ממחיר הקורס שנגבה,
+                  חלק מבתי הספר מציעים ״לחזור על הקורס״ ללא תשלום נוסף, וחלק
+                  מבתי הספר לא מתביישים להציע ״פיצוי״ בדמות תשלום נוסף של התלמיד
+                  תחת ״הנחה״ על קורס נוסף…
+                </p>
+
+                <p>
+                  האם צריך לפסול בתי ספר שמציעים התחייבויות שווא כאלה ולבחור
+                  באלו שלא? לאו דווקא. צריך פשוט להשוות בין בתי הספר תוך התעלמות
+                  מההתחייבות המדומה.
+                </p>
+              </div>
+            </div>
+
+            <div class="public-question-and-answer" id="public-service-02">
+              <div class="public-quest">
+                בכל מיני בתי ספר הבטיחו לי מלגה, זה אמיתי?
+              </div>
+
+              <div class="none" id="public-answer-02">
+                בקיצור - לא.
+                <p>
+                  בפירוט: מלגה זו הנחה מיוחדת שמקבלים יחידי סגולה כאשר כל שאר
+                  התלמידים משלמים יותר. כשכל התלמידים מקבלים ״מלגה״ זה פשוט מצב
+                  בו מעלים את מחיר הקורס מראש ואז מורידים אותו למחיר האמיתי
+                  באמצעות ״מלגה״
+                </p>
+              </div>
+            </div>
+
+            <div class="public-question-and-answer" id="public-service-03">
+              <div class="public-quest">
+                בית ספר/מכללה אקדמית מסויימת טוען שיש לו אחוז השמה מסויים של
+                הבוגרים בענף. זה אמיתי?
+              </div>
+
+              <div class="none" id="public-answer-03">
+                אף אחד לא יודע. כנראה שלא.
+                <p>
+                  אין שום פיקוח על הענף ואין שום דרך אמיתית לבדוק את הנתונים.
+                  בפועל כל איש מכירות זורק למועמדים את המספרים שלדעתו ישכנעו
+                  אותם להרשם.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="public-questions">
+            <div class="public-question-and-answer" id="public-service-04">
+              <div class="public-quest">
+                לא התקבלתי אצלכם ללימודים בתחום שעניין אותי, מה לעשות?
+              </div>
+
+              <div class="none" id="public-answer-04">
+                כפי שהוסבר באתר אנחנו ״מכללת בוטיק״, ולאור מודל ה״לא עבדת לא
+                שילמת״ שלנו חייבים להיות סלקטיביים מאוד. בהתאם אנחנו יכולים לטפל
+                רק בכמות מצומצמת של מועמדים איכותיים. מועמדים שלא מתקבלים
+                ללימודים בתחום שעניין אותם, מקבלים מאיתנו תמיד יעוץ שמבהיר להם
+                אם יש תחומים אחרים בהיי-טק שעשויים להתאים להם. מעבר לכך, אתם
+                מכירים את עצמכם הכי טוב. וגם אנחנו יכולים לטעות. אם לא התקבלתם
+                אצלנו, אבל אתם משוכנעים ביכולות שלכם אל תתיאשו וחפשו נתיב לימודי
+                במקום אחר.
+              </div>
+            </div>
+
+            <div class="public-question-and-answer" id="public-service-05">
+              <div class="public-quest">
+                למרות שלא התקבלתי אצלכם, אני משוכנע ביכולות שלי ורוצה לחפש קורס
+                במקום לימודי אחר. למה צריך לשים לב וממה צריך להזהר?
+              </div>
+
+              <div class="none" id="public-answer-05">
+                צריך להזהר מפנטזיות ולהצמד לעובדות בבחינת קורסים ומקומות
+                לימודיים. אדם שבונה לעצמו פנטזיה אופטימית גם נוטה להאמין
+                לתרגילים שיווקיים מופרכים. ֿלא צריך לפתח פנטזיה לגבי שכר התחלתי
+                גבוה, ולהזהר מטענות אנשי מכירות לגבי ״התחייבות לעבודה״, ״מלגת
+                לימודים״ ו״אחוזי השמה״.
+              </div>
+            </div>
+
+            <div class="public-question-and-answer" id="public-service-06">
+              <div class="public-quest">כמה מרוויחים בענף ההיי-טק?</div>
+
+              <div class="none" id="public-answer-06">
+                אין ספק שעבודה בענף ההיי-טק היא עבודת השכיר הרווחית והמשתלמת
+                ביותר. יש גם אין ספור טבלאות שכר באינטרנט שמפיצות חברות השמה
+                שמראות על כך: <br />
+                <a
+                  href="https://www.jobinfo.co.il/%D7%98%D7%91%D7%9C%D7%90%D7%95%D7%AA-%D7%A9%D7%9B%D7%A8"
+                  >טבלת שכר jobinfo</a
+                ><br />
+                <a
+                  href="https://www.nisha.co.il/%D7%98%D7%91%D7%9C%D7%90%D7%95%D7%AA-%D7%A9%D7%9B%D7%A8"
+                  >טבלת שכר נישה</a
+                ><br />
+                <a
+                  href="https://ethosia.co.il/%d7%98%d7%91%d7%9c%d7%90%d7%95%d7%aa-%d7%a9%d7%9b%d7%a8/"
+                  >טבלת שכר אתוסיה</a
+                ><br />
+                רוב בתי הספר מפנים לטבלאות השכר הללו ויוצרות את הרושם שהזהב נמצא
+                ברחובות ופשוט צריך רק לאסוף אותו…
+                <p>
+                  חשוב להבין שטבלאות השכר משקפות היטב את רמות השכר של עובדים
+                  בעלי 2 שנות ניסיון עבודה ומעלה. לעומת זאת, הן בדרך כלל מפריזות
+                  בשכר של מועמדים חסרי ניסיון. חברות השמה בדרך כלל לא מטפלות
+                  בכלל בהשמה של בוגרים חסרי ניסיון אלא אם כן מדובר בבוגרי תואר
+                  ראשון בהצטיינות במדעי המחשב מהטכניון/אוניברסיטת תל אביב. משום
+                  כך השכר שמופיע בטבלאות לבוגרים חסרי ניסיון מופרז ולא משקף.
+                  חשוב להבין שקשה להכנס לעבודה ראשונה בענף כבוגר חסר ניסיון
+                  וציפיות השכר ההתחלתי צריכות להיות הרבה יותר צנועות. לא צריך
+                  להמתין יותר מדי, ״חגיגת השכר״ מתחילה אחרי שצוברים את 2 שנות
+                  הניסיון הקריטיות בעבודה…
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -609,7 +990,19 @@
       <a href="#">הצהרת נגישות</a>
       <!-- </div> -->
     </footer>
+    <div class="whats-up">
+      <i class="fa fa-whatsapp"></i>
+      היי! אנחנו פה, יש לך שאלה?
+    </div>
 
+    <div class="shortcut-contact-mobile">
+      <div class="contact-mobile-down">לפרטים</div>
+
+      <div class="contact-mobile-down">
+        <i class="fa fa-whatsapp"></i>
+        וואטסאפ
+      </div>
+    </div>
     <script src="./logic.js"></script>
   </body>
 </html>
