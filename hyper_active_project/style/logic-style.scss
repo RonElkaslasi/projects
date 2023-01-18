@@ -1,0 +1,18 @@
+$colorForBanners: #154b9c;
+$colorHover: #213b7f;
+
+@mixin flex($justify-content, $align-items) {
+  display: flex;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+
+@mixin flexJustifyContent($justify-content) {
+  display: flex;
+  justify-content: $justify-content;
+}
+
+@mixin flexalignaItem($align-item) {
+  display: flex;
+  align-items: $align-item;
+}
