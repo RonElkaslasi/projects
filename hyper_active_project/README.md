@@ -15,7 +15,7 @@ The aim of the project is to practice and test my abilities on css/scss.
 2.sass install on your system.
 
 
-Download the project for the repository and run it.
+Download the project from the repository and run it.
 
 
 ## Contributing
