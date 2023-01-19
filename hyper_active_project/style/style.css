@@ -497,7 +497,7 @@ body {
   padding: 1rem;
   width: 100vw;
   box-shadow: 3px -5px 10px -5px;
-  background: url("./images/background_main.png");
+  background: url("../images/background_main.png");
 }
 .main-container .second-part-main .first-section .second-line {
   font-weight: 700;
@@ -576,7 +576,7 @@ body {
   flex-direction: column;
   padding: 1rem;
   width: 100vw;
-  background: url("./images/background_main.png");
+  background: url("../images/background_main.png");
 }
 .main-container .four-part-main .about-us {
   padding: 3rem;
@@ -808,7 +808,7 @@ body {
   flex-direction: column;
   padding: 3rem;
   width: 100vw;
-  background: url("./images/background_main.png");
+  background: url("../images/background_main.png");
 }
 .main-container .six-part-main .public-service-container {
   display: flex;
