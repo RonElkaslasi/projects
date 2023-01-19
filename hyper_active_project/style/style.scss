@@ -1047,10 +1047,11 @@ input::placeholder {
 .whats-up {
   @include variables.flex(space-evenly, center);
   position: fixed;
-  top: 90vh;
+  top: 95vh;
   right: 1rem;
   width: 15rem;
-  height: 2rem;
+  height: 3rem;
+  font-size: 1.2rem;
   border: 2px solid greenyellow;
   border-radius: 20px;
   background-color: #06f;
