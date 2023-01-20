@@ -32,15 +32,7 @@ const publicService04 = document.getElementById("public-service-04");
 const publicService05 = document.getElementById("public-service-05");
 const publicService06 = document.getElementById("public-service-06");
 
-const careerBottomMobileMenu = document.getElementById(
-  "wraper-for-head-and-sign"
-);
-
-careerBottomMobileMenu.addEventListener("click", () => {
-  const careerMenuMobileList = document.getElementById("career-menu-mobile");
-  careerMenuMobileList.classList.toggle("none");
-  careerMenuMobileList.classList.toggle("career-menu-mobile");
-});
+const navigatorBar = document.getElementById("navigator-bar");
 
 window.addEventListener("load", () => {
   const modalContainer = document.getElementById("modal-container");
@@ -249,12 +241,12 @@ question13.addEventListener("click", () => {
 const signProcess = document.getElementById("sign-process");
 signProcess.addEventListener("click", () => {
   const contextProcess = document.getElementById("context-process");
-  // const signProcess = document.getElementById("sign-process");
 
   contextProcess.classList.toggle("context-process");
   contextProcess.classList.toggle("custom-none-for-work");
   signProcess.classList.toggle("sign");
 });
+
 const signCareer = document.getElementById("sign-career");
 signCareer.addEventListener("click", () => {
   const contextCareer = document.getElementById("context-career");
@@ -263,10 +255,11 @@ signCareer.addEventListener("click", () => {
   contextCareer.classList.toggle("custom-none-for-work");
   signCareer.classList.toggle("sign");
 });
+
 const signtraining = document.getElementById("sign-training");
 signtraining.addEventListener("click", () => {
   const contextTraining = document.getElementById("context-training");
-  const signtraining = document.getElementById("sign-training");
+  // const signtraining = document.getElementById("sign-training");
 
   contextTraining.classList.toggle("context-training");
   contextTraining.classList.toggle("custom-none-for-work");
@@ -288,15 +281,18 @@ contectBtnMain.addEventListener("click", () => {
   const phoneInputMain = document.getElementById("phone-input-main");
   const emailInputMain = document.getElementById("email-input-main");
   let flag = false;
+
   if (!IsValidInput(nameInputMain.value)) {
     nameInputMain.setAttribute("placeholder", "נא להזין שם תקין*");
     flag = true;
   }
+
   if (!IsValidphone(phoneInputMain.value)) {
     phoneInputMain.value = "";
     phoneInputMain.setAttribute("placeholder", "נא להזין מספר טלפון*");
     flag = true;
   }
+
   if (!IsValidEmail(emailInputMain.value)) {
     emailInputMain.value = "";
     emailInputMain.setAttribute("placeholder", "נא להזין כתובת אימייל*");
@@ -325,14 +321,31 @@ exitBottomModal.addEventListener("click", () => {
 //----------------------career options and mobile menu section----------------------------------\\
 careerDiv.addEventListener("mouseover", (event) => {
   const careerList = document.getElementById("career-list");
+
+  if (window.innerWidth < 960) {
+    return;
+  }
+
   careerList.classList.add("career-list");
   careerList.classList.remove("none");
 });
 
 careerDiv.addEventListener("mouseout", (event) => {
   const careerList = document.getElementById("career-list");
+
+  if (window.innerWidth < 960) {
+    return;
+  }
+
   careerList.classList.remove("career-list");
   careerList.classList.add("none");
+});
+
+careerDiv.addEventListener("click", (event) => {
+  const careerList = document.getElementById("career-list");
+
+  careerList.classList.toggle("career-list");
+  careerList.classList.toggle("none");
 });
 
 iconMenu.addEventListener("click", () => {
@@ -340,7 +353,9 @@ iconMenu.addEventListener("click", () => {
 });
 
 logoHeader.addEventListener("click", () => {
-  history.go(-1);
+  window.location.replace(
+    "file:///C:/Users/user/OneDrive/Desktop/Talpiot/FullStack/project/projects/hyper_active_project/index.html"
+  );
 });
 
 //----------------------Form footer section----------------------------------\\
@@ -406,11 +421,14 @@ function onMenuClick() {
   const lineTop = document.getElementById("line-top");
   const lineMid = document.getElementById("line-mid");
   const lineBottom = document.getElementById("line-bottom");
+  navigatorBar.classList.toggle("navigator-bar");
+  navigatorBar.classList.toggle("scrolling-navigator-bar");
 
   // mobileMenu.classList.toggle("open");
   // mobileMenu.classList.toggle("none");
-  mobileMenu.classList.toggle("mobile-menu");
-  mobileMenu.classList.toggle("custom-none-for-menu-mobile");
+
+  // mobileMenu.classList.toggle("mobile-menu");
+  // mobileMenu.classList.toggle("custom-none-for-menu-mobile");
 
   lineTop.classList.toggle("line-top");
   lineMid.classList.toggle("line-mid");
