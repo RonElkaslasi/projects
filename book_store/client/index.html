@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>Book Store</title>
+  </head>
+  <body>
+    <header class="header-hompage" id="header-hompage">
+      <div class="header-container" id="header-container">
+        <div class="logo">
+          <img src="./images/LogoMakr-5MoJlK.png" alt="logo" />
+        </div>
+        <div class="user-area-container" id="user-area-container">
+          <i class="fa fa-shopping-cart" style="font-size: 36px"></i>
+          <a href="#" class="login" id="login">Sign In/Join</a>
+          <a href="#" class="personal-dashboard" id="personal-dashboard"
+            >Personal Dashboard</a
+          >
+        </div>
+      </div>
+      <div class="image-header" id="image-header">
+        <img src="./images/5623635.jpg" alt="image-header" />
+      </div>
+      <div class="search-container" id="search-container">
+        <select name="Sort" id="sort">
+          <option value="filter">Sort By</option>
+          <option value="name">name</option>
+          <option value="author">author</option>
+          <option value="genre">genre</option>
+          <option value="published">published</option>
+          <option value="price">price</option>
+        </select>
+        <input
+          type="text"
+          class="search-box"
+          id="search-box"
+          placeholder="Search for books by title/author/published/price"
+        />
+        <button type="submit" id="search-books-button">Search</button>
+      </div>
+    </header>
+
+    <main class="main-hompage" id="main-hompage">
+      <h1>Bestselling Books</h1>
+      <div class="books-container" id="books-container"></div>
+      <div class="next-prev-links" id="next-prev-links">
+        <a href="#" id="next">Next</a>
+        <a href="#" id="prev">Prev</a>
+      </div>
+      <div class="main-text">
+        <p>
+          lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem
+          epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum
+          lorem epsum lorem epsum lorem epsum lorem epsum
+        </p>
+      </div>
+    </main>
+    <footer>
+      <div>
+        <a href="#">About us</a>
+        <a href="#">Contact</a><a href="#">Privcy</a> <a href="#">stam</a
+        ><a href="#">stam1</a>
+      </div>
+    </footer>
+
+    <script src="./logic/homePage.js"></script>
+  </body>
+</html>

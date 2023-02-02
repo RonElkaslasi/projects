@@ -44,6 +44,11 @@ const userSchema = new mongoose.Schema(
           require: true,
           ref: "Book",
         },
+        amount: {
+          type: Number,
+          require: true,
+          default: 1,
+        },
       },
     ],
     tokens: [
@@ -99,6 +104,13 @@ userSchema.methods.generateAuthToken = async function () {
 userSchema.methods.addToCart = async function (book) {
   const user = this;
 
+  for (let bookInCart in user.cart) {
+    if (user.cart[bookInCart]._id.toString() === book) {
+      user.cart[bookInCart].amount++;
+      return await user.save();
+    }
+  }
+
   user.cart.push(book);
   await user.save();
 };
@@ -108,7 +120,12 @@ userSchema.methods.removeFromCart = async function (book) {
 
   for (let bookInTheCart in user.cart) {
     if (user.cart[bookInTheCart]._id.toString() === book) {
-      user.cart.remove(user.cart[bookInTheCart]);
+      if (user.cart[bookInTheCart].amount > 1) {
+        user.cart[bookInTheCart].amount--;
+      } else {
+        user.cart.remove(user.cart[bookInTheCart]);
+      }
+
       return await user.save();
     }
   }

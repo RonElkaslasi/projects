@@ -42,12 +42,13 @@ router.patch("/user/edit", auth, async (req, res) => {
   }
 
   try {
-    for (let update in req.body) {
-      req.user[update] = req.body[update];
-    }
+    const user = await User.findOneAndUpdate(req.user, req.body, {
+      new: true,
+      runValidators: true,
+    });
 
-    await req.user.save();
-    res.send(req.user);
+    await user.save();
+    res.send(user);
   } catch (err) {
     res.status(400).send(err);
   }
@@ -101,7 +102,7 @@ router.post("/user/addBookToCart", auth, async (req, res) => {
         message: "book not found",
       });
     }
-    await req.user.addToCart(book);
+    await req.user.addToCart(book._id.toString());
     res.send(req.user.cart);
   } catch (err) {
     res.status(400).send(err.message);

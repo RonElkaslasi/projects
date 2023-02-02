@@ -81,4 +81,31 @@ router.patch("/book/edit-book", authAdmin, async (req, res) => {
   }
 });
 
+router.get("/book/search", async (req, res) => {
+  const limit = req.query.limit || 4;
+  const skip = req.query.skip || 0;
+  const filters = {};
+
+  if (req.query.name) filters.name = req.query.name;
+  if (req.query.author) filters.author = req.query.author;
+  if (req.query.genre) filters.genre = req.query.genre;
+  if (req.query.published) filters.published = req.query.published;
+  if (req.query.price) filters.price = req.query.price;
+
+  try {
+    const books = await Book.find(filters).skip(skip).limit(limit);
+
+    if (!books) {
+      res.status(404).send({
+        status: 404,
+        message: "No books found.",
+      });
+    }
+
+    res.send(books);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 module.exports = router;
