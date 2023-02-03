@@ -70,9 +70,9 @@ router.post("/user/login", async (req, res) => {
 
   try {
     const user = await User.findUserByMailAndPass(userEmail, userPass);
-    await user.generateAuthToken();
+    const token = await user.generateAuthToken();
 
-    res.send(user);
+    res.send({ user, token });
   } catch (err) {
     res.status(400).send(err);
   }

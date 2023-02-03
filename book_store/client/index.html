@@ -12,17 +12,44 @@
     <title>Book Store</title>
   </head>
   <body>
+    <div class="none" id="login-modal">
+      <div class="form-login-container" id="form-login-container">
+        <i class="fa fa-window-close" aria-hidden="true" id="close-login-modal"></i>
+      <form action="#" class="sign-in" id="sign-in">
+        <h2>Sign in</h2>
+        
+        <input type="email" placeholder="Email" id="signin-email-input">
+        <input type="password" placeholder="Password" id="signin-password-input">
+        <!-- <div class="checkbox">
+        <label for="check">Keep me signed in</label>
+        <input type="checkbox">
+      </div> -->
+        <button type="button" id="sign-in-button">Sign in</button>
+      </form>
+
+      <form action="#" class="join" id="join">
+        <h2>Join</h2>
+        <input type="text" placeholder="Full name" id="join-name">
+        <input type="email" placeholder="Your email" id="join-email">
+        <input type="password" placeholder="Create a password" id="join-password">
+        <button type="submit" id="join-button">Create your account</button>
+      </form>
+    </div>
+    </div>
     <header class="header-hompage" id="header-hompage">
       <div class="header-container" id="header-container">
         <div class="logo">
           <img src="./images/LogoMakr-5MoJlK.png" alt="logo" />
         </div>
         <div class="user-area-container" id="user-area-container">
-          <i class="fa fa-shopping-cart" style="font-size: 36px"></i>
+          <i class="fa fa-shopping-cart" style="font-size: 24px"></i>
           <a href="#" class="login" id="login">Sign In/Join</a>
-          <a href="#" class="personal-dashboard" id="personal-dashboard"
-            >Personal Dashboard</a
-          >
+          <i class="none" aria-hidden="true" id="personal-dashboard" style="font-size: 24px"></i>
+          <!-- <a href="#" class="none" id="personal-dashboard"
+            >Dashboard</a
+          > -->
+          <!-- <a href="#"class="none" id="logout">Log Out</a> -->
+          <i class="none" id="logout" style="font-size:24px"></i>
         </div>
       </div>
       <div class="image-header" id="image-header">
@@ -51,22 +78,34 @@
       <h1>Bestselling Books</h1>
       <div class="books-container" id="books-container"></div>
       <div class="next-prev-links" id="next-prev-links">
-        <a href="#" id="next">Next</a>
-        <a href="#" id="prev">Prev</a>
+        <a href="#" id="prev">&#8249</a>
+        <a href="#" id="next">&#8250</a>
       </div>
       <div class="main-text">
         <p>
-          lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem
-          epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum
-          lorem epsum lorem epsum lorem epsum lorem epsum
+          
+          Lorem Ipsum has teen the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of tpe and
+          scrambled it to make a type specimen book. 
+          It has survived not only five centuries, but als the leap into electronic typesetting,
+          remaining essentially unchanged. It was popularised in the 1960s with
+          the Release of Letraset sheets containing Lorem Ipsum passages, and
+          more recently with desktop publishing software like Aldus PageMaker
+          including versions of Lorem Ipsum.
         </p>
       </div>
     </main>
     <footer>
-      <div>
+      <div class="footer">
         <a href="#">About us</a>
-        <a href="#">Contact</a><a href="#">Privcy</a> <a href="#">stam</a
-        ><a href="#">stam1</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <div class="icons">
+          <!-- <a href="#">Follow Us</a> -->
+          <a href="#" class="fa fa-facebook"></a>
+          <a href="#" class="fa fa-twitter"></a>
+          <a href="#" class="fa fa-google"></a>
+        </div>
       </div>
     </footer>
 
