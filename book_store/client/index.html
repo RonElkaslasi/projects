@@ -12,18 +12,31 @@
     <title>Book Store</title>
   </head>
   <body>
+    <div class="none" id="modal-add-to-cart-container">
+    <div class="add-to-cart-modal" id="add-to-cart-modal">
+      <div class="header-add-to-cart" id="header-add-to-cart">
+        <span>Item added to your cart</span>
+        <i class="fa fa-window-close" aria-hidden="true" id="close-add-book-modal"></i>
+      </div>
+      <div class="context-add-to-cart-modal" id="context-add-to-cart-modal">
+        <div class="amount-total-container" id="context-add-to-cart-modal">
+        <span class="amount-items-in-cart" id="amount-items-in-cart"></span><br>
+        <span class="total-cost" id="total-cost"></span>
+      </div>
+      <div class="buttons" id="buttons">
+        <button type="button" id="continue-shopping-button">Continue Shopping</button>
+        <button type="button" id="cart-checkout">Cart/Checkout</button>
+      </div>
+      </div>
+    </div>
+  </div>
     <div class="none" id="login-modal">
       <div class="form-login-container" id="form-login-container">
         <i class="fa fa-window-close" aria-hidden="true" id="close-login-modal"></i>
       <form action="#" class="sign-in" id="sign-in">
         <h2>Sign in</h2>
-        
         <input type="email" placeholder="Email" id="signin-email-input">
         <input type="password" placeholder="Password" id="signin-password-input">
-        <!-- <div class="checkbox">
-        <label for="check">Keep me signed in</label>
-        <input type="checkbox">
-      </div> -->
         <button type="button" id="sign-in-button">Sign in</button>
       </form>
 
@@ -45,10 +58,6 @@
           <i class="fa fa-shopping-cart" style="font-size: 24px"></i>
           <a href="#" class="login" id="login">Sign In/Join</a>
           <i class="none" aria-hidden="true" id="personal-dashboard" style="font-size: 24px"></i>
-          <!-- <a href="#" class="none" id="personal-dashboard"
-            >Dashboard</a
-          > -->
-          <!-- <a href="#"class="none" id="logout">Log Out</a> -->
           <i class="none" id="logout" style="font-size:24px"></i>
         </div>
       </div>

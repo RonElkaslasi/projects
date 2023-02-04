@@ -91,6 +91,7 @@ router.get("/book/search", async (req, res) => {
   if (req.query.genre) filters.genre = req.query.genre;
   if (req.query.published) filters.published = req.query.published;
   if (req.query.price) filters.price = req.query.price;
+  if (req.query._id) filters._id = req.query.id;
 
   try {
     const books = await Book.find(filters).skip(skip).limit(limit);

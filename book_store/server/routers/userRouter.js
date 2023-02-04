@@ -92,7 +92,7 @@ router.post("/user/logout", auth, async (req, res) => {
 
 router.post("/user/addBookToCart", auth, async (req, res) => {
   const name = req.body.name;
-
+  console.log(req.user);
   try {
     const book = await Book.findOne({ name });
 

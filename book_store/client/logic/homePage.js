@@ -10,48 +10,35 @@ const closeLoginModal = document.getElementById("close-login-modal");
 const signInButton = document.getElementById("sign-in-button");
 const logoutButton = document.getElementById("logout");
 const personalDashboard = document.getElementById("personal-dashboard");
+
 const modalContainer = document.createElement("div");
+const modal = document.createElement("div");
+const nameOfTheBook = document.createElement("h1");
+const publishedBook = document.createElement("span");
+const authorBook = document.createElement("span");
+const descriptionBook = document.createElement("div");
+
 const joinNewUserButton = document.getElementById("join-button");
+const closeAddBookModal = document.getElementById("close-add-book-modal");
+const modalAddToCartContainer = document.getElementById(
+  "modal-add-to-cart-container"
+);
+const continueShopButton = document.getElementById("continue-shopping-button");
 const hompageBooksUrl = "http://localhost:3000/book/search/";
 
 let skip = 0;
 let obj;
+
+continueShopButton.addEventListener("click", () => {
+  modalAddToCartContainer.classList.add("none");
+});
+closeAddBookModal.addEventListener("click", () => {
+  modalAddToCartContainer.classList.add("none");
+});
 joinNewUserButton.addEventListener("click", () => {
   createNewUser();
-  // const url = "http://localhost:3000/user/new";
-  // const newUserName = document.getElementById("join-name");
-  // const newUserEmail = document.getElementById("join-email");
-  // const newUserPassword = document.getElementById("join-password");
-  // fetch(url, {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({
-  //     name: newUserName.value,
-  //     email: newUserEmail.value,
-  //     password: newUserPassword.value,
-  //   }),
-  // })
-  //   .then((res) => {
-  //     if (res.ok) {
-  //       if (res.headers.get("Content-Type") === "application/json") {
-  //         return res.json();
-  //       } else {
-  //         console.log("Response is not a JSON");
-  //         return {};
-  //       }
-  //     } else {
-  //       throw new Error(res.status);
-  //     }
-  //   })
-  //   .then((data) => {
-  //     console.log(data);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
 });
+
 prevButton.addEventListener("click", (e) => {
   e.preventDefault();
   skip -= 4;
@@ -117,13 +104,22 @@ const renderBooks = (url) => {
         divBook.appendChild(priceBook);
         divBook.appendChild(addBookButton);
 
-        divBook.addEventListener("click", () => {
-          createModalForBookDetails(divBook, book.published, book.description);
+        divBook.addEventListener("click", (e) => {
+          if (e.target.matches("button")) {
+            addBookToCart(divBook);
+          } else {
+            createModalForBookDetails(
+              divBook,
+              book.published,
+              book.description
+            );
+          }
         });
 
-        addBookButton.addEventListener("click", () => {
-          addBookToCart(divBook);
-        });
+        // addBookButton.addEventListener("click", (event) => {
+        //   addBookToCart(divBook);
+        //   event.stopPropagation();
+        // });
 
         imageBook.src = book.image;
         headerBook.innerText = book.name;
@@ -154,32 +150,77 @@ const addBookToCart = (divbook) => {
   })
     .then((res) => {
       if (res.ok) {
-        if (res.headers.get("Content-Type") === "application/json") {
-          return res.json();
-        } else {
-          console.log("Response is not a JSON");
-          return {};
-        }
+        // if (res.headers.get("Content-Type") === "application/json") {
+        return res.json();
+        // } else {
+        //   console.log("Response is not a JSON");
+        //   return {};
+        // }
       } else {
         throw new Error(res.status);
       }
     })
     .then((data) => {
       console.log(data);
+      // console.log(divbook.children);
+      sumAllTheBooksInCart(data);
+      modalAddToCartContainer.classList.remove("none");
+      modalAddToCartContainer.classList.add("modal-add-to-cart-container");
     })
     .catch((err) => {
       console.log(err);
     });
 };
+const getPriceOfBook = async (bookID) => {
+  const url = `http://localhost:3000/book/search/?id=${bookID}`;
 
+  try {
+    const res = await fetch(url);
+    if (res.ok) {
+      return res.json();
+    } else {
+      throw new Error(res.status);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+
+  return res;
+};
+const sumAllTheBooksInCart = (cart) => {
+  let res = 0;
+  let res2 = 0;
+  let priceBook;
+  const amountItemsInCart = document.getElementById("amount-items-in-cart");
+  const totalCost = document.getElementById("total-cost");
+
+  for (let book in cart) {
+    console.log(cart);
+    getPriceOfBook(cart[book]._id).then((books) => {
+      console.log(books[book].price);
+      console.log(books[book]._id);
+      priceBook = parseInt(books[book].price);
+      console.log(priceBook * cart[book].amount);
+      res2 += priceBook;
+      // console.log(res2);
+      totalCost.innerHTML = `Total cost: <span style="color: pink;">${res2}₪</span>`;
+    });
+    let amountBook = parseInt(cart[book].amount);
+    res += amountBook;
+  }
+
+  amountItemsInCart.innerHTML = `You have <b>${res} books</b> in your cart`;
+};
 const createModalForBookDetails = (divbook, published, description) => {
-  const modal = document.createElement("div");
-  const nameOfTheBook = document.createElement("h1");
-  const publishedBook = document.createElement("span");
-  const authorBook = document.createElement("span");
-  const descriptionBook = document.createElement("div");
+  // const modal = document.createElement("div");
+  // const nameOfTheBook = document.createElement("h1");
+  // const publishedBook = document.createElement("span");
+  // const authorBook = document.createElement("span");
+  // const descriptionBook = document.createElement("div");
 
   modalContainer.classList.add("modal-container");
+  modalContainer.classList.remove("none");
+  modal.classList.remove("none");
   modal.classList.add("modal");
   nameOfTheBook.innerText = divbook.children[1].innerText;
   publishedBook.innerText = "Published: " + published + "\n";
@@ -193,12 +234,19 @@ const createModalForBookDetails = (divbook, published, description) => {
   modal.appendChild(publishedBook);
   modal.appendChild(descriptionBook);
 
-  modal.addEventListener("click", () => {
-    modalContainer.classList.toggle("none");
-    modal.classList.toggle("none");
-  });
+  // modal.addEventListener("click", () => {
+  //   modalContainer.classList.add("none");
+  //   modal.classList.add("none");
+  // });
 };
-
+modal.addEventListener("click", () => {
+  modalContainer.classList.add("none");
+  modal.classList.add("none");
+});
+modalContainer.addEventListener("click", () => {
+  modalContainer.classList.add("none");
+  modal.classList.add("none");
+});
 login.addEventListener("click", () => {
   loginModal.classList.add("login-modal");
   loginModal.classList.remove("none");
