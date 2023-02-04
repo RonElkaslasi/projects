@@ -10,7 +10,7 @@ const closeLoginModal = document.getElementById("close-login-modal");
 const signInButton = document.getElementById("sign-in-button");
 const logoutButton = document.getElementById("logout");
 const personalDashboard = document.getElementById("personal-dashboard");
-
+const websiteLogo = document.getElementById("image-logo");
 const modalContainer = document.createElement("div");
 const modal = document.createElement("div");
 const nameOfTheBook = document.createElement("h1");
@@ -28,6 +28,14 @@ const hompageBooksUrl = "http://localhost:3000/book/search/";
 
 let skip = 0;
 let obj;
+
+websiteLogo.addEventListener("click", () => {
+  url = "http://localhost:3000/book/search";
+  if (!loginModal.classList.contains("none")) {
+    loginModal.classList.add("none");
+  }
+  renderBooks(url);
+});
 
 continueShopButton.addEventListener("click", () => {
   modalAddToCartContainer.classList.add("none");
@@ -71,6 +79,7 @@ searchBooksButton.addEventListener("click", (e) => {
 
   renderBooks(url);
 });
+
 let i = 1;
 const renderBooks = (url) => {
   while (bookContainer.children.length > 0) {
@@ -139,40 +148,51 @@ const renderBooks = (url) => {
 const addBookToCart = (divbook) => {
   const url = "http://localhost:3000/user/addBookToCart";
   const token = localStorage.getItem("token");
+  console.log(token);
+  if (token) {
+    fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: divbook.children[1].innerText }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error(res.status);
+        }
+      })
+      .then((data) => {
+        sumAllTheBooksInCart(data);
 
-  fetch(url, {
-    method: "POST",
-    headers: {
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name: divbook.children[1].innerText }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        // if (res.headers.get("Content-Type") === "application/json") {
-        return res.json();
-        // } else {
-        //   console.log("Response is not a JSON");
-        //   return {};
-        // }
-      } else {
-        throw new Error(res.status);
-      }
-    })
-    .then((data) => {
-      console.log(data);
-      // console.log(divbook.children);
-      sumAllTheBooksInCart(data);
-      modalAddToCartContainer.classList.remove("none");
-      modalAddToCartContainer.classList.add("modal-add-to-cart-container");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+        modalAddToCartContainer.classList.remove("none");
+        modalAddToCartContainer.classList.add("modal-add-to-cart-container");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else {
+    addBookToCartForUnregisterUsers(divbook);
+  }
+};
+const addBookToCartForUnregisterUsers = (divbook) => {
+  let cart = localStorage.getItem("cart");
+
+  if (!cart) {
+    cart = [];
+  } else {
+    cart = JSON.parse(cart);
+  }
+
+  cart.push({ name: divbook.children[1].innerText });
+  localStorage.setItem("cart", JSON.stringify(cart));
 };
 const getPriceOfBook = async (bookID) => {
-  const url = `http://localhost:3000/book/search/?id=${bookID}`;
+  console.log("book id: " + bookID);
+  const url = `http://localhost:3000/book/search/?_id=${bookID}`;
 
   try {
     const res = await fetch(url);
@@ -187,6 +207,7 @@ const getPriceOfBook = async (bookID) => {
 
   return res;
 };
+
 const sumAllTheBooksInCart = (cart) => {
   let res = 0;
   let res2 = 0;
@@ -194,23 +215,22 @@ const sumAllTheBooksInCart = (cart) => {
   const amountItemsInCart = document.getElementById("amount-items-in-cart");
   const totalCost = document.getElementById("total-cost");
 
-  for (let book in cart) {
-    console.log(cart);
-    getPriceOfBook(cart[book]._id).then((books) => {
-      console.log(books[book].price);
-      console.log(books[book]._id);
-      priceBook = parseInt(books[book].price);
-      console.log(priceBook * cart[book].amount);
-      res2 += priceBook;
-      // console.log(res2);
-      totalCost.innerHTML = `Total cost: <span style="color: pink;">${res2}₪</span>`;
-    });
-    let amountBook = parseInt(cart[book].amount);
-    res += amountBook;
-  }
+  for (let book of cart) {
+    getPriceOfBook(book._id).then((books) => {
+      if (books[0].price) {
+        priceBook = parseInt(books[0].price);
+        let amountBook = parseInt(book.amount);
+        priceBook *= amountBook;
+        res2 += priceBook;
+        res += amountBook;
 
-  amountItemsInCart.innerHTML = `You have <b>${res} books</b> in your cart`;
+        amountItemsInCart.innerHTML = `You have <b>${res} books</b> in your cart`;
+        totalCost.innerHTML = `Total cost: <span style="color: #37d077; font-weight: bold">${res2}₪</span>`;
+      }
+    });
+  }
 };
+
 const createModalForBookDetails = (divbook, published, description) => {
   // const modal = document.createElement("div");
   // const nameOfTheBook = document.createElement("h1");
@@ -233,12 +253,8 @@ const createModalForBookDetails = (divbook, published, description) => {
   modal.appendChild(authorBook);
   modal.appendChild(publishedBook);
   modal.appendChild(descriptionBook);
-
-  // modal.addEventListener("click", () => {
-  //   modalContainer.classList.add("none");
-  //   modal.classList.add("none");
-  // });
 };
+
 modal.addEventListener("click", () => {
   modalContainer.classList.add("none");
   modal.classList.add("none");
@@ -281,11 +297,9 @@ signInButton.addEventListener("click", () => {
     })
     .then((user) => {
       loginSuccess();
-      console.log(user.token);
       localStorage.setItem("token", user.token);
     })
     .catch((err) => {
-      console.log(err);
       signInEmailInput.placeholder = "*Email incorrect";
       signInEmailInput.classList.add("input");
       signInEmailInput.value = "";
@@ -319,6 +333,8 @@ logoutButton.addEventListener("click", () => {
       }
     })
     .then((data) => {
+      localStorage.removeItem("token");
+
       logoutUser();
     })
     .catch((err) => {
@@ -330,6 +346,7 @@ const logoutUser = () => {
   personalDashboard.classList.add("none");
   personalDashboard.classList.remove("fa");
   personalDashboard.classList.remove("fa-user");
+
   login.classList.remove("none");
   logoutButton.classList.add("none");
   logoutButton.classList.remove("fa");
@@ -339,11 +356,11 @@ const loginSuccess = () => {
   loginModal.classList.add("none");
   login.classList.add("none");
   personalDashboard.classList.remove("none");
-  // personalDashboard.classList.add("personal-dashboard");
+
   personalDashboard.classList.add("fa");
   personalDashboard.classList.add("fa-user");
   logoutButton.classList.remove("none");
-  // logoutButton.classList.add("logout");
+
   logoutButton.classList.add("fa");
   logoutButton.classList.add("fa-sign-out");
 };
@@ -383,4 +400,5 @@ const createNewUser = () => {
       newUserPassword.value = "";
     });
 };
+
 renderBooks(hompageBooksUrl);

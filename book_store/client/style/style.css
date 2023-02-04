@@ -160,6 +160,7 @@ body {
   top: -0.5rem;
   right: 10px;
   cursor: pointer;
+  color: #666666;
 }
 
 .amount-items-in-cart {
@@ -250,7 +251,9 @@ body {
 .book h3 {
   margin: 0;
 }
-
+.logo {
+  cursor: pointer;
+}
 .book button {
   border: none;
   padding: 0.75rem;
@@ -265,6 +268,11 @@ body {
 .book:hover {
   transform: scale(1.1);
   cursor: pointer;
+}
+@media (max-width: 516px) {
+  .book:hover {
+    transform: none;
+  }
 }
 
 .book button:hover {

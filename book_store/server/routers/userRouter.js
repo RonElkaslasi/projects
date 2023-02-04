@@ -7,7 +7,6 @@ const router = new express.Router();
 
 router.post("/user/new", async (req, res) => {
   const user = new User(req.body);
-
   try {
     const token = await user.generateAuthToken();
     await user.save();
@@ -74,7 +73,7 @@ router.post("/user/login", async (req, res) => {
 
     res.send({ user, token });
   } catch (err) {
-    res.status(400).send(err);
+    res.status(401).send(err);
   }
 });
 
