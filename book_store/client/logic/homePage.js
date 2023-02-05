@@ -29,6 +29,10 @@ const hompageBooksUrl = "http://localhost:3000/book/search/";
 let skip = 0;
 let obj;
 
+personalDashboard.addEventListener("click", () => {
+  url = "http://localhost:3000/dashboard";
+  window.open(url, "_self");
+});
 websiteLogo.addEventListener("click", () => {
   url = "http://localhost:3000/book/search";
   if (!loginModal.classList.contains("none")) {
@@ -45,6 +49,7 @@ closeAddBookModal.addEventListener("click", () => {
 });
 joinNewUserButton.addEventListener("click", () => {
   createNewUser();
+  if (localStorage.getItem("cart")) localStorage.removeItem("cart");
 });
 
 prevButton.addEventListener("click", (e) => {
@@ -85,7 +90,10 @@ const renderBooks = (url) => {
   while (bookContainer.children.length > 0) {
     bookContainer.removeChild(bookContainer.lastChild);
   }
-
+  // localStorage.clear();
+  if (localStorage.getItem("token")) {
+    loginSuccess();
+  }
   fetch(url)
     .then((res) => {
       if (res.ok) {
@@ -96,7 +104,9 @@ const renderBooks = (url) => {
     })
     .then((jsonObj) => {
       obj = jsonObj;
+
       for (let book of jsonObj) {
+        // console.log(book);
         const divBook = document.createElement("div");
         const imageBook = document.createElement("img");
         const headerBook = document.createElement("h3");
@@ -104,18 +114,46 @@ const renderBooks = (url) => {
         const descriptionBook = document.createElement("span");
         const authorBook = document.createElement("h3");
         const addBookButton = document.createElement("button");
-
+        const quantityDisplay = document.createElement("span");
+        const decreaseQuantityButton = document.createElement("button");
+        const increaseQuantityButton = document.createElement("button");
+        const quantityContainer = document.createElement("div");
+        const plusIcon = document.createElement("i");
+        const minusIcon = document.createElement("i");
+        plusIcon.classList.add("fa");
+        plusIcon.classList.add("fa-plus");
+        minusIcon.classList.add("fa");
+        minusIcon.classList.add("fa-minus");
         bookContainer.appendChild(divBook);
         divBook.appendChild(imageBook);
         divBook.appendChild(headerBook);
         divBook.appendChild(authorBook);
-        // divBook.appendChild(descriptionBook);
+
         divBook.appendChild(priceBook);
+        divBook.appendChild(quantityContainer);
+        quantityContainer.appendChild(increaseQuantityButton);
+        quantityContainer.appendChild(quantityDisplay);
+        quantityContainer.appendChild(decreaseQuantityButton);
+        decreaseQuantityButton.classList.add("qtyb");
+        decreaseQuantityButton.id = "minus-icon";
+        increaseQuantityButton.classList.add("qtyb");
+        quantityContainer.classList.add("qtyc");
+        quantityDisplay.id = "quantity-display";
+        quantityDisplay.innerText = 1;
         divBook.appendChild(addBookButton);
 
+        addBookButton.classList.add("add-book-button");
+
+        increaseQuantityButton.appendChild(plusIcon);
+        decreaseQuantityButton.appendChild(minusIcon);
+
         divBook.addEventListener("click", (e) => {
-          if (e.target.matches("button")) {
-            addBookToCart(divBook);
+          let quantity = parseInt(quantityDisplay.innerText);
+          if (e.target.matches("i")) {
+            quantity = quantityDisplay.innerText;
+          } else if (e.target.matches("button")) {
+            addBookToCart(divBook, quantity);
+            quantityDisplay.innerText = "1";
           } else {
             createModalForBookDetails(
               divBook,
@@ -125,10 +163,25 @@ const renderBooks = (url) => {
           }
         });
 
-        // addBookButton.addEventListener("click", (event) => {
-        //   addBookToCart(divBook);
-        //   event.stopPropagation();
-        // });
+        decreaseQuantityButton.addEventListener("click", () => {
+          let quantity = parseInt(quantityDisplay.innerText);
+          if (quantity > 0) {
+            quantity -= 1;
+          } else {
+            quantity = 0;
+          }
+          quantityDisplay.innerText = quantity;
+        });
+
+        increaseQuantityButton.addEventListener("click", () => {
+          if (quantityDisplay.innerText === "") {
+            quantityDisplay.innerText = "1";
+          }
+          let quantity = parseInt(quantityDisplay.innerText);
+
+          quantity += 1;
+          quantityDisplay.innerText = quantity;
+        });
 
         imageBook.src = book.image;
         headerBook.innerText = book.name;
@@ -145,10 +198,10 @@ const renderBooks = (url) => {
     });
 };
 
-const addBookToCart = (divbook) => {
+const addBookToCart = (divbook, quantity) => {
   const url = "http://localhost:3000/user/addBookToCart";
   const token = localStorage.getItem("token");
-  console.log(token);
+  quantity = !quantity ? 1 : quantity;
   if (token) {
     fetch(url, {
       method: "POST",
@@ -156,7 +209,10 @@ const addBookToCart = (divbook) => {
         Authorization: "Bearer " + token,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name: divbook.children[1].innerText }),
+      body: JSON.stringify({
+        name: divbook.children[1].innerText,
+        amount: quantity,
+      }),
     })
       .then((res) => {
         if (res.ok) {
@@ -166,7 +222,7 @@ const addBookToCart = (divbook) => {
         }
       })
       .then((data) => {
-        sumAllTheBooksInCart(data);
+        sumAllTheBooksInCart(data, quantity);
 
         modalAddToCartContainer.classList.remove("none");
         modalAddToCartContainer.classList.add("modal-add-to-cart-container");
@@ -175,24 +231,46 @@ const addBookToCart = (divbook) => {
         console.log(err);
       });
   } else {
-    addBookToCartForUnregisterUsers(divbook);
+    addBookToCartForUnregisterUsers(divbook, quantity);
+
+    modalAddToCartContainer.classList.remove("none");
+    modalAddToCartContainer.classList.add("modal-add-to-cart-container");
   }
 };
-const addBookToCartForUnregisterUsers = (divbook) => {
-  let cart = localStorage.getItem("cart");
 
+const addBookToCartForUnregisterUsers = (divbook, quantity) => {
+  let cart = localStorage.getItem("cart");
+  const amountItemsInCart = document.getElementById("amount-items-in-cart");
+  const totalCost = document.getElementById("total-cost");
+  let amountbooksInCart = 0;
+  let totalPriceOfCart = 0;
   if (!cart) {
     cart = [];
   } else {
     cart = JSON.parse(cart);
   }
 
-  cart.push({ name: divbook.children[1].innerText });
+  cart.push({ name: divbook.children[1].innerText, amount: quantity });
   localStorage.setItem("cart", JSON.stringify(cart));
+
+  for (let book of cart) {
+    getPriceOfBook("name", book.name).then((books) => {
+      if (books[0].price) {
+        priceBook = parseInt(books[0].price);
+        let amountBook = book.amount;
+
+        priceBook *= amountBook;
+        amountbooksInCart += amountBook;
+        totalPriceOfCart += priceBook;
+      }
+      amountItemsInCart.innerHTML = `You have <b>${amountbooksInCart} books</b> in your cart`;
+      totalCost.innerHTML = `Total cost: <span style="color: #37d077; font-weight: bold">${totalPriceOfCart}₪</span>`;
+    });
+  }
 };
-const getPriceOfBook = async (bookID) => {
-  console.log("book id: " + bookID);
-  const url = `http://localhost:3000/book/search/?_id=${bookID}`;
+
+const getPriceOfBook = async (filter, bookID) => {
+  const url = `http://localhost:3000/book/search/?${filter}=${bookID}`;
 
   try {
     const res = await fetch(url);
@@ -208,7 +286,7 @@ const getPriceOfBook = async (bookID) => {
   return res;
 };
 
-const sumAllTheBooksInCart = (cart) => {
+const sumAllTheBooksInCart = (cart, quantity) => {
   let res = 0;
   let res2 = 0;
   let priceBook;
@@ -216,10 +294,20 @@ const sumAllTheBooksInCart = (cart) => {
   const totalCost = document.getElementById("total-cost");
 
   for (let book of cart) {
-    getPriceOfBook(book._id).then((books) => {
+    // console.log(book);
+    getPriceOfBook("_id", book._id).then((books) => {
       if (books[0].price) {
         priceBook = parseInt(books[0].price);
-        let amountBook = parseInt(book.amount);
+        // quantity = parseInt(quantity);
+        // quantity += parseInt(book.amount);
+        console.log(book.amount);
+
+        // book.amount = quantity;
+        // console.log(book.amount);
+
+        // console.log(typeof book.amount);
+        let amountBook = book.amount;
+        // console.log("amountbook: " + amountBook);
         priceBook *= amountBook;
         res2 += priceBook;
         res += amountBook;
@@ -298,6 +386,7 @@ signInButton.addEventListener("click", () => {
     .then((user) => {
       loginSuccess();
       localStorage.setItem("token", user.token);
+      if (localStorage.getItem("cart")) localStorage.removeItem("cart");
     })
     .catch((err) => {
       signInEmailInput.placeholder = "*Email incorrect";
@@ -390,7 +479,9 @@ const createNewUser = () => {
       }
     })
     .then((data) => {
+      console.log(data);
       localStorage.setItem("token", data.token);
+
       loginSuccess();
     })
     .catch((err) => {

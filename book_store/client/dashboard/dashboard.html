@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="../style/dashboardStyle.css" />
+  </head>
+  <body>
+    <header class="header-dashboard" id="header-dashboard">
+      <div class="header-container" id="header-container">
+        <div class="logo" id="logo">
+          <img src="../images/LogoMakr-5MoJlK.png" alt="logo" id="image-logo" />
+        </div>
+        <div class="user-area-container" id="user-area-container">
+          <i
+            class="fa fa-shopping-cart"
+            style="font-size: 24px"
+            id="cart-icon"
+          ></i>
+
+          <i class="fa fa-sign-out" id="logout" style="font-size: 24px"></i>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-dashboard" id="main-dashboard">
+      <div class="header-main" id="header-main">
+        <h1>Personal Info</h1>
+        <span id="name-for-icon"></span>
+      </div>
+
+      <div class="main-context-container" id="main-context-container">
+        <div class="contact-detail" id="contact-detail">
+          <h1>Your contact detail</h1>
+          <span class="email" id="email"><b>Email:</b> Ron@gmail.com</span>
+          <button type="button" id="change-email-button">Change</button>
+        </div>
+
+        <div class="name-detail" id="name-detail">
+          <h1>Your name</h1>
+          <span class="name" id="name"><b>Name:</b> Ron Elkaslasi</span>
+          <button type="button" id="change-name-button">Change</button>
+        </div>
+
+        <div class="password-detail" id="password-detail">
+          <h1>Your password</h1>
+          <span class="password" id="password"><b>Password:</b> ****** </span>
+          <button type="button" id="change-pass-button">Change</button>
+        </div>
+      </div>
+      <div class="delete-user-container" id="delete-user-container">
+        <button class="delete-user" id="delete-user" type="button">
+          Delete account
+        </button>
+      </div>
+      <div class="none" id="modal-email-container">
+        <form class="change-input" id="change-email">
+          <h1>Enter your new email</h1>
+          <div class="input-container">
+            <label for="input-email">New email</label>
+            <input type="text" class="input-email" />
+            <button type="button">Change</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="none" id="modal-name-container">
+        <form action="#" class="change-input" id="change-name">
+          <h1>Enter your new name</h1>
+          <div class="input-container">
+            <label for="input-name">New name</label>
+            <input type="text" class="input-name" />
+            <button type="button">Change</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="none" id="modal-pass-container">
+        <form action="#" class="change-input" id="change-password">
+          <h1>Enter your new password</h1>
+          <div class="input-container">
+            <label for="input-password">New email</label>
+            <input type="password" class="input-password" />
+            <button type="button">Change</button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <footer class="footer-dashboard" id="footer-dashboard">
+      <div class="footer">
+        <a href="#">About us</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <div class="icons">
+          <a href="#" class="fa fa-facebook"></a>
+          <a href="#" class="fa fa-twitter"></a>
+          <a href="#" class="fa fa-google"></a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../logic/dashboardPage.js"></script>
+  </body>
+</html>

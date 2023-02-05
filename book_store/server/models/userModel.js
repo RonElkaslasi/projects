@@ -101,17 +101,20 @@ userSchema.methods.generateAuthToken = async function () {
   return token;
 };
 
-userSchema.methods.addToCart = async function (book) {
+userSchema.methods.addToCart = async function (book, amount) {
   const user = this;
 
   for (let bookInCart in user.cart) {
     if (user.cart[bookInCart]._id.toString() === book) {
-      user.cart[bookInCart].amount++;
+      user.cart[bookInCart].amount += parseInt(amount);
+
       return await user.save();
     }
   }
+  user.cart.push({ _id: book, amount: parseInt(amount) });
+  // user.cart[book].amount = parseInt(amount);
+  // console.log(user);
 
-  user.cart.push(book);
   await user.save();
 };
 

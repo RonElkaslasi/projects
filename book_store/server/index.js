@@ -19,6 +19,10 @@ app.use(adminRouter);
 app.use(bookRouter);
 app.use(express.static(clientDirPath));
 
+app.get("/dashboard", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/dashboard/dashboard.html"));
+});
+
 app.listen(port, () => {
   console.log("Server connected, port: ", port);
 });

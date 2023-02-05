@@ -27,7 +27,19 @@ router.post("/user/new", async (req, res) => {
 //       res.status(500).send(err);
 //     }
 //   });
+router.get("/user/get-user", auth, async (req, res) => {
+  try {
+    const user = req.user;
 
+    res.send(user);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send({
+      status: 400,
+      message: err.message,
+    });
+  }
+});
 router.patch("/user/edit", auth, async (req, res) => {
   const allowEdit = ["name", "email", "password"];
 
@@ -91,17 +103,18 @@ router.post("/user/logout", auth, async (req, res) => {
 
 router.post("/user/addBookToCart", auth, async (req, res) => {
   const name = req.body.name;
-  console.log(req.user);
+  const amount = req.body.amount;
+
   try {
     const book = await Book.findOne({ name });
-
     if (!book) {
       return res.status(404).send({
         status: 404,
         message: "book not found",
       });
     }
-    await req.user.addToCart(book._id.toString());
+
+    await req.user.addToCart(book._id.toString(), amount);
     res.send(req.user.cart);
   } catch (err) {
     res.status(400).send(err.message);
@@ -121,5 +134,20 @@ router.delete("/user/removeBookFromCart", auth, async (req, res) => {
     res.status(500).send(err);
   }
 });
+
+// router.post("/unregister-user/addBookToCart", async (req,res) => {
+//   const name = req.body.name;
+
+//   try{
+//     const book = await Book.findOne({name});
+
+//     if(!book)
+//     {
+//       return status(404).send({
+
+//       })
+//     }
+//   }
+// })
 
 module.exports = router;
