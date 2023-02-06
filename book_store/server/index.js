@@ -23,6 +23,10 @@ app.get("/dashboard", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/dashboard/dashboard.html"));
 });
 
+app.get("/cart", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/cart/cart.html"));
+});
+
 app.listen(port, () => {
   console.log("Server connected, port: ", port);
 });

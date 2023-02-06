@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../style/cartStyle.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="icon" type="image/png" href="../images/LogoMakr-5MoJlK.png" />
+    <title>Shopping Cart | Book Store</title>
+  </head>
+  <body>
+    <header class="header-cart" id="header-cart">
+      <div class="header-container" id="header-container">
+        <div class="logo" id="logo">
+          <img src="../images/LogoMakr-5MoJlK.png" alt="logo" id="image-logo" />
+        </div>
+        <div class="user-area-container" id="user-area-container">
+          <i
+            class="fa fa-home home-icon"
+            style="font-size: 30px"
+            id="home-icon"
+          ></i>
+
+          <i
+            class="none"
+            aria-hidden="true"
+            id="personal-dashboard"
+            style="font-size: 24px"
+          ></i>
+          <i class="none" id="logout" style="font-size: 24px"></i>
+        </div>
+      </div>
+      <div class="image-header" id="image-header">
+        <img
+          src="../images/black-friday-elements-assortment.jpg"
+          alt="image-header"
+        />
+      </div>
+    </header>
+    <main>
+      <!-- <div class="none empty-cart-container" id="empty-cart-container">
+        <h1>Shopping Cart</h1>
+
+        <div class="message-empty-cart" id="message-empty-cart">
+          <span class="first-line" id="first-line"
+            >You dont have books in cart.</span
+          >
+          <span class="second-line" id="second-line"
+            >Click
+            <a
+              href="http://localhost:3000"
+              class="link-to-homepage"
+              id="link-to-homepage"
+              >here</a
+            >
+            to home page</span
+          >
+        </div>
+      </div> -->
+
+      <div class="item-cart-container" id="item-cart-container">
+        <h1>Shopping Cart</h1>
+        <div class="books-container" id="books-container">
+          <div class="book" id="book">
+            <div class="img-price-container">
+              <img src="../images/harry.jpeg" alt="harry" />
+              <span class="price" id="price">180.90₪</span>
+            </div>
+            <div class="quantity" id="quantity">
+              <button
+                type="button"
+                class="increaseQuantityButton"
+                id="increaseQuantityButton"
+              >
+                <i class="fa fa-plus"></i>
+              </button>
+              <span class="quantity-display" id="quantity-display">1</span>
+              <button
+                type="button"
+                class="decreaseQuantityButton"
+                id="decreaseQuantityButton"
+              >
+                <i class="fa fa-minus"></i>
+              </button>
+            </div>
+            <button type="button" class="remove-button">Delete</button>
+          </div>
+
+          <div class="book">
+            <div class="img-price-container">
+              <img src="../images/harry.jpeg" alt="harry" />
+              <span class="price">180.90₪</span>
+            </div>
+            <div class="quantity">
+              <button type="button" class="increaseQuantityButton">
+                <i class="fa fa-plus"></i>
+              </button>
+              <span class="quantity-display">1</span>
+              <button type="button" class="decreaseQuantityButton">
+                <i class="fa fa-minus"></i>
+              </button>
+            </div>
+            <button type="button" class="remove-button">Delete</button>
+          </div>
+
+          <div class="book">
+            <div class="img-price-container">
+              <img src="../images/harry.jpeg" alt="harry" />
+              <span class="price">180.90₪</span>
+            </div>
+            <div class="quantity">
+              <button type="button" class="increaseQuantityButton">
+                <i class="fa fa-plus"></i>
+              </button>
+              <span class="quantity-display">1</span>
+              <button type="button" class="decreaseQuantityButton">
+                <i class="fa fa-minus"></i>
+              </button>
+            </div>
+            <button type="button" class="remove-button">Delete</button>
+          </div>
+
+          <div class="book">
+            <div class="img-price-container">
+              <img src="../images/harry.jpeg" alt="harry" />
+              <span class="price">180.90₪</span>
+            </div>
+            <div class="quantity">
+              <button type="button" class="increaseQuantityButton">
+                <i class="fa fa-plus"></i>
+              </button>
+              <span class="quantity-display">1</span>
+              <button type="button" class="decreaseQuantityButton">
+                <i class="fa fa-minus"></i>
+              </button>
+            </div>
+            <button type="button" class="remove-button">Delete</button>
+          </div>
+
+          <div class="book">
+            <div class="img-price-container">
+              <img src="../images/harry.jpeg" alt="harry" />
+              <span class="price">180.90₪</span>
+            </div>
+            <div class="quantity">
+              <button type="button" class="increaseQuantityButton">
+                <i class="fa fa-plus"></i>
+              </button>
+              <span class="quantity-display">1</span>
+              <button type="button" class="decreaseQuantityButton">
+                <i class="fa fa-minus"></i>
+              </button>
+            </div>
+            <button type="button" class="remove-button">Delete</button>
+          </div>
+        </div>
+        <div class="checkout" id="checkout">
+          <span class="total-price">Toal cost: 420₪</span>
+          <div class="checkout-button-container">
+            <button type="button" class="checkout-button">Checkout</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer-cart" id="footer-cart">
+      <div class="footer">
+        <a href="#" class="footer-link">About us</a>
+        <a href="#" class="footer-link">Contact</a>
+        <a href="#" class="footer-link">Privacy</a>
+        <a href="#" class="footer-link">Terms</a>
+        <div class="icons">
+          <a href="#" class="fa fa-facebook footer-link"></a>
+          <a href="#" class="fa fa-twitter footer-link"></a>
+          <a href="#" class="fa fa-google footer-link"></a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../logic/cartPage.js"></script>
+  </body>
+</html>

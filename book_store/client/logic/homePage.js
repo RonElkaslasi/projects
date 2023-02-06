@@ -17,7 +17,8 @@ const nameOfTheBook = document.createElement("h1");
 const publishedBook = document.createElement("span");
 const authorBook = document.createElement("span");
 const descriptionBook = document.createElement("div");
-
+const cartIcon = document.getElementById("cart-icon");
+const cartCheckoutButton = document.getElementById("cart-checkout");
 const joinNewUserButton = document.getElementById("join-button");
 const closeAddBookModal = document.getElementById("close-add-book-modal");
 const modalAddToCartContainer = document.getElementById(
@@ -28,6 +29,15 @@ const hompageBooksUrl = "http://localhost:3000/book/search/";
 
 let skip = 0;
 let obj;
+
+cartCheckoutButton.addEventListener("click", () => {
+  url = "http://localhost:3000/cart";
+  window.open(url, "_self");
+});
+cartIcon.addEventListener("click", () => {
+  url = "http://localhost:3000/cart";
+  window.open(url, "_self");
+});
 
 personalDashboard.addEventListener("click", () => {
   url = "http://localhost:3000/dashboard";
@@ -48,8 +58,9 @@ closeAddBookModal.addEventListener("click", () => {
   modalAddToCartContainer.classList.add("none");
 });
 joinNewUserButton.addEventListener("click", () => {
+  console.log("im here");
   createNewUser();
-  if (localStorage.getItem("cart")) localStorage.removeItem("cart");
+  // if (localStorage.getItem("cart")) localStorage.removeItem("cart");
 });
 
 prevButton.addEventListener("click", (e) => {
@@ -298,16 +309,8 @@ const sumAllTheBooksInCart = (cart, quantity) => {
     getPriceOfBook("_id", book._id).then((books) => {
       if (books[0].price) {
         priceBook = parseInt(books[0].price);
-        // quantity = parseInt(quantity);
-        // quantity += parseInt(book.amount);
-        console.log(book.amount);
-
-        // book.amount = quantity;
         // console.log(book.amount);
-
-        // console.log(typeof book.amount);
         let amountBook = book.amount;
-        // console.log("amountbook: " + amountBook);
         priceBook *= amountBook;
         res2 += priceBook;
         res += amountBook;
@@ -386,7 +389,21 @@ signInButton.addEventListener("click", () => {
     .then((user) => {
       loginSuccess();
       localStorage.setItem("token", user.token);
-      if (localStorage.getItem("cart")) localStorage.removeItem("cart");
+
+      if (localStorage.getItem("cart")) {
+        let unregisterUserCart = JSON.parse(localStorage.getItem("cart"));
+
+        for (let book of unregisterUserCart) {
+          (async () => {
+            let getBookFromDB = await getBook(book);
+            console.log(getBookFromDB);
+            console.log(getBookFromDB[0].name);
+            let amountOfBooks = book.amount;
+            addBookFromLocalStroageToCart(getBookFromDB[0].name, amountOfBooks);
+          })();
+        }
+      }
+      localStorage.removeItem("cart");
     })
     .catch((err) => {
       signInEmailInput.placeholder = "*Email incorrect";
@@ -397,6 +414,7 @@ signInButton.addEventListener("click", () => {
       signInPasswordInput.value = "";
     });
 });
+
 logoutButton.addEventListener("click", () => {
   const logOutUrl = "http://localhost:3000/user/logout";
   const token = localStorage.getItem("token");
@@ -473,6 +491,7 @@ const createNewUser = () => {
   })
     .then((res) => {
       if (res.ok) {
+        console.log(res);
         return res.json();
       } else {
         throw new Error(res.status);
@@ -483,6 +502,21 @@ const createNewUser = () => {
       localStorage.setItem("token", data.token);
 
       loginSuccess();
+
+      if (localStorage.getItem("cart")) {
+        console.log("im getting here??");
+        let unregisterUserCart = JSON.parse(localStorage.getItem("cart"));
+
+        for (let book of unregisterUserCart) {
+          (async () => {
+            let getBookFromDB = await getBook(book);
+            console.log(getBookFromDB);
+            console.log(getBookFromDB[0].name);
+            let amountOfBooks = book.amount;
+            addBookFromLocalStroageToCart(getBookFromDB[0].name, amountOfBooks);
+          })();
+        }
+      }
     })
     .catch((err) => {
       newUserEmail.placeholder = "*Somting wrong with the email";
@@ -490,6 +524,47 @@ const createNewUser = () => {
       newUserEmail.value = "";
       newUserPassword.value = "";
     });
+};
+
+const addBookFromLocalStroageToCart = (getBookFromDB, amountOfBooks) => {
+  const url = "http://localhost:3000/user/addBookToCart";
+  const token = localStorage.getItem("token");
+
+  fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: getBookFromDB,
+      amount: amountOfBooks,
+    }),
+  })
+    .then((res) => {
+      if (res.ok) return res.json();
+      else throw new Error(res.status);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const getBook = async (book) => {
+  const bookName = book.name;
+  const url = `http://localhost:3000/book/search/?name=${bookName}`;
+  let res;
+  try {
+    res = await fetch(url);
+    if (res.ok) {
+      res = await res.json();
+      return res;
+    } else {
+      throw new Error(res.status);
+    }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 renderBooks(hompageBooksUrl);

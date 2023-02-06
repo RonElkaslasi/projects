@@ -2,6 +2,7 @@ const logoutIcon = document.getElementById("logout");
 const logo = document.getElementById("logo");
 const deleteUserButton = document.getElementById("delete-user");
 const nameForIcon = document.getElementById("name-for-icon");
+const cartIcon = document.getElementById("cart-icon");
 
 const changeEmailButton = document.getElementById("change-email-button");
 const changeNameButton = document.getElementById("change-name-button");
@@ -12,8 +13,31 @@ const modalPassContainer = document.getElementById("modal-pass-container");
 const emailUser = document.getElementById("email");
 const nameUser = document.getElementById("name");
 const passUser = document.getElementById("pass");
+const newEmailButton = document.getElementById("new-email-button");
+const inputNewEmail = document.getElementById("input-email");
+const newNameButton = document.getElementById("new-name-button");
+const inputNewName = document.getElementById("input-name");
+const newPassButton = document.getElementById("new-pass-button");
+const inputNewPass = document.getElementById("input-password");
 
-const changeNameLogo = () => {
+cartIcon.addEventListener("click", () => {
+  const url = "http://localhost:3000/cart";
+  window.open(url, "_self");
+});
+newPassButton.addEventListener("click", () => {
+  changeDetail("password", inputNewPass.value, passUser);
+});
+
+newNameButton.addEventListener("click", () => {
+  changeDetail("name", inputNewName.value, nameUser);
+  nameForIcon.innerText = inputNewName.value.charAt(0).toUpperCase();
+});
+
+newEmailButton.addEventListener("click", (e) => {
+  changeDetail("email", inputNewEmail.value, emailUser);
+});
+
+const loadDashboardInterface = () => {
   const url = "http://localhost:3000/user/get-user";
   const token = localStorage.getItem("token");
 
@@ -110,4 +134,31 @@ modalPassContainer.addEventListener("click", (e) => {
     modalPassContainer.classList.add("none");
   }
 });
-changeNameLogo();
+
+const changeDetail = (fieldToChange, value, fieldAfterChange) => {
+  const url = "http://localhost:3000/user/edit";
+  const token = localStorage.getItem("token");
+
+  fetch(url, {
+    method: "PATCH",
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      [fieldToChange]: value,
+    }),
+  })
+    .then((res) => {
+      if (res.ok) return res.json();
+      else throw new Error(res.status);
+    })
+    .then((data) => {
+      console.log(data);
+      fieldAfterChange.innerText = data[fieldToChange];
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+loadDashboardInterface();

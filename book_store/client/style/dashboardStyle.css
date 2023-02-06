@@ -106,9 +106,9 @@ body {
   gap: 1rem;
   height: 100%;
 }
-.contact-detail h1 {
+/* .contact-detail h1 {
   margin: 0;
-}
+} */
 @media (max-width: 516px) {
   .main-context-container {
     flex-direction: column;

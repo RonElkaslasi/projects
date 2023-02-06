@@ -53,10 +53,15 @@ router.patch("/user/edit", auth, async (req, res) => {
   }
 
   try {
-    const user = await User.findOneAndUpdate(req.user, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    // const user = await User.findOneAndUpdate(req.user, req.body, {
+    //   new: true,
+    //   runValidators: true,
+    // });
+    const user = await User.findOne(req.user);
+    for (let update in req.body) {
+      user[update] = req.body[update];
+    }
+    console.log(req.body);
 
     await user.save();
     res.send(user);
