@@ -9,6 +9,10 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <link rel="icon" type="image/png" href="../images/LogoMakr-5MoJlK.png" />
     <title>Shopping Cart | Book Store</title>
   </head>
@@ -42,7 +46,7 @@
       </div>
     </header>
     <main>
-      <!-- <div class="none empty-cart-container" id="empty-cart-container">
+      <div class="none empty-cart-container" id="empty-cart-container">
         <h1>Shopping Cart</h1>
 
         <div class="message-empty-cart" id="message-empty-cart">
@@ -60,108 +64,19 @@
             to home page</span
           >
         </div>
-      </div> -->
+      </div>
 
       <div class="item-cart-container" id="item-cart-container">
         <h1>Shopping Cart</h1>
-        <div class="books-container" id="books-container">
-          <div class="book" id="book">
-            <div class="img-price-container">
-              <img src="../images/harry.jpeg" alt="harry" />
-              <span class="price" id="price">180.90₪</span>
-            </div>
-            <div class="quantity" id="quantity">
-              <button
-                type="button"
-                class="increaseQuantityButton"
-                id="increaseQuantityButton"
-              >
-                <i class="fa fa-plus"></i>
-              </button>
-              <span class="quantity-display" id="quantity-display">1</span>
-              <button
-                type="button"
-                class="decreaseQuantityButton"
-                id="decreaseQuantityButton"
-              >
-                <i class="fa fa-minus"></i>
-              </button>
-            </div>
-            <button type="button" class="remove-button">Delete</button>
-          </div>
-
-          <div class="book">
-            <div class="img-price-container">
-              <img src="../images/harry.jpeg" alt="harry" />
-              <span class="price">180.90₪</span>
-            </div>
-            <div class="quantity">
-              <button type="button" class="increaseQuantityButton">
-                <i class="fa fa-plus"></i>
-              </button>
-              <span class="quantity-display">1</span>
-              <button type="button" class="decreaseQuantityButton">
-                <i class="fa fa-minus"></i>
-              </button>
-            </div>
-            <button type="button" class="remove-button">Delete</button>
-          </div>
-
-          <div class="book">
-            <div class="img-price-container">
-              <img src="../images/harry.jpeg" alt="harry" />
-              <span class="price">180.90₪</span>
-            </div>
-            <div class="quantity">
-              <button type="button" class="increaseQuantityButton">
-                <i class="fa fa-plus"></i>
-              </button>
-              <span class="quantity-display">1</span>
-              <button type="button" class="decreaseQuantityButton">
-                <i class="fa fa-minus"></i>
-              </button>
-            </div>
-            <button type="button" class="remove-button">Delete</button>
-          </div>
-
-          <div class="book">
-            <div class="img-price-container">
-              <img src="../images/harry.jpeg" alt="harry" />
-              <span class="price">180.90₪</span>
-            </div>
-            <div class="quantity">
-              <button type="button" class="increaseQuantityButton">
-                <i class="fa fa-plus"></i>
-              </button>
-              <span class="quantity-display">1</span>
-              <button type="button" class="decreaseQuantityButton">
-                <i class="fa fa-minus"></i>
-              </button>
-            </div>
-            <button type="button" class="remove-button">Delete</button>
-          </div>
-
-          <div class="book">
-            <div class="img-price-container">
-              <img src="../images/harry.jpeg" alt="harry" />
-              <span class="price">180.90₪</span>
-            </div>
-            <div class="quantity">
-              <button type="button" class="increaseQuantityButton">
-                <i class="fa fa-plus"></i>
-              </button>
-              <span class="quantity-display">1</span>
-              <button type="button" class="decreaseQuantityButton">
-                <i class="fa fa-minus"></i>
-              </button>
-            </div>
-            <button type="button" class="remove-button">Delete</button>
-          </div>
-        </div>
+        <div class="books-container" id="books-container"></div>
         <div class="checkout" id="checkout">
-          <span class="total-price">Toal cost: 420₪</span>
+          <span class="total-price"
+            >Total cost: <span id="total-parice"></span
+          ></span>
           <div class="checkout-button-container">
-            <button type="button" class="checkout-button">Checkout</button>
+            <button type="button" class="checkout-button" id="checkout-button">
+              Checkout
+            </button>
           </div>
         </div>
       </div>
@@ -174,9 +89,9 @@
         <a href="#" class="footer-link">Privacy</a>
         <a href="#" class="footer-link">Terms</a>
         <div class="icons">
-          <a href="#" class="fa fa-facebook footer-link"></a>
-          <a href="#" class="fa fa-twitter footer-link"></a>
-          <a href="#" class="fa fa-google footer-link"></a>
+          <a href="#" class="fa fa-facebook footer-link" id="fa-facebook"></a>
+          <a href="#" class="fa fa-twitter footer-link" id="fa-twitter"></a>
+          <a href="#" class="fa fa-google footer-link" id="fa-google"></a>
         </div>
       </div>
     </footer>

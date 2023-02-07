@@ -140,19 +140,18 @@ router.delete("/user/removeBookFromCart", auth, async (req, res) => {
   }
 });
 
-// router.post("/unregister-user/addBookToCart", async (req,res) => {
-//   const name = req.body.name;
+router.delete("/user/removeBookFromCartAll", auth, async (req, res) => {
+  const name = req.body.name;
+  const user = req.user;
 
-//   try{
-//     const book = await Book.findOne({name});
+  try {
+    const book = await Book.findOne({ name });
 
-//     if(!book)
-//     {
-//       return status(404).send({
-
-//       })
-//     }
-//   }
-// })
+    await user.removeFromCartAll(book._id.toString());
+    res.send(user.cart);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 
 module.exports = router;

@@ -136,6 +136,20 @@ userSchema.methods.removeFromCart = async function (book) {
   throw new Error("book not found");
 };
 
+userSchema.methods.removeFromCartAll = async function (book) {
+  const user = this;
+
+  for (let bookInTheCart in user.cart) {
+    if (user.cart[bookInTheCart]._id.toString() === book) {
+      user.cart.remove(user.cart[bookInTheCart]);
+
+      return await user.save();
+    }
+  }
+
+  throw new Error("book not found");
+};
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
