@@ -6,11 +6,12 @@ const router = new express.Router();
 
 router.post("/book/new", authAdmin, async (req, res) => {
   const book = new Book(req.body);
-
+  console.log(book);
   try {
     await book.save();
     res.send(book);
   } catch (err) {
+    console.log(err.message);
     res.status(400).send(err);
   }
 });

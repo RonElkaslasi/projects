@@ -68,4 +68,17 @@ router.post("/admin/logout", authAdmin, async (req, res) => {
   }
 });
 
+router.get("/admin/get-admin", authAdmin, async (req, res) => {
+  try {
+    const admin = req.admin;
+
+    res.send(admin);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send({
+      status: 400,
+      message: err.message,
+    });
+  }
+});
 module.exports = router;

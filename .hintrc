@@ -14,7 +14,8 @@
       "default",
       {
         "ignore": [
-          "backface-visibility"
+          "backface-visibility",
+          "backdrop-filter"
         ]
       }
     ],

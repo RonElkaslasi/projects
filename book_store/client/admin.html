@@ -4,12 +4,188 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <link rel="icon" type="image/png" href="./images/LogoMakr-5MoJlK.png" />
     <link rel="stylesheet" href="./style/adminStyle.css" />
     <title>Admin Login | Book Store</title>
   </head>
   <body>
-    <div class="login-container">
+    <div class="none" id="admin-interface">
+      <header class="header-admin" id="header-admin">
+        <div class="header-container" id="header-container">
+          <div class="logo" id="logo">
+            <img
+              src="./images/LogoMakr-5MoJlK.png"
+              alt="logo"
+              id="image-logo"
+            />
+          </div>
+          <div class="admin-area-container" id="admin-area-container">
+            <i
+              class="fa fa-user"
+              aria-hidden="true"
+              id="personal-dashboard"
+              style="font-size: 24px"
+            ></i>
+            <i class="fa fa-sign-out" id="logout" style="font-size: 24px"></i>
+          </div>
+        </div>
+        <div class="image-header" id="image-header">
+          <img
+            src="./images/top-view-graphic-designer-with-tablet.jpg"
+            alt="image-header"
+          />
+        </div>
+        <div class="search-container" id="search-container">
+          <select name="Sort" id="sort">
+            <option value="filter">Search by</option>
+            <option value="name">name</option>
+            <option value="author">author</option>
+            <option value="genre">genre</option>
+            <option value="published">published</option>
+            <option value="price">price</option>
+          </select>
+          <input
+            type="text"
+            class="search-box"
+            id="search-box"
+            placeholder="Search for books by title/author/published/price"
+          />
+          <button type="submit" id="search-books-button">Search</button>
+        </div>
+      </header>
+
+      <main>
+        <div class="books-container" id="books-container"></div>
+        <div class="next-prev-links" id="next-prev-links">
+          <a href="#" id="prev">&#8249</a>
+          <a href="#" id="next">&#8250</a>
+        </div>
+        <button class="add-book-button" id="add-new-book">Add new book</button>
+
+        <div class="none add-new-book-container" id="add-new-book-container">
+          <form  class="form-add-new-book" id="form-add-new-book">
+            <h2>Add New Book</h2>
+            <input type="text" class="name-new-book" id="name-new-book" placeholder="Enter title">
+            <input type="text" class="author-new-book" id="author-new-book" placeholder="Enter author">
+            <input type="text" class="genre-new-book" id="genre-new-book" placeholder="Enter genre">
+            <input type="text" class="image-new-book" id="image-new-book" placeholder="Enter img source">
+            <input type="text" class="published-new-book" id="published-new-book" placeholder="Enter published year">
+            <input type="text" class="price-new-book" id="price-new-book" placeholder="Enter price">
+            <textarea name="description-new-book" id="description-new-book" cols="20" rows="10" placeholder="Enter book description"></textarea>
+            <button class="add-new-book-to-storage" type="button" id="add-new-book-to-storage">Add book</button>
+          </form>
+        </div>
+
+        <div class="none edit-book-modal-container" id="edit-book-modal-container">
+          <div class="edit-book-modal" id="edit-book-modal">
+            <div class="edit-name" id="edit-name">
+              <span>Title: <span class="name-book" id="name-book">Blee sodot</span></span>
+              <input type="text" class="edit-name-input" id="edit-name-input" placeholder="Enter new title">
+              <button type="button" class="change-book-button" id="change-name-book-button">Change</button>
+            </div>
+
+            <div class="edit-author edit-name" id="edit-author">
+              <span>Author: <span class="author-book" id="author-book">Ron</span></span>
+              <input type="text" class="edit-author-input" id="edit-author-input" placeholder="Enter new author">
+              <button type="button" class="change-book-button" id="change-author-book-button">Change</button>
+            </div>
+
+            <div class="edit-genre edit-name" id="edit-genre">
+              <span>Genre: <span class="genre-book" id="genre-book">Comdedy</span></span>
+              <input type="text" class="edit-genre-input" id="edit-genre-input" placeholder="Enter new genre">
+              <button type="button" class="change-book-button" id="change-genre-book-button">Change</button>
+            </div>
+            <div class="edit-image edit-name" id="edit-image">
+              <span>Image <span class="image-book" id="image-book"></span></span>
+              <input type="text" class="edit-image-input" id="edit-image-input" placeholder="Enter new image source">
+              <button type="button" class="change-book-button" id="change-image-book-button">Change</button>
+            </div>
+            <div class="edit-published edit-name" id="edit-published">
+              <span>Published: <span class="published-book" id="published-book">2011</span></span>
+              <input type="text" class="edit-published-input" id="edit-published-input" placeholder="Enter new published year">
+              <button type="button" class="change-book-button" id="change-published-book-button">Change</button>
+            </div>
+            <div class="edit-price edit-name" id="edit-price">
+              <span>Price: <span class="price-book" id="price-book">80</span></span>
+              <input type="text" class="edit-price-input" id="edit-price-input" placeholder="Enter new price">
+              <button type="button" class="change-book-button" id="change-price-book-button">Change</button>
+            </div>
+            <div class="edit-description edit-name" id="edit-description">
+              <span>Description: <span class="description-book" id="description-book">Comdedy gfgfgsdfds g sdf ds fsdf sdfdsfgwrgsgsfgwegwefwef wefsd vsdsdfsd</span></span>
+              <textarea name="edit-description-input" id="edit-description-input" cols="20" rows="10" placeholder="Enter new description"></textarea>
+              <!-- <input type="text" class="edit-description-input" id="edit-description-input" placeholder="Enter new description"> -->
+              <button type="button" class="change-book-button" id="change-description-book-button">Change</button>
+            </div>
+          </div>
+
+        </div>
+        <div class="none" id="modal-edit-admin-details-container">
+          <!-- <i class="fa fa-window-close" aria-hidden="true"></i> -->
+          <div class="modal-edit-admin" id="modal-edit-admin">
+            <i
+              class="fa fa-window-close"
+              aria-hidden="true"
+              style="font-size: 24px"
+              id="close-edit-modal-button"
+            ></i>
+            <h1>Edit Info</h1>
+            <div class="edit-admin-detail" id="edit-username">
+              <h3>Username</h3>
+              <span>Your username: <span id="curr-username"></span></span>
+              <input
+                type="text"
+                class="edit-new-username"
+                id="edit-new-username"
+                placeholder="Enter new username"
+              />
+              <button
+                id="change-username-button"
+                class="change-username-button"
+              >
+                Change
+              </button>
+            </div>
+
+            <div class="edit-admin-detail" id="edit-email">
+              <h3>Email</h3>
+              <span>Your email: <span id="curr-email"></span></span>
+              <input
+                type="text"
+                class="edit-new-email"
+                id="edit-new-email"
+                placeholder="Enter new email"
+              />
+              <button id="change-email-button" class="change-email-button">
+                Change
+              </button>
+            </div>
+
+            <div class="edit-admin-detail" id="edit-password">
+              <h3>Password</h3>
+              <span>Your password: ********</span>
+              <input
+                type="password"
+                class="edit-new-password"
+                id="edit-new-password"
+                placeholder="Enter new password"
+              />
+              <button
+                id="change-password-button"
+                class="change-password-button"
+              >
+                Change
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div class="none" id="login-container">
       <div class="login-newAdmin-container" id="login-newAdmin-container">
         <div class="login" id="login">
           <h1>Admin login</h1>
@@ -34,5 +210,7 @@
         </div>
       </div>
     </div>
+
+    <script src="./logic/adminPage.js"></script>
   </body>
 </html>

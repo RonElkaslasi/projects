@@ -11,7 +11,7 @@ const authAdmin = async (req, res, next) => {
       "tokens.token": token,
     });
     if (!admin) {
-      throw new Error();
+      throw new Error("Unauthorized");
     }
     req.admin = admin;
     req.token = token;
