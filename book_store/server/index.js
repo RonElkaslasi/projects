@@ -20,15 +20,18 @@ app.use(bookRouter);
 app.use(express.static(clientDirPath));
 
 app.get("/dashboard", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/dashboard/dashboard.html"));
+  // res.sendFile(path.join(__dirname, "../client/dashboard/dashboard.html"));
+  res.sendFile(path.join(__dirname, "../client/pages/dashboard.html"));
 });
 
-app.get("/cart", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/cart/cart.html"));
-});
+// app.get("/cart", (req, res) => {
+//   // res.sendFile(path.join(__dirname, "../client/cart/cart.html"));
+//   res.sendFile(path.join(__dirname, "../client/pages/cart.html"));
+// });
 
 app.get("/admin", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/admin.html"));
+  // res.sendFile(path.join(__dirname, "../client/admin.html"));
+  res.sendFile(path.join(__dirname, "../client/pages/admin.html"));
 });
 
 app.listen(port, () => {

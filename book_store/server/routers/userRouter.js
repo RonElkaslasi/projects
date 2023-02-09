@@ -2,9 +2,12 @@ const express = require("express");
 const User = require("../models/userModel");
 const Book = require("../models/bookModel");
 const auth = require("../middleware/auth");
+const path = require("path");
+
 
 const router = new express.Router();
 
+// /users
 router.post("/user/new", async (req, res) => {
   const user = new User(req.body);
   try {
@@ -27,6 +30,9 @@ router.post("/user/new", async (req, res) => {
 //       res.status(500).send(err);
 //     }
 //   });
+
+// /users/:id
+// /personalData myData
 router.get("/user/get-user", auth, async (req, res) => {
   try {
     const user = req.user;
@@ -40,6 +46,13 @@ router.get("/user/get-user", auth, async (req, res) => {
     });
   }
 });
+
+router.get("/cart", (req, res) => {
+  // res.sendFile(path.join(__dirname, "../client/cart/cart.html"));
+  res.sendFile(path.join(__dirname, "../../client/pages/cart.html"));
+});
+
+
 router.patch("/user/edit", auth, async (req, res) => {
   const allowEdit = ["name", "email", "password"];
 

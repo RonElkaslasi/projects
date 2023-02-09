@@ -15,6 +15,7 @@ body {
 .header-homepage {
   position: relative;
 }
+
 .header-container {
   display: flex;
   justify-content: space-between;

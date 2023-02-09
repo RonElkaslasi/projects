@@ -30,78 +30,12 @@ const hompageBooksUrl = "http://localhost:3000/book/search/";
 let skip = 0;
 let obj;
 
-cartCheckoutButton.addEventListener("click", () => {
-  url = "http://localhost:3000/cart";
-  window.open(url, "_self");
-});
-cartIcon.addEventListener("click", () => {
-  url = "http://localhost:3000/cart";
-  window.open(url, "_self");
-});
-
-personalDashboard.addEventListener("click", () => {
-  url = "http://localhost:3000/dashboard";
-  window.open(url, "_self");
-});
-websiteLogo.addEventListener("click", () => {
-  url = "http://localhost:3000/book/search";
-  if (!loginModal.classList.contains("none")) {
-    loginModal.classList.add("none");
-  }
-  renderBooks(url);
-});
-
-continueShopButton.addEventListener("click", () => {
-  modalAddToCartContainer.classList.add("none");
-});
-closeAddBookModal.addEventListener("click", () => {
-  modalAddToCartContainer.classList.add("none");
-});
-joinNewUserButton.addEventListener("click", () => {
-  console.log("im here");
-  createNewUser();
-  // if (localStorage.getItem("cart")) localStorage.removeItem("cart");
-});
-
-prevButton.addEventListener("click", (e) => {
-  e.preventDefault();
-  skip -= 4;
-  const url = skip >= 0 ? hompageBooksUrl + `?skip=${skip}` : hompageBooksUrl;
-  skip = skip < 0 ? 0 : skip;
-
-  renderBooks(url);
-});
-
-nextButton.addEventListener("click", (e) => {
-  e.preventDefault();
-  skip += 4;
-
-  console.log(obj);
-  if (obj.length === 2) {
-    skip = 0;
-  }
-  const url = hompageBooksUrl + `?skip=${skip}`;
-
-  renderBooks(url);
-});
-
-searchBooksButton.addEventListener("click", (e) => {
-  e.preventDefault();
-  const searchValue = inputSearchBooks.value;
-  const url =
-    searchValue.length > 0
-      ? hompageBooksUrl + `?${filterSelect.value}=` + searchValue
-      : hompageBooksUrl;
-
-  renderBooks(url);
-});
-
 let i = 1;
 const renderBooks = (url) => {
   while (bookContainer.children.length > 0) {
     bookContainer.removeChild(bookContainer.lastChild);
   }
-  // localStorage.clear();
+
   if (localStorage.getItem("token")) {
     loginSuccess();
   }
@@ -115,9 +49,8 @@ const renderBooks = (url) => {
     })
     .then((jsonObj) => {
       obj = jsonObj;
-
+      console.log(skip);
       for (let book of jsonObj) {
-        // console.log(book);
         const divBook = document.createElement("div");
         const imageBook = document.createElement("img");
         const headerBook = document.createElement("h3");
@@ -243,7 +176,6 @@ const addBookToCart = (divbook, quantity) => {
       });
   } else {
     addBookToCartForUnregisterUsers(divbook, quantity);
-
     modalAddToCartContainer.classList.remove("none");
     modalAddToCartContainer.classList.add("modal-add-to-cart-container");
   }
@@ -305,11 +237,9 @@ const sumAllTheBooksInCart = (cart, quantity) => {
   const totalCost = document.getElementById("total-cost");
 
   for (let book of cart) {
-    // console.log(book);
     getPriceOfBook("_id", book._id).then((books) => {
       if (books[0].price) {
         priceBook = parseInt(books[0].price);
-        // console.log(book.amount);
         let amountBook = book.amount;
         priceBook *= amountBook;
         res2 += priceBook;
@@ -323,12 +253,6 @@ const sumAllTheBooksInCart = (cart, quantity) => {
 };
 
 const createModalForBookDetails = (divbook, published, description) => {
-  // const modal = document.createElement("div");
-  // const nameOfTheBook = document.createElement("h1");
-  // const publishedBook = document.createElement("span");
-  // const authorBook = document.createElement("span");
-  // const descriptionBook = document.createElement("div");
-
   modalContainer.classList.add("modal-container");
   modalContainer.classList.remove("none");
   modal.classList.remove("none");
@@ -346,76 +270,7 @@ const createModalForBookDetails = (divbook, published, description) => {
   modal.appendChild(descriptionBook);
 };
 
-modal.addEventListener("click", () => {
-  modalContainer.classList.add("none");
-  modal.classList.add("none");
-});
-modalContainer.addEventListener("click", () => {
-  modalContainer.classList.add("none");
-  modal.classList.add("none");
-});
-login.addEventListener("click", () => {
-  loginModal.classList.add("login-modal");
-  loginModal.classList.remove("none");
-});
-
-closeLoginModal.addEventListener("click", () => {
-  loginModal.classList.add("none");
-});
-
-signInButton.addEventListener("click", () => {
-  const signInEmailInput = document.getElementById("signin-email-input");
-  const signInPasswordInput = document.getElementById("signin-password-input");
-
-  const UserUrl = "http://localhost:3000/user/login";
-
-  fetch(UserUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email: signInEmailInput.value,
-      password: signInPasswordInput.value,
-    }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw new Error(res.status);
-      }
-    })
-    .then((user) => {
-      loginSuccess();
-      localStorage.setItem("token", user.token);
-
-      if (localStorage.getItem("cart")) {
-        let unregisterUserCart = JSON.parse(localStorage.getItem("cart"));
-
-        for (let book of unregisterUserCart) {
-          (async () => {
-            let getBookFromDB = await getBook(book);
-            console.log(getBookFromDB);
-            console.log(getBookFromDB[0].name);
-            let amountOfBooks = book.amount;
-            addBookFromLocalStroageToCart(getBookFromDB[0].name, amountOfBooks);
-          })();
-        }
-      }
-      localStorage.removeItem("cart");
-    })
-    .catch((err) => {
-      signInEmailInput.placeholder = "*Email incorrect";
-      signInEmailInput.classList.add("input");
-      signInEmailInput.value = "";
-      signInPasswordInput.placeholder = "*Password incorrect";
-      signInPasswordInput.classList.add("input");
-      signInPasswordInput.value = "";
-    });
-});
-
-logoutButton.addEventListener("click", () => {
+const logoutUser = () => {
   const logOutUrl = "http://localhost:3000/user/logout";
   const token = localStorage.getItem("token");
 
@@ -442,24 +297,68 @@ logoutButton.addEventListener("click", () => {
     .then((data) => {
       localStorage.removeItem("token");
 
-      logoutUser();
+      personalDashboard.classList.add("none");
+      personalDashboard.classList.remove("fa");
+      personalDashboard.classList.remove("fa-user");
+
+      login.classList.remove("none");
+      logoutButton.classList.add("none");
+      logoutButton.classList.remove("fa");
+      logoutButton.classList.remove("fa-sign-out");
     })
     .catch((err) => {
       console.log(err);
     });
-});
-
-const logoutUser = () => {
-  personalDashboard.classList.add("none");
-  personalDashboard.classList.remove("fa");
-  personalDashboard.classList.remove("fa-user");
-
-  login.classList.remove("none");
-  logoutButton.classList.add("none");
-  logoutButton.classList.remove("fa");
-  logoutButton.classList.remove("fa-sign-out");
 };
+
 const loginSuccess = () => {
+  const signInEmailInput = document.getElementById("signin-email-input");
+  const signInPasswordInput = document.getElementById("signin-password-input");
+
+  const UserUrl = "http://localhost:3000/user/login";
+
+  fetch(UserUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: signInEmailInput.value,
+      password: signInPasswordInput.value,
+    }),
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(res.status);
+      }
+    })
+    .then((user) => {
+      localStorage.setItem("token", user.token);
+
+      if (localStorage.getItem("cart")) {
+        let unregisterUserCart = JSON.parse(localStorage.getItem("cart"));
+
+        for (let book of unregisterUserCart) {
+          (async () => {
+            let getBookFromDB = await getBook(book);
+            let amountOfBooks = book.amount;
+            addBookFromLocalStroageToCart(getBookFromDB[0].name, amountOfBooks);
+          })();
+        }
+      }
+      localStorage.removeItem("cart");
+    })
+    .catch((err) => {
+      signInEmailInput.placeholder = "*Email incorrect";
+      signInEmailInput.classList.add("input");
+      signInEmailInput.value = "";
+      signInPasswordInput.placeholder = "*Password incorrect";
+      signInPasswordInput.classList.add("input");
+      signInPasswordInput.value = "";
+    });
+
   loginModal.classList.add("none");
   login.classList.add("none");
   personalDashboard.classList.remove("none");
@@ -498,13 +397,18 @@ const createNewUser = () => {
       }
     })
     .then((data) => {
-      console.log(data);
       localStorage.setItem("token", data.token);
 
-      loginSuccess();
+      loginModal.classList.add("none");
+      login.classList.add("none");
+      personalDashboard.classList.remove("none");
+      personalDashboard.classList.add("fa");
+      personalDashboard.classList.add("fa-user");
+      logoutButton.classList.remove("none");
+      logoutButton.classList.add("fa");
+      logoutButton.classList.add("fa-sign-out");
 
       if (localStorage.getItem("cart")) {
-        console.log("im getting here??");
         let unregisterUserCart = JSON.parse(localStorage.getItem("cart"));
 
         for (let book of unregisterUserCart) {
@@ -566,5 +470,95 @@ const getBook = async (book) => {
     console.log(err);
   }
 };
+
+//----------------------------------------------------------------Events-------------------------------------------------------//
+cartCheckoutButton.addEventListener("click", () => {
+  url = "http://localhost:3000/cart";
+  window.open(url, "_self");
+});
+cartIcon.addEventListener("click", () => {
+  url = "http://localhost:3000/cart";
+  window.open(url, "_self");
+});
+
+personalDashboard.addEventListener("click", () => {
+  url = "http://localhost:3000/dashboard";
+  window.open(url, "_self");
+});
+websiteLogo.addEventListener("click", () => {
+  url = "http://localhost:3000/book/search";
+  if (!loginModal.classList.contains("none")) {
+    loginModal.classList.add("none");
+  }
+  renderBooks(url);
+});
+
+continueShopButton.addEventListener("click", () => {
+  modalAddToCartContainer.classList.add("none");
+});
+closeAddBookModal.addEventListener("click", () => {
+  modalAddToCartContainer.classList.add("none");
+});
+joinNewUserButton.addEventListener("click", () => {
+  createNewUser();
+});
+
+prevButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  skip -= 4;
+  const url = skip >= 0 ? hompageBooksUrl + `?skip=${skip}` : hompageBooksUrl;
+  skip = skip < 0 ? 0 : skip;
+
+  renderBooks(url);
+});
+
+nextButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  skip += 4;
+
+  console.log(obj);
+  if (obj.length === 2) {
+    skip = 0;
+  }
+  const url = hompageBooksUrl + `?skip=${skip}`;
+
+  renderBooks(url);
+});
+
+searchBooksButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  const searchValue = inputSearchBooks.value;
+  const url =
+    searchValue.length > 0
+      ? hompageBooksUrl + `?${filterSelect.value}=` + searchValue
+      : hompageBooksUrl;
+
+  renderBooks(url);
+});
+
+logoutButton.addEventListener("click", () => {
+  logoutUser();
+});
+
+modal.addEventListener("click", () => {
+  modalContainer.classList.add("none");
+  modal.classList.add("none");
+});
+modalContainer.addEventListener("click", () => {
+  modalContainer.classList.add("none");
+  modal.classList.add("none");
+});
+login.addEventListener("click", () => {
+  loginModal.classList.add("login-modal");
+  loginModal.classList.remove("none");
+});
+
+closeLoginModal.addEventListener("click", () => {
+  loginModal.classList.add("none");
+});
+
+signInButton.addEventListener("click", () => {
+  loginSuccess();
+});
 
 renderBooks(hompageBooksUrl);
