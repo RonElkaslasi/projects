@@ -44,9 +44,30 @@ const addNewBookModalContainer = document.getElementById(
 const addNewBookModalButton = document.getElementById(
   "add-new-book-to-storage"
 );
+const newAdminUsername = document.getElementById("new-username");
+const newAdminEmail = document.getElementById("new-email");
+const newAdminPassword = document.getElementById("new-password");
 
 addNewBookModalButton.addEventListener("click", () => {
   addNewBook();
+});
+
+const searchBooksButton = document.getElementById("search-books-button");
+const inputSearchBooks = document.getElementById("search-box");
+const filterSelect = document.getElementById("sort");
+
+searchBooksButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  const searchValue = inputSearchBooks.value;
+  console.log(filterSelect.value);
+  const url =
+    searchValue.length > 0
+      ? "http://localhost:3000/book/search/" +
+        `?${filterSelect.value}=` +
+        searchValue
+      : "http://localhost:3000/book/search/";
+
+  renderBooksForAdmin(url);
 });
 
 const addNewBook = () => {
@@ -224,6 +245,8 @@ closeModalButton.addEventListener("click", () => {
   );
 });
 personalDashboard.addEventListener("click", () => {
+  const inputNewPassword = document.getElementById("edit-new-password");
+  inputNewPassword.value = "";
   modalEditAdminContainer.classList.remove("none");
   modalEditAdminContainer.classList.add("modal-edit-admin-details-container");
 });
@@ -311,6 +334,9 @@ const loadAdminPage = () => {
   if (!token) {
     loginContainer.classList.remove("none");
     loginContainer.classList.add("login-container");
+    newAdminUsername.value = "";
+
+    newAdminPassword.value = "";
   } else {
     adminInterface.classList.remove("none");
     adminInterface.classList.add("admin-interface");
@@ -340,9 +366,9 @@ const loadAdminDashboard = () => {
 };
 const createNewAdmin = () => {
   const url = "http://localhost:3000/admin/new";
-  const newAdminUsername = document.getElementById("new-username");
-  const newAdminEmail = document.getElementById("new-email");
-  const newAdminPassword = document.getElementById("new-password");
+  // const newAdminUsername = document.getElementById("new-username");
+  // const newAdminEmail = document.getElementById("new-email");
+  // const newAdminPassword = document.getElementById("new-password");
   const newUsername = newAdminUsername.value;
   const newEmail = newAdminEmail.value;
   const newPassword = newAdminPassword.value;
@@ -538,28 +564,77 @@ let skip = 0;
 //     const
 //   const bookName = book.name;
 // };
-nextButton.addEventListener("click", (e) => {
-  e.preventDefault();
-  skip += 4;
+// nextButton.addEventListener("click", (e) => {
+//   e.preventDefault();
+//   skip += 4;
 
-  console.log(obj);
-  if (obj.length === 2) {
-    skip = 0;
-  }
-  const url = `http://localhost:3000/book/search/?skip=${skip}`;
+//   console.log(obj);
+//   if (obj.length === 2) {
+//     skip = 0;
+//   }
+//   const url = `http://localhost:3000/book/search/?skip=${skip}`;
 
-  renderBooksForAdmin(url);
-});
+//   renderBooksForAdmin(url);
+// });
+
+// prevButton.addEventListener("click", (e) => {
+//   e.preventDefault();
+//   skip -= 4;
+//   const url =
+//     skip >= 0
+//       ? `http://localhost:3000/book/search/?skip=${skip}`
+//       : `http://localhost:3000/book/search/`;
+//   skip = skip < 0 ? 0 : skip;
+
+//   renderBooksForAdmin(url);
+// });
 
 prevButton.addEventListener("click", (e) => {
+  nextButton.disabled = false;
+  nextButton.classList.remove("opacity");
   e.preventDefault();
   skip -= 4;
-  const url =
-    skip >= 0
-      ? `http://localhost:3000/book/search/?skip=${skip}`
-      : `http://localhost:3000/book/search/`;
-  skip = skip < 0 ? 0 : skip;
-
-  renderBooksForAdmin(url);
+  if (skip >= 0) {
+    const url = "http://localhost:3000/book/search/" + `?skip=${skip}`;
+    renderBooksForAdmin(url);
+  } else {
+    prevButton.disabled = true;
+    prevButton.classList.add("opacity");
+    skip = 0;
+  }
 });
+
+nextButton.addEventListener("click", (e) => {
+  prevButton.disabled = false;
+  prevButton.classList.remove("opacity");
+  e.preventDefault();
+  nextPage();
+});
+
+const nextPage = () => {
+  const urlGetBooks = "http://localhost:3000/user/get-all-books";
+  fetch(urlGetBooks)
+    .then((res) => {
+      if (res.ok) return res.json();
+      throw new Error(res.status);
+    })
+    .then((books) => {
+      // console.log("skip befor: " + skip);
+      skip += 4;
+      console.log("skip after: " + skip);
+      console.log("books len: " + books.length);
+      // console.log("currNumsOfBooks2: " + currNumsOfBooks2);
+      if (skip + 4 >= books.length) {
+        nextButton.disabled = true;
+        nextButton.classList.add("opacity");
+      }
+
+      const url = "http://localhost:3000/book/search/" + `?skip=${skip}`;
+      renderBooksForAdmin(url);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 loadAdminPage();

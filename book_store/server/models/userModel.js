@@ -77,6 +77,7 @@ userSchema.pre("save", async function (next) {
 
 userSchema.statics.findUserByMailAndPass = async (email, password) => {
   const user = await User.findOne({ email });
+  console.log(user);
   if (!user) {
     throw new Error("The email or password is incorrect.");
   }

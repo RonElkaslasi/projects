@@ -1,6 +1,7 @@
 const express = require("express");
 const Book = require("../models/bookModel");
 const authAdmin = require("../middleware/authAdmin");
+const { query } = require("express");
 
 const router = new express.Router();
 
@@ -85,29 +86,78 @@ router.patch("/book/edit-book", authAdmin, async (req, res) => {
 router.get("/book/search", async (req, res) => {
   const limit = req.query.limit || 4;
   const skip = req.query.skip || 0;
-  const filters = {};
+  let filters = {};
+  const result = [];
 
-  if (req.query.name) filters.name = req.query.name;
-  if (req.query.author) filters.author = req.query.author;
-  if (req.query.genre) filters.genre = req.query.genre;
+  if (req.query.name) filters.name = req.query.name.toLowerCase();
+  if (req.query.author) filters.author = req.query.author.toLowerCase();
+  if (req.query.genre) filters.genre = req.query.genre.toLowerCase();
   if (req.query.published) filters.published = req.query.published;
   if (req.query.price) filters.price = req.query.price;
   if (req.query._id) filters._id = req.query._id;
 
+  if (Object.keys(filters).length === 0) {
+    if (req.query.filter) filters.filter = req.query.filter;
+  }
   try {
-    const books = await Book.find(filters).skip(skip).limit(limit);
-
+    let books = await Book.find({});
     if (!books) {
-      res.status(404).send({
+      return res.status(404).send({
         status: 404,
         message: "No books found.",
       });
     }
 
-    res.send(books);
+    if (filters.name) {
+      books.forEach((book) => {
+        if (book.name.toLowerCase().includes(filters.name)) {
+          result.push(book);
+        }
+      });
+    } else if (filters.author) {
+      books.forEach((book) => {
+        if (book.author.toLowerCase().includes(filters.author)) {
+          result.push(book);
+        }
+      });
+    } else if (filters.published) {
+      books.forEach((book) => {
+        if (book.published.includes(filters.published)) {
+          result.push(book);
+        }
+      });
+    } else if (filters.price) {
+      books.forEach((book) => {
+        if (book.price.includes(filters.price)) {
+          result.push(book);
+        }
+      });
+    } else if (filters._id) {
+      books.forEach((book) => {
+        if (book._id.includes(filters._id)) {
+          result.push(book);
+        }
+      });
+    } else if (filters.filter) {
+      books.forEach((book) => {
+        if (
+          book.name.toLowerCase().includes(req.query.filter.toLowerCase()) ||
+          book.author.toLowerCase().includes(req.query.filter.toLowerCase())
+        ) {
+          result.push(book);
+        }
+      });
+    }
+
+    if (result.length === 0) {
+      books = await Book.find({}).skip(skip).limit(limit);
+      res.send(books);
+    } else {
+      // res.send(result.slice(skip, skip + limit));
+      res.send(result);
+    }
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send(res);
   }
 });
-
 module.exports = router;

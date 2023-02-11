@@ -4,7 +4,6 @@ const Book = require("../models/bookModel");
 const auth = require("../middleware/auth");
 const path = require("path");
 
-
 const router = new express.Router();
 
 // /users
@@ -51,7 +50,6 @@ router.get("/cart", (req, res) => {
   // res.sendFile(path.join(__dirname, "../client/cart/cart.html"));
   res.sendFile(path.join(__dirname, "../../client/pages/cart.html"));
 });
-
 
 router.patch("/user/edit", auth, async (req, res) => {
   const allowEdit = ["name", "email", "password"];
@@ -108,10 +106,12 @@ router.post("/user/login", async (req, res) => {
 });
 
 router.post("/user/logout", auth, async (req, res) => {
+  console.log(req.user.tokens);
   try {
     req.user.tokens = req.user.tokens.filter(
       (tokenDoc) => tokenDoc.token !== req.token
     );
+    console.log(req.user.tokens);
     await req.user.save();
     res.send();
   } catch (err) {
@@ -167,4 +167,18 @@ router.delete("/user/removeBookFromCartAll", auth, async (req, res) => {
   }
 });
 
+router.get("/user/get-all-books", async (req, res) => {
+  try {
+    const books = await Book.find({});
+    if (!books) {
+      res.status(404).send({
+        status: 404,
+        message: "not found any book.",
+      });
+    }
+    res.send(books);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 module.exports = router;
