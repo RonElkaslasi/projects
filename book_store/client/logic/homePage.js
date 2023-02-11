@@ -357,6 +357,17 @@ const loginSuccess = () => {
         }
       }
       localStorage.removeItem("cart");
+
+      loginModal.classList.add("none");
+      login.classList.add("none");
+      personalDashboard.classList.remove("none");
+
+      personalDashboard.classList.add("fa");
+      personalDashboard.classList.add("fa-user");
+      logoutButton.classList.remove("none");
+
+      logoutButton.classList.add("fa");
+      logoutButton.classList.add("fa-sign-out");
     })
     .catch((err) => {
       signInEmailInput.placeholder = "*Email incorrect";
@@ -367,16 +378,16 @@ const loginSuccess = () => {
       signInPasswordInput.value = "";
     });
 
-  loginModal.classList.add("none");
-  login.classList.add("none");
-  personalDashboard.classList.remove("none");
+  // loginModal.classList.add("none");
+  // login.classList.add("none");
+  // personalDashboard.classList.remove("none");
 
-  personalDashboard.classList.add("fa");
-  personalDashboard.classList.add("fa-user");
-  logoutButton.classList.remove("none");
+  // personalDashboard.classList.add("fa");
+  // personalDashboard.classList.add("fa-user");
+  // logoutButton.classList.remove("none");
 
-  logoutButton.classList.add("fa");
-  logoutButton.classList.add("fa-sign-out");
+  // logoutButton.classList.add("fa");
+  // logoutButton.classList.add("fa-sign-out");
 };
 
 const createNewUser = () => {
