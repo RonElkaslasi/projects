@@ -5,27 +5,6 @@ const homeIcon = document.getElementById("home-icon");
 const logoutButton = document.getElementById("logout");
 const personalDashboard = document.getElementById("personal-dashboard");
 
-logoutButton.addEventListener("click", () => {
-  logoutUser();
-  localStorage.removeItem("token");
-  personalDashboard.classList.remove("fa");
-  personalDashboard.classList.remove("fa-user");
-  logoutButton.classList.remove("fa");
-  logoutButton.classList.remove("fa-sign-out");
-});
-personalDashboard.addEventListener("click", () => {
-  const url = "http://localhost:3000/dashboard";
-  window.open(url, "_self");
-});
-homeIcon.addEventListener("click", () => {
-  const url = "http://localhost:3000/";
-  window.open(url, "_self");
-});
-headerLogoContainer.addEventListener("click", () => {
-  const url = "http://localhost:3000";
-  window.open(url, "_self");
-});
-
 const loadCartInterface = () => {
   const token = localStorage.getItem("token");
 
@@ -57,6 +36,7 @@ const getUserCart = () => {
       console.log(err);
     });
 };
+
 const cartRegisterUser = () => {
   getUserCart().then((userObj) => {
     const cart = userObj.cart;
@@ -71,6 +51,7 @@ const cartRegisterUser = () => {
     }
   });
 };
+
 const displayEmptyCart = () => {
   const checkoutButton = document.getElementById("checkout-button");
   emptyCartContainer.classList.remove("none");
@@ -107,6 +88,7 @@ const getBook = (filter, book) => {
       console.log(err);
     });
 };
+
 const createBooksToDisplay = (book, amount) => {
   const itemCartContainer = document.getElementById("item-cart-container");
   const bookName = document.createElement("h1");
@@ -366,4 +348,27 @@ const logoutUser = () => {
       console.log(err);
     });
 };
+
+//-------------------------------------------------Events----------------------------------------------//
+logoutButton.addEventListener("click", () => {
+  logoutUser();
+  localStorage.removeItem("token");
+  personalDashboard.classList.remove("fa");
+  personalDashboard.classList.remove("fa-user");
+  logoutButton.classList.remove("fa");
+  logoutButton.classList.remove("fa-sign-out");
+});
+personalDashboard.addEventListener("click", () => {
+  const url = "http://localhost:3000/dashboard";
+  window.open(url, "_self");
+});
+homeIcon.addEventListener("click", () => {
+  const url = "http://localhost:3000/";
+  window.open(url, "_self");
+});
+headerLogoContainer.addEventListener("click", () => {
+  const url = "http://localhost:3000";
+  window.open(url, "_self");
+});
+
 loadCartInterface();

@@ -14,28 +14,9 @@ const emailUser = document.getElementById("email");
 const nameUser = document.getElementById("name");
 const passUser = document.getElementById("pass");
 const newEmailButton = document.getElementById("new-email-button");
-const inputNewEmail = document.getElementById("input-email");
 const newNameButton = document.getElementById("new-name-button");
-const inputNewName = document.getElementById("input-name");
 const newPassButton = document.getElementById("new-pass-button");
 const inputNewPass = document.getElementById("input-password");
-
-cartIcon.addEventListener("click", () => {
-  const url = "http://localhost:3000/cart";
-  window.open(url, "_self");
-});
-newPassButton.addEventListener("click", () => {
-  changeDetail("password", inputNewPass.value, passUser);
-});
-
-newNameButton.addEventListener("click", () => {
-  changeDetail("name", inputNewName.value, nameUser);
-  nameForIcon.innerText = inputNewName.value.charAt(0).toUpperCase();
-});
-
-newEmailButton.addEventListener("click", (e) => {
-  changeDetail("email", inputNewEmail.value, emailUser);
-});
 
 const loadDashboardInterface = () => {
   const url = "http://localhost:3000/user/get-user";
@@ -54,13 +35,91 @@ const loadDashboardInterface = () => {
       emailUser.innerText = user.email;
       nameUser.innerText =
         user.name.charAt(0).toUpperCase() + user.name.slice(1);
-      //   passUser.innerText = user.password;
       nameForIcon.innerText = user.name.charAt(0).toUpperCase();
     })
     .catch((err) => {
       console.log(err);
     });
 };
+const deleteUser = () => {
+  url = "http://localhost:3000/user/delete";
+  const token = localStorage.getItem("token");
+
+  fetch(url, {
+    method: "DELETE",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  })
+    .then((res) => {
+      if (res.ok) {
+        if (res.headers.get("Content-Type") === "application/json") {
+          return res.json();
+        } else {
+          console.log("Response is not a JSON");
+          return {};
+        }
+      } else throw new Error(res.status);
+    })
+    .then((data) => {
+      const url = "http://localhost:3000/";
+      localStorage.removeItem("token");
+      window.open(url, "_self");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const changeDetail = (fieldToChange, value, fieldAfterChange) => {
+  const url = "http://localhost:3000/user/edit";
+  const token = localStorage.getItem("token");
+
+  fetch(url, {
+    method: "PATCH",
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      [fieldToChange]: value,
+    }),
+  })
+    .then((res) => {
+      if (res.ok) return res.json();
+      else throw new Error(res.status);
+    })
+    .then((data) => {
+      console.log(data);
+      fieldAfterChange.innerText = data[fieldToChange];
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+//---------------------------------------Events---------------------------------------------------------//
+cartIcon.addEventListener("click", () => {
+  const url = "http://localhost:3000/cart";
+  window.open(url, "_self");
+});
+newPassButton.addEventListener("click", () => {
+  changeDetail("password", inputNewPass.value, passUser);
+});
+
+newNameButton.addEventListener("click", () => {
+  const inputNewName = document.getElementById("input-name");
+
+  changeDetail("name", inputNewName.value, nameUser);
+  nameForIcon.innerText = inputNewName.value.charAt(0).toUpperCase();
+});
+
+newEmailButton.addEventListener("click", (e) => {
+  const inputNewEmail = document.getElementById("input-email");
+
+  changeDetail("email", inputNewEmail.value, emailUser);
+});
+
 logoutIcon.addEventListener("click", () => {
   const url = "http://localhost:3000/";
   localStorage.removeItem("token");
@@ -73,35 +132,7 @@ logo.addEventListener("click", () => {
 });
 
 deleteUserButton.addEventListener("click", () => {
-  url = "http://localhost:3000/user/delete";
-  const token = localStorage.getItem("token");
-
-  fetch(url, {
-    method: "DELETE",
-    headers: {
-      Authorization: "Bearer " + token,
-      //   "Content-Type": "application/json",
-    },
-  })
-    .then((res) => {
-      if (res.ok) {
-        if (res.headers.get("Content-Type") === "application/json") {
-          return res.json();
-        } else {
-          console.log("Response is not a JSON");
-          return {};
-        }
-        // return res.json()
-      } else throw new Error(res.status);
-    })
-    .then((data) => {
-      const url = "http://localhost:3000/";
-      localStorage.removeItem("token");
-      window.open(url, "_self");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  deleteUser();
 });
 
 changeEmailButton.addEventListener("click", () => {
@@ -135,30 +166,4 @@ modalPassContainer.addEventListener("click", (e) => {
   }
 });
 
-const changeDetail = (fieldToChange, value, fieldAfterChange) => {
-  const url = "http://localhost:3000/user/edit";
-  const token = localStorage.getItem("token");
-
-  fetch(url, {
-    method: "PATCH",
-    headers: {
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      [fieldToChange]: value,
-    }),
-  })
-    .then((res) => {
-      if (res.ok) return res.json();
-      else throw new Error(res.status);
-    })
-    .then((data) => {
-      console.log(data);
-      fieldAfterChange.innerText = data[fieldToChange];
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
 loadDashboardInterface();
