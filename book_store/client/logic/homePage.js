@@ -53,7 +53,6 @@ const renderBooks = (url) => {
 
     logoutButton.classList.add("fa");
     logoutButton.classList.add("fa-sign-out");
-    // loginSuccess();
   }
   fetch(url)
     .then((res) => {
@@ -395,9 +394,6 @@ const loginSuccess = () => {
 
 const createNewUser = () => {
   const url = "http://localhost:3000/user/new";
-  // const newUserName = document.getElementById("join-name");
-  // const newUserEmail = document.getElementById("join-email");
-  // const newUserPassword = document.getElementById("join-password");
 
   fetch(url, {
     method: "POST",
@@ -412,14 +408,12 @@ const createNewUser = () => {
   })
     .then((res) => {
       if (res.ok) {
-        // console.log(res);
         return res.json();
       } else {
         throw new Error(res.status);
       }
     })
     .then((data) => {
-      console.log(data.token);
       localStorage.setItem("token", data.token);
 
       loginModal.classList.add("none");
@@ -430,16 +424,13 @@ const createNewUser = () => {
       logoutButton.classList.remove("none");
       logoutButton.classList.add("fa");
       logoutButton.classList.add("fa-sign-out");
-      // newUserEmail.value = "";
-      // newUserPassword.value = "";
+
       if (localStorage.getItem("cart")) {
         let unregisterUserCart = JSON.parse(localStorage.getItem("cart"));
 
         for (let book of unregisterUserCart) {
           (async () => {
             let getBookFromDB = await getBook(book);
-            console.log(getBookFromDB);
-            console.log(getBookFromDB[0].name);
             let amountOfBooks = book.amount;
             addBookFromLocalStroageToCart(getBookFromDB[0].name, amountOfBooks);
           })();
@@ -503,11 +494,8 @@ const nextPage = () => {
       throw new Error(res.status);
     })
     .then((books) => {
-      console.log("skip befor: " + skip);
       skip += 4;
-      console.log("skip after: " + skip);
-      console.log("books len: " + books.length);
-      console.log("currNumsOfBooks2: " + currNumsOfBooks2);
+
       if (skip + 4 >= books.length) {
         nextButton.disabled = true;
         nextButton.classList.add("opacity");
@@ -578,7 +566,6 @@ nextButton.addEventListener("click", (e) => {
 searchBooksButton.addEventListener("click", (e) => {
   e.preventDefault();
   const searchValue = inputSearchBooks.value;
-  console.log(filterSelect.value);
   const url =
     searchValue.length > 0
       ? hompageBooksUrl + `?${filterSelect.value}=` + searchValue

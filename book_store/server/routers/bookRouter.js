@@ -87,13 +87,14 @@ router.get("/book/search", async (req, res) => {
   const skip = req.query.skip || 0;
   let filters = {};
   const result = [];
-
+  console.log(req.query._id);
   if (req.query.name) filters.name = req.query.name.toLowerCase();
   if (req.query.author) filters.author = req.query.author.toLowerCase();
   if (req.query.genre) filters.genre = req.query.genre.toLowerCase();
   if (req.query.published) filters.published = req.query.published;
   if (req.query.price) filters.price = req.query.price;
   if (req.query._id) filters._id = req.query._id;
+  console.log(filters._id);
 
   if (Object.keys(filters).length === 0) {
     if (req.query.filter) filters.filter = req.query.filter;
@@ -121,7 +122,7 @@ router.get("/book/search", async (req, res) => {
       });
     } else if (filters.published) {
       books.forEach((book) => {
-        if (book.published.includes(filters.published)) {
+        if (book.published.equals(filters.published)) {
           result.push(book);
         }
       });
@@ -133,7 +134,7 @@ router.get("/book/search", async (req, res) => {
       });
     } else if (filters._id) {
       books.forEach((book) => {
-        if (book._id.includes(filters._id)) {
+        if (book._id.equals(filters._id)) {
           result.push(book);
         }
       });
