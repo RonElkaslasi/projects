@@ -18,7 +18,7 @@ personalDashboard.addEventListener("click", () => {
   window.open(url, "_self");
 });
 homeIcon.addEventListener("click", () => {
-  const url = "http://localhost:3000";
+  const url = "http://localhost:3000/";
   window.open(url, "_self");
 });
 headerLogoContainer.addEventListener("click", () => {

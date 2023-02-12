@@ -1,7 +1,6 @@
 const express = require("express");
 const Book = require("../models/bookModel");
 const authAdmin = require("../middleware/authAdmin");
-const { query } = require("express");
 
 const router = new express.Router();
 

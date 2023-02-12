@@ -46,10 +46,10 @@ router.get("/user/get-user", auth, async (req, res) => {
   }
 });
 
-router.get("/cart", (req, res) => {
-  // res.sendFile(path.join(__dirname, "../client/cart/cart.html"));
-  res.sendFile(path.join(__dirname, "../../client/pages/cart.html"));
-});
+// router.get("/cart", (req, res) => {
+//   // res.sendFile(path.join(__dirname, "../client/cart/cart.html"));
+//   res.sendFile(path.join(__dirname, "../../client/pages/cart.html"));
+// });
 
 router.patch("/user/edit", auth, async (req, res) => {
   const allowEdit = ["name", "email", "password"];

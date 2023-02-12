@@ -35,14 +35,25 @@ let obj;
 let currNumsOfBooks = 0;
 let i = 1;
 let currNumsOfBooks2 = 0;
+
 const renderBooks = (url) => {
   currNumsOfBooks2 = 0;
   while (bookContainer.children.length > 0) {
     bookContainer.removeChild(bookContainer.lastChild);
   }
 
+  console.log(localStorage.getItem("token"));
   if (localStorage.getItem("token")) {
-    loginSuccess();
+    console.log("im here");
+    loginModal.classList.add("none");
+    login.classList.add("none");
+    personalDashboard.classList.add("fa");
+    personalDashboard.classList.add("fa-user");
+    logoutButton.classList.remove("none");
+
+    logoutButton.classList.add("fa");
+    logoutButton.classList.add("fa-sign-out");
+    // loginSuccess();
   }
   fetch(url)
     .then((res) => {
@@ -153,6 +164,7 @@ const addBookToCart = (divbook, quantity) => {
   const url = "http://localhost:3000/user/addBookToCart";
   const token = localStorage.getItem("token");
   quantity = !quantity ? 1 : quantity;
+  console.log(token);
   if (token) {
     fetch(url, {
       method: "POST",
@@ -173,6 +185,7 @@ const addBookToCart = (divbook, quantity) => {
         }
       })
       .then((data) => {
+        console.log(data);
         sumAllTheBooksInCart(data, quantity);
 
         modalAddToCartContainer.classList.remove("none");
@@ -224,6 +237,7 @@ const getPriceOfBook = async (filter, bookID) => {
 
   try {
     const res = await fetch(url);
+
     if (res.ok) {
       return res.json();
     } else {
@@ -377,17 +391,6 @@ const loginSuccess = () => {
       signInPasswordInput.classList.add("input");
       signInPasswordInput.value = "";
     });
-
-  // loginModal.classList.add("none");
-  // login.classList.add("none");
-  // personalDashboard.classList.remove("none");
-
-  // personalDashboard.classList.add("fa");
-  // personalDashboard.classList.add("fa-user");
-  // logoutButton.classList.remove("none");
-
-  // logoutButton.classList.add("fa");
-  // logoutButton.classList.add("fa-sign-out");
 };
 
 const createNewUser = () => {
@@ -416,6 +419,7 @@ const createNewUser = () => {
       }
     })
     .then((data) => {
+      console.log(data.token);
       localStorage.setItem("token", data.token);
 
       loginModal.classList.add("none");
