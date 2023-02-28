@@ -1,0 +1,11 @@
+.home {
+  @include flex(center, center);
+  width: 100%;
+  height: calc(100vh - 4rem);
+  margin-top: 4rem;
+
+  div {
+    color: $myBlue;
+    font-size: 4rem;
+  }
+}

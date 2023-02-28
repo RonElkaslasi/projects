@@ -1,0 +1,34 @@
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./components/home/Home";
+import Footer from "./components/main/Footer";
+// import "./App.css";
+import Header from "./components/main/Header";
+
+function App() {
+  return (
+    <Router>
+      <Header />
+      <Home />
+      <Footer />
+    </Router>
+
+    // <div className="App">
+    //   <header className="App-header">
+    //     <img src={logo} className="App-logo" alt="logo" />
+    //     <p>
+    //       Edit <code>src/App.js</code> and save to reload.
+    //     </p>
+    //     <a
+    //       className="App-link"
+    //       href="https://reactjs.org"
+    //       target="_blank"
+    //       rel="noopener noreferrer"
+    //     >
+    //       Learn React
+    //     </a>
+    //   </header>
+    // </div>
+  );
+}
+
+export default App;

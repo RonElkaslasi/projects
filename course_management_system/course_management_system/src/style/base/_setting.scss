@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+}
+
+%a-nav {
+  text-decoration: none;
+  color: #fff;
+  margin: 0 1rem;
+}
+
+@mixin flex($justify-content, $align-item) {
+  display: flex;
+  justify-content: $justify-content;
+  align-items: $align-item;
+}
+
+@mixin flexColumn($justify-content, $align-item) {
+  display: flex;
+  flex-direction: column;
+  justify-content: $justify-content;
+  align-items: $align-item;
+}
