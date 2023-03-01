@@ -1,0 +1,87 @@
+.login {
+  @include flex(center, center);
+  width: 100%;
+  height: calc(100vh - 4rem);
+  margin-top: 4rem;
+}
+
+.login-page-form {
+  width: 40%;
+  border: 2px solid $myBlue;
+  border-radius: 5px;
+  margin: 2rem;
+  padding: 1rem;
+
+  @media (max-width: 560px) {
+    width: 100%;
+  }
+}
+
+.login-form,
+.subscribe-professor {
+  h3 {
+    text-align: center;
+  }
+
+  input {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid $myBlue;
+    margin-top: 1rem;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .input-invalid {
+    border: 1px solid $myRed;
+  }
+
+  button {
+    display: block;
+    padding: 0.5rem;
+    background-color: $myBlue;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.invalid-message {
+  color: $myRed;
+  font-size: 0.75rem;
+}
+.login-form-nav {
+  @include flex(space-between, center);
+  padding-top: 1rem;
+
+  div {
+    font-size: 0.75rem;
+    font-weight: 700;
+    align-self: flex-end;
+    text-decoration: underline;
+    color: $myBlue;
+    cursor: pointer;
+  }
+
+  @media (max-width: 260px) {
+    gap: 1rem;
+    flex-direction: column;
+  }
+}
+
+.error-message {
+  color: $myBlue;
+  background-color: #ccc;
+  border-radius: 5px;
+  padding: 0.5rem;
+  text-align: center;
+}
