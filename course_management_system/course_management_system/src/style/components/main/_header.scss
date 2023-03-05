@@ -12,7 +12,7 @@
   @include flex(space-between, center);
   width: 70%;
   height: 100%;
-  margin: 0 auto;
+  margin: 0 1rem;
 
   a {
     @extend %a-nav;
@@ -30,9 +30,29 @@
   img {
     position: absolute;
     right: 0;
-    width: 5vw;
-    height: 6vh;
+    width: 10vw;
+    height: 7vh;
     border: none;
     border-radius: 5px;
+    mix-blend-mode: multiply;
+    cursor: pointer;
+  }
+}
+
+.welcome-and-logout-container {
+  @include flex(space-between, center);
+  // width: 100%;
+
+  button {
+    color: $myYellow;
+    background-color: $myBlue;
+    border: 1px solid $myBlue;
+    padding: 0.75rem;
+    font-size: 1rem;
+
+    cursor: pointer;
+    &:hover {
+      opacity: 0.7;
+    }
   }
 }

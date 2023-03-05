@@ -34,6 +34,10 @@ const courseSchema = new mongoose.Schema(
         },
       },
     ],
+    professor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Professor",
+    },
   },
   { timestamps: true }
 );

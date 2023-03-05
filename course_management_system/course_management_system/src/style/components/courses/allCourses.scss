@@ -1,0 +1,90 @@
+.courses {
+  @include flexColumn(space-between, center);
+  width: 100%;
+  height: calc(100vh - 4rem);
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  overflow-y: auto;
+  gap: 0.5rem;
+
+  .course-details-container {
+    @include flex(space-between, center);
+    padding: 0.5rem;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+
+    @media (max-width: 516px) {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-around;
+    }
+  }
+
+  span {
+    display: block;
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+  }
+
+  h2 {
+    color: $myBlue;
+    margin: 0;
+    padding: 0;
+  }
+
+  button {
+    background-color: $myBlue;
+    color: #fff;
+    border: none;
+    padding: 0.75rem;
+    cursor: pointer;
+    border-radius: 5px;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  .buttons-course-container {
+    @include flex(space-between, center);
+    gap: 0.5rem;
+
+    @media (max-width: 516px) {
+      @include flexColumn(center, center);
+    }
+  }
+  .delete-course-button {
+    background-color: $myRed;
+  }
+
+  .edit-course-button {
+    background-color: #ffa500;
+  }
+
+  .add-course-button {
+    background-color: #32cd32;
+    color: #fff;
+    padding: 1rem;
+    width: 30%;
+    font-size: 1rem;
+  }
+}
+
+.welcome-dashboard {
+  color: #fff;
+}
+
+.days {
+  @include flexColumn(center, center);
+
+  @media (max-width: 516px) {
+    align-items: flex-start;
+  }
+}
+
+.title {
+  color: $myBlue;
+}
+.detail {
+  color: $myLightBlue;
+}

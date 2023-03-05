@@ -5,10 +5,11 @@ import loginReducer, { userDataInitState } from "../reducers/loginReducer";
 export const loginContext = createContext();
 
 const LoginContextProvider = (props) => {
-  const cookieUserData = getUserFromCookie();
+  // const cookieUserData = getUserFromCookie();
+  // console.log(cookieUserData);
   const [userData, dispatchUserData] = useReducer(
     loginReducer,
-    cookieUserData || userDataInitState
+    getUserFromCookie() || userDataInitState
   );
 
   return (

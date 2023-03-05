@@ -115,6 +115,32 @@ router.delete("/student/:_id", professorAuth, async (req, res) => {
   }
 });
 
+router.post("/placement-professor", professorAuth, async (req, res) => {
+  const professorName = req.body.professorName;
+  const courseName = req.body.courseName;
+
+  try {
+    const professor = await Professor.findOne({ name: professorName });
+    const course = await Course.findOne({ name: courseName });
+
+    if (!professor || !course) {
+      return res.status(404).send({
+        status: 404,
+        message: "Not exist.",
+      });
+    }
+
+    professor.courses.push(course);
+    course.professor = professor;
+
+    await professor.save();
+    await course.save();
+    res.send({ professor, course });
+  } catch (err) {
+    res.status(401).send(err.message);
+  }
+});
+
 router.post("/add-student-to-class", professorAuth, async (req, res) => {
   const studentId = req.body.studentId;
   const courseId = req.body.courseId;

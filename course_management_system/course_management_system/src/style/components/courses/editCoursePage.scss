@@ -1,0 +1,94 @@
+.edit-course-container {
+  @include flexColumn(just, center);
+  width: 100%;
+  height: calc(100vh - 4rem);
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+
+  div {
+    @include flex(space-between, center);
+    padding: 0.75rem;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+  }
+
+  p {
+    color: $myLightBlue;
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+  }
+
+  h2 {
+    color: $myBlue;
+    margin: 0;
+    padding: 0;
+  }
+
+  button {
+    background-color: $myBlue;
+    color: #fff;
+    border: none;
+    padding: 0.75rem;
+    cursor: pointer;
+    border-radius: 5px;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  input,
+  textarea {
+    display: block;
+    width: 50%;
+    padding: 0.5rem;
+    border: 1px solid $myBlue;
+    border-radius: 5px;
+    resize: none;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  textarea {
+    @media (max-width: 516px) {
+      width: 70%;
+    }
+  }
+
+  .buttons-container {
+    justify-content: space-evenly;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: none;
+    // position: absolute;
+    // bottom: 4rem;
+
+    button {
+      background-color: $myYellow;
+      color: $myBlue;
+      font-weight: 600;
+      width: 50%;
+
+      @media (max-width: 516px) {
+        width: 100%;
+      }
+    }
+  }
+
+  .input-password-container {
+    border: none;
+    @include flexColumn(center, flex-start);
+    gap: 0.5rem;
+
+    @media (max-width: 516px) {
+      input {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.welcome-dashboard {
+  color: #fff;
+}

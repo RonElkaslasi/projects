@@ -1,0 +1,70 @@
+.add-course-countainer {
+  @include flex(center, center);
+
+  width: 100%;
+  height: calc(100vh - 4rem);
+  margin-top: 4rem;
+}
+
+.add-course-form {
+  width: 40%;
+  border: 2px solid $myBlue;
+  border-radius: 5px;
+  margin: 2rem;
+  padding: 1rem;
+
+  @media (max-width: 912px) {
+    width: 100%;
+  }
+}
+
+.add-course-form {
+  h2 {
+    text-align: center;
+  }
+
+  input,
+  textarea {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid $myBlue;
+    margin-top: 1rem;
+    resize: none;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .input-invalid {
+    border: 1px solid $myRed;
+  }
+
+  button {
+    display: block;
+    padding: 0.5rem;
+    background-color: $myLightBlue;
+
+    color: #f9f8f8;
+
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+
+  .back-to-all-courses-button {
+    background-color: $myYellow;
+    color: $myBlue;
+  }
+
+  .add-course-btns-container {
+    @include flex(space-between, center);
+    margin: 0.2rem auto;
+  }
+}

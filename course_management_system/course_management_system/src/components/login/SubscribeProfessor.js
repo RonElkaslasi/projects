@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { loginAction } from "../../actions/loginAction";
+import { loginContext } from "../../context/loginContext";
+import { saveUserCookie } from "../../cookies/cookies";
+import { subscireProfToSite } from "../../api/loginApi";
 
 const SubscribeProfessor = (props) => {
   const [professorName, setProfessorName] = useState("");
@@ -13,6 +17,7 @@ const SubscribeProfessor = (props) => {
   const [isPasswordConfirmProfInputValid, setIsPasswordConfirmProfInputValid] =
     useState(true);
 
+  const { dispatchUserData } = useContext(loginContext);
   const onClickLoginProfessor = () => {
     props.setIsLoginProfessorMode(true);
   };
@@ -63,7 +68,8 @@ const SubscribeProfessor = (props) => {
   };
   const onBlurProfInputPasswordConfirm = (event) => {
     const profPasswordConfirm = event.target.value.trim();
-    const originPassword = event.target.parentNode.children[3].value.trim();
+    console.log(event.target.parentNode);
+    const originPassword = event.target.parentNode.children[2].value.trim();
 
     if (profPasswordConfirm === "" || profPasswordConfirm !== originPassword) {
       setProfessorPasswordConfirm("");
@@ -74,10 +80,21 @@ const SubscribeProfessor = (props) => {
     }
   };
 
+  const onSubmitForm = (event) => {
+    event.preventDefault();
+    subscireProfToSite(professorName, professorEmail, professorPassword).then(
+      (userData) => {
+        console.log(userData);
+        dispatchUserData(loginAction(userData));
+        saveUserCookie(userData);
+      }
+    );
+  };
+
   return (
     <div className="subscribe-professor">
       <h3>Subscribe Professor</h3>
-      <form>
+      <form onSubmit={onSubmitForm}>
         <input
           placeholder="Name"
           onBlur={onBlurProfInputName}

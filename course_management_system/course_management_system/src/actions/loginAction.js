@@ -5,9 +5,19 @@ export const loginAction = ({ user, token }) => {
     token,
   };
 };
-
-export const logoutAction = () =>{
-    return {
-        type: "LOGOUT"
-    }
-}
+// export const loginAction = ({ user, token }) => {
+//   return {
+//     type: "LOGIN",
+//     payload: {
+//       user,
+//       token,
+//     },
+//     // user,
+//     // token,
+//   };
+// };
+export const logoutAction = () => {
+  return {
+    type: "LOGOUT",
+  };
+};
