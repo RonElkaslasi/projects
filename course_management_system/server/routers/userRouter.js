@@ -3,6 +3,7 @@ const userAuth = require("../middleware/userAuth");
 const User = require("../models/userModel");
 const Course = require("../models/courseModel");
 const bcrypt = require("bcryptjs");
+const { findOne } = require("../models/userModel");
 
 const router = new express.Router();
 
@@ -227,9 +228,9 @@ router.post("/delete-user-from-class", userAuth, async (req, res) => {
   }
 });
 
-router.post("/user-data", async (req, res) => {
+router.get("/user-data", async (req, res) => {
   // const id = req.params.id;
-  const id = req.body.id;
+  const id = req.query.id;
 
   try {
     const user = await User.findById(id);
@@ -244,6 +245,27 @@ router.post("/user-data", async (req, res) => {
     res.send(user);
   } catch (err) {
     res.status(500).send(err.message);
+  }
+});
+
+router.get("/user", async (req, res) => {
+  console.log(req.query);
+  const email = req.query.email;
+  console.log(email);
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).send({
+        status: 404,
+        message: "No user found.",
+      });
+    }
+
+    res.send(user);
+  } catch (err) {
+    res.status(500).send(err.meesage);
   }
 });
 module.exports = router;

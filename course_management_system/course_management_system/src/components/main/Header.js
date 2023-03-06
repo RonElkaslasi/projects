@@ -35,6 +35,11 @@ const Header = () => {
     }
   }, [userData, setIsLogin]);
 
+  const onClickDashboardButton = () => {
+    deleteCourseFromCookie();
+    if (user.user.roll === "professor") navigate("/professor-dashboard");
+  };
+
   return (
     <div className="header-container">
       <div className="header_nav">
@@ -44,6 +49,7 @@ const Header = () => {
               Welcome, {userData.user.name}
             </div>
             <button onClick={onClickLogoutButton}>Logout</button>
+            <button onClick={onClickDashboardButton}>Dashboard</button>
           </div>
         )}
         <img src="./img/vecteezy_university-education-logo-design-vector-template_6470501.jpg" />

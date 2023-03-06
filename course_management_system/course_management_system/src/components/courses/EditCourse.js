@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { editCourseDetails, getUserDetail } from "../../api/coursesAndUsersApi";
+import {
+  editCourseDetails,
+  findUser,
+  getUserDetail,
+  registerUserToCourse,
+} from "../../api/coursesAndUsersApi";
 import {
   deleteCourseFromCookie,
   getCourseFromCookie,
@@ -22,14 +27,21 @@ const EditCourse = (props) => {
     isChangeDays: false,
   });
   const [professorName, setProfessorName] = useState("");
-  const [StudentName, setStudentName] = useState("");
+  const [studentName, setStudentName] = useState("");
+  const [isClickedOnEnrollStudent, setIsClickedOnEnrollStudent] =
+    useState(false);
 
   useEffect(() => {
-    saveCourseCookie(course);
-    if (course.professor) getProfessorById();
+    console.log("use effect");
+    if (getCourseFromCookie() !== course) saveCourseCookie(course);
   }, [course]);
 
-  //   const getProfAndStudentName = () => {};
+  useEffect(() => {
+    if (course.professor) {
+      getUserName(course.professor);
+    }
+  }, [course.professor]);
+
   const onClickChangeDetail = (detail) => {
     setIsChangeDetail({ ...isChangeDetail, [detail]: true });
   };
@@ -62,9 +74,8 @@ const EditCourse = (props) => {
     editCourseDetails(course.name, detailToChange, newDetail).then(
       (courseDetail) => {
         setCourse(courseDetail);
-        // console.log({ ...courseDetail });
         console.log(course);
-        setIsChangeDetail({ ...isChangeDetail, [fieldToChange]: false });
+        setIsChangeDetail({ ...isChangeDetail, [fieldToChange[0]]: false });
       }
     );
   };
@@ -74,17 +85,42 @@ const EditCourse = (props) => {
     navigate("/all-courses");
   };
 
-  const getProfessorById = () => {
-    getUserDetail(course.professor).then((professor) => {
-      console.log(professor);
-      setProfessorName(professor.name);
+  const getUserName = (id) => {
+    getUserDetail(id).then((user) => {
+      if (user && user.roll === "student") setStudentName(user.name);
+      else if (user && user.roll === "professor") setProfessorName(user.name);
     });
   };
 
-  const getStudentName = (id) => {
-    getUserDetail(id).then((student) => {
-      setStudentName(student.name);
+  const onClickEnrollStudent = () => {
+    setIsClickedOnEnrollStudent(true);
+  };
+
+  const addUserToCourse = (event) => {
+    setIsClickedOnEnrollStudent(false);
+    const email = event.target.parentNode.children[0].value.trim();
+    findUserByEmail(email).then((user) => {
+      console.log(user);
+
+      if (user) {
+        const courseId = course._id;
+        const userId = user._id;
+
+        console.log(courseId);
+        console.log(userId);
+
+        registerUserToCourse(courseId, userId).then((data) => {
+          setCourse(data.course);
+          console.log(data);
+        });
+      }
     });
+  };
+
+  const findUserByEmail = async (email) => {
+    const user = await findUser(email);
+
+    return user;
   };
 
   return (
@@ -182,15 +218,22 @@ const EditCourse = (props) => {
           Student:
           {course.registers.length > 0
             ? course.registers.map((student) => {
-                getStudentName(student._id);
-                return " " + StudentName + ", ";
+                getUserName(student._id);
+                return " " + studentName + ", ";
               })
             : " No student are registered for the course.."}
         </p>
       </div>
 
+      {isClickedOnEnrollStudent && (
+        <div>
+          <input placeholder="Enter student Email" />{" "}
+          <button onClick={addUserToCourse}>Submit</button>
+        </div>
+      )}
+
       <div className="buttons-container">
-        <button>Enroll student</button>
+        <button onClick={onClickEnrollStudent}>Enroll student</button>
         <button>Placement professor</button>
         <button onClick={onClickAllCourses}>All Courses</button>
       </div>

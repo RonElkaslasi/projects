@@ -50,8 +50,6 @@ const AllCourses = (props) => {
     console.log(courseId);
     deleteCourse(courseId).then((courseData) => {
       console.log(courseData);
-      // navigate("/professor-dashboard");
-      // navigate("/professor-dashboard");
     });
   };
 
@@ -60,7 +58,6 @@ const AllCourses = (props) => {
       <h2>Courses List</h2>
       {courses.length > 0 &&
         courses.map((course) => {
-          // courseId = course._id;
           if (course.professor !== undefined) getUserName(course.professor);
           return (
             <div key={course._id} className="course-details-container">
