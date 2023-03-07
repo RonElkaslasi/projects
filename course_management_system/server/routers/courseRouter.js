@@ -134,8 +134,10 @@ router.delete("/course", userAuth, async (req, res) => {
 
 router.get("/courses", userAuth, async (req, res) => {
   try {
-    const courses = await Course.find({});
-
+    const courses = await Course.find({})
+      .populate("registers")
+      .populate("professor");
+    console.log(courses[0].registers);
     if (courses.length === 0) {
       return res.status(404).send({
         status: 404,

@@ -13,6 +13,8 @@ const userAuth = async (req, res, next) => {
 
     if (!user) throw new Error();
 
+    //    if(user.roll=='stu')
+
     req.user = user;
     req.token = token;
     next();

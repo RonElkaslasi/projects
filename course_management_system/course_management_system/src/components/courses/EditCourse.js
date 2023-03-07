@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -6,6 +7,7 @@ import {
   findUser,
   getUserDetail,
   registerUserToCourse,
+  deleteUserFromCourse,
 } from "../../api/coursesAndUsersApi";
 import {
   deleteCourseFromCookie,
@@ -26,21 +28,11 @@ const EditCourse = (props) => {
     isChangeDateEnd: false,
     isChangeDays: false,
   });
-  const [professorName, setProfessorName] = useState("");
-  const [studentName, setStudentName] = useState("");
+
   const [isClickedOnEnrollStudent, setIsClickedOnEnrollStudent] =
     useState(false);
-
-  useEffect(() => {
-    console.log("use effect");
-    if (getCourseFromCookie() !== course) saveCourseCookie(course);
-  }, [course]);
-
-  useEffect(() => {
-    if (course.professor) {
-      getUserName(course.professor);
-    }
-  }, [course.professor]);
+  const [isClikedOnPlacementProf, setIsClikedOnPlacementProf] = useState(false);
+  const [isClickedOnRemoveBtn, setIsClickedOnRemoveBtn] = useState(false);
 
   const onClickChangeDetail = (detail) => {
     setIsChangeDetail({ ...isChangeDetail, [detail]: true });
@@ -74,7 +66,7 @@ const EditCourse = (props) => {
     editCourseDetails(course.name, detailToChange, newDetail).then(
       (courseDetail) => {
         setCourse(courseDetail);
-        console.log(course);
+        saveCourseCookie(courseDetail);
         setIsChangeDetail({ ...isChangeDetail, [fieldToChange[0]]: false });
       }
     );
@@ -84,34 +76,45 @@ const EditCourse = (props) => {
     deleteCourseFromCookie();
     navigate("/all-courses");
   };
-
-  const getUserName = (id) => {
-    getUserDetail(id).then((user) => {
-      if (user && user.roll === "student") setStudentName(user.name);
-      else if (user && user.roll === "professor") setProfessorName(user.name);
-    });
+  const onClickRemoveBtn = () => {
+    setIsClickedOnRemoveBtn(true);
   };
-
   const onClickEnrollStudent = () => {
     setIsClickedOnEnrollStudent(true);
   };
 
+  const onClickPlacementProfessor = () => {
+    setIsClikedOnPlacementProf(true);
+  };
+
   const addUserToCourse = (event) => {
     setIsClickedOnEnrollStudent(false);
+    setIsClikedOnPlacementProf(false);
     const email = event.target.parentNode.children[0].value.trim();
     findUserByEmail(email).then((user) => {
-      console.log(user);
-
       if (user) {
         const courseId = course._id;
         const userId = user._id;
 
-        console.log(courseId);
-        console.log(userId);
-
         registerUserToCourse(courseId, userId).then((data) => {
           setCourse(data.course);
-          console.log(data);
+          saveCourseCookie(data.course);
+        });
+      }
+    });
+  };
+
+  const removeUserFromCourse = (event) => {
+    setIsClickedOnRemoveBtn(false);
+    const email = event.target.parentNode.children[0].value.trim();
+    findUserByEmail(email).then((user) => {
+      if (user) {
+        const courseId = course._id;
+        const userId = user._id;
+
+        deleteUserFromCourse(courseId, userId).then((data) => {
+          setCourse(data.course);
+          saveCourseCookie(data.course);
         });
       }
     });
@@ -207,8 +210,8 @@ const EditCourse = (props) => {
       <div>
         <p>
           professor:{" "}
-          {course.professor
-            ? professorName
+          {course.professor?.name
+            ? course.professor.name
             : "No professor has been assigned to the course.."}
         </p>
       </div>
@@ -216,12 +219,10 @@ const EditCourse = (props) => {
       <div>
         <p>
           Student:
-          {course.registers.length > 0
-            ? course.registers.map((student) => {
-                getUserName(student._id);
-                return " " + studentName + ", ";
-              })
-            : " No student are registered for the course.."}
+          {course.registers.map((student) => {
+            console.log(student.name);
+            return ` ${student.name}, `;
+          })}
         </p>
       </div>
 
@@ -232,10 +233,25 @@ const EditCourse = (props) => {
         </div>
       )}
 
+      {isClikedOnPlacementProf && (
+        <div>
+          <input placeholder="Enter professor Email" />
+          <button onClick={addUserToCourse}>Submit</button>
+        </div>
+      )}
+
+      {isClickedOnRemoveBtn && (
+        <div>
+          <input placeholder="Enter prof/student Email" />
+          <button onClick={removeUserFromCourse}>Submit</button>
+        </div>
+      )}
+
       <div className="buttons-container">
         <button onClick={onClickEnrollStudent}>Enroll student</button>
-        <button>Placement professor</button>
-        <button onClick={onClickAllCourses}>All Courses</button>
+        <button onClick={onClickPlacementProfessor}>Placement professor</button>
+        <button onClick={onClickRemoveBtn}>Remove student/professor</button>
+        <button onClick={onClickAllCourses}>Return all courses</button>
       </div>
     </div>
   );

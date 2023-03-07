@@ -13,7 +13,7 @@
     "validator": "^13.9.0"
   },
   "scripts": {
-    "dev": "C:/Users/user/OneDrive/Desktop/Talpiot/FullStack/project/projects/course_management_system/server/node_modules/.bin/env-cmd -f ./config/dev.env node ./index.js"
+    "dev": "C:/Users/user/OneDrive/Desktop/Talpiot/FullStack/project/projects/course_management_system/server/node_modules/.bin/env-cmd -f ./config/dev.env nodemon ./index.js"
   },
   "devDependencies": {
     "env-cmd": "^10.1.0",

@@ -10,6 +10,7 @@ const AddCourse = (props) => {
     courseEndDate: "",
     courseDays: [],
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const validateForm = () => {
     return (
@@ -21,8 +22,8 @@ const AddCourse = (props) => {
   };
 
   const onChangeCourseDetail = (event) => {
+    setErrorMessage("");
     const { name, value } = event.target;
-
     if (name === "courseDays") {
       if (!value) {
         setFormData({ ...formData, courseDays: [] });
@@ -39,19 +40,29 @@ const AddCourse = (props) => {
   const onClickAddCourseBtn = (event) => {
     event.preventDefault();
 
-    addNewCourse(formData).then((courseData) => {
-      console.log(courseData);
-      navigate("/all-courses");
-    });
+    addNewCourse(formData).then(
+      (courseData) => {
+        navigate("/all-courses");
+      },
+      (err) => {
+        if (err.message === "The course already exist.") {
+          setErrorMessage(`${formData.courseName} course already exist.`);
+        }
+      }
+    );
   };
 
   const onClickBackToCoursesBtn = () => {
     navigate("/all-courses");
   };
+
   return (
     <div className="add-course-countainer">
       <form className="add-course-form">
         <h2>Course Details</h2>
+        {errorMessage !== "" && (
+          <div className="error-message">{errorMessage}</div>
+        )}
         <input
           placeholder="Course name"
           name="courseName"

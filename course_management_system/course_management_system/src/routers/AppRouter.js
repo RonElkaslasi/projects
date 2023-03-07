@@ -10,8 +10,10 @@ import AddCourse from "../components/courses/AddCourse";
 import AllCourses from "../components/courses/AllCourses";
 import EditCourse from "../components/courses/EditCourse";
 import ProfessorDash from "../components/dashbords/ProfessorDash";
+import StudentList from "../components/dashbords/StudentList";
 import Home from "../components/home/Home";
 import Login from "../components/login/Login";
+import SubscribeStudent from "../components/login/SubscribeStudent";
 import Footer from "../components/main/Footer";
 import Header from "../components/main/Header";
 import LoginContextProvider from "../context/loginContext";
@@ -34,6 +36,15 @@ const AppRouter = () => {
           <Route path="/all-courses" element={<AllCourses />} />
           <Route path="/all-courses/add-course" element={<AddCourse />} />
           <Route path="/all-courses/edit-course" element={<EditCourse />} />
+          <Route
+            path="/professor-dashboard/add-new-student"
+            element={<SubscribeStudent />}
+          />
+
+          <Route
+            path="/professor-dashboard/students-list"
+            element={<StudentList />}
+          />
         </Routes>
         <Footer />
       </LoginContextProvider>

@@ -7,38 +7,25 @@ import {
 import { getUserFromCookie } from "../../cookies/cookies";
 import { nanoid } from "nanoid";
 import { NavLink, useNavigate } from "react-router-dom";
-import EditCourse from "./EditCourse";
 import { convertNumberToDay } from "../../utils/utils";
 
 const AllCourses = (props) => {
   const user = getUserFromCookie();
   const [courses, setCourses] = useState([]);
-  const [studentName, setStudentName] = useState("");
+  // const [studentName, setStudentName] = useState("");
   const [professorName, setProfessorName] = useState("");
-  // const [courseId, setCourseId] = useState("");
-  // let courseId = "";
+
   const navigate = useNavigate();
 
   const fetchData = async () => {
     const response = await getAllCoursesForProfessor(user);
+    console.log(response);
     setCourses(response);
   };
+
   useEffect(() => {
     fetchData();
-  }, [courses]);
-
-  const getUserName = (id) => {
-    getUserDetail(id).then(
-      (userData) => {
-        if (userData.roll === "professor") {
-          setProfessorName(userData.name);
-        } else setStudentName(userData.name);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  };
+  }, []);
 
   const onClickAddCourseButton = () => {
     navigate("/all-courses/add-course");
@@ -58,7 +45,6 @@ const AllCourses = (props) => {
       <h2>Courses List</h2>
       {courses.length > 0 &&
         courses.map((course) => {
-          if (course.professor !== undefined) getUserName(course.professor);
           return (
             <div key={course._id} className="course-details-container">
               <span className="title">
@@ -78,9 +64,8 @@ const AllCourses = (props) => {
                 <div className="days title">
                   Days:
                   {course.dayClass.map((day) => {
-                    const modal = nanoid();
                     return (
-                      <span key={modal} className="days detail">
+                      <span key={nanoid()} className="days detail">
                         {" "}
                         <br />
                         {convertNumberToDay(day)}
@@ -92,24 +77,18 @@ const AllCourses = (props) => {
               <span className="title">
                 Professor:
                 <br />
-                {course.professor && (
-                  <span className="detail">{professorName}</span>
-                )}
+                {<span className="detail">{course.professor?.name || ""}</span>}
               </span>
-              {/* <span>Prof.Ron</span> */}
 
               <div>
                 <span className="title">Students:</span>
-                {course.registers.length > 0
-                  ? course.registers.map((student) => {
-                      getUserName(student._id);
-                      return (
-                        <span key={student._id} className="detail">
-                          {studentName}
-                        </span>
-                      );
-                    })
-                  : ""}
+                {course.registers.map((student) => {
+                  return (
+                    <span key={student._id} className="detail">
+                      {student.name}
+                    </span>
+                  );
+                })}
               </div>
 
               <div className="buttons-course-container">

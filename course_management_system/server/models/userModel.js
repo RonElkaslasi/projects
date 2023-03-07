@@ -99,6 +99,7 @@ userSchema.methods.generateAuthToken = async function () {
   return token;
 };
 
+userSchema.index({ email: 1 }, { unique: true });
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;

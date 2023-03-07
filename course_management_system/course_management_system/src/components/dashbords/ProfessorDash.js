@@ -1,65 +1,61 @@
 import react, { useContext, useState } from "react";
 import { loginContext } from "../../context/loginContext";
 import Header from "../main/Header";
-import { getUserFromCookie } from "../../cookies/cookies";
+import { getUserFromCookie, saveCourseCookie } from "../../cookies/cookies";
 import { changeDetail, changePassword } from "../../api/editDetailsApi";
 import { loginAction } from "../../actions/loginAction";
 import { saveUserCookie } from "../../cookies/cookies";
 import { useNavigate } from "react-router-dom";
+import { editUserDetail } from "../../api/coursesAndUsersApi";
 
 const ProfessorDash = (props) => {
   const navigate = useNavigate();
   const user = getUserFromCookie();
-  const [isChangeEmail, setIsChangeEmail] = useState(false);
-  const [isChangeName, setIsChangeName] = useState(false);
-  const [isChangeBirth, setIsChangeBirth] = useState(false);
-  const [isChangeAddress, setIsChangeAddress] = useState(false);
-  const [isChangePassword, setIsChangePassword] = useState(false);
+  const [isChangeDetail, setIsChangeDetail] = useState({
+    isChangeName: false,
+    isChangeBirth: false,
+    isChangeAddress: false,
+    isChangeEmail: false,
+    isChangePassword: false,
+  });
 
-  const onClickChangeEmail = () => {
-    setIsChangeEmail(true);
+  const onClickChangeDetail = (detail) => {
+    setIsChangeDetail({ ...isChangeDetail, [detail]: true });
   };
 
-  const onClickChangeName = () => {
-    setIsChangeName(true);
+  const onClickaddNewStudent = () => {
+    navigate("/professor-dashboard/add-new-student");
   };
 
-  const onClickChangeBirth = () => {
-    setIsChangeBirth(true);
-  };
+  const onClickSubmitNewDetail = (event) => {
+    let newDetail = event.target.parentNode.children[0].value.trim();
+    const fieldToChange = Object.keys(isChangeDetail).filter(
+      (field) => isChangeDetail[field]
+    );
+    let detailToChange = "";
+    switch (fieldToChange[0]) {
+      case "isChangeName":
+        detailToChange = "name";
+        break;
+      case "isChangeBirth":
+        detailToChange = "birth";
+        break;
+      case "isChangeAddress":
+        detailToChange = "address";
+        break;
+      case "isChangeEmail":
+        detailToChange = "email";
+        break;
 
-  const onClickChangeAdress = () => {
-    setIsChangeAddress(true);
-  };
+      case "isChangePassword":
+        detailToChange = "password";
+        break;
+    }
 
-  const onClickChangePassword = () => {
-    setIsChangePassword(true);
-  };
-
-  const onClickSubmitNewEmail = (event) => {
-    const newEmail = event.target.parentNode.children[0].value.trim();
-
-    changeDetail("email", newEmail, user).then((userData) => {
-      saveUserCookie(userData);
-      setIsChangeEmail(false);
-    });
-  };
-
-  const onClickSubmitNewName = (event) => {
-    const newName = event.target.parentNode.children[0].value.trim();
-
-    changeDetail("name", newName, user).then((userData) => {
-      saveUserCookie(userData);
-      setIsChangeName(false);
-    });
-  };
-
-  const onClickSubmitNewBirth = (event) => {
-    const newBirth = event.target.parentNode.children[0].value.trim();
-
-    changeDetail("birth", newBirth, user).then((userData) => {
-      saveUserCookie(userData);
-      setIsChangeBirth(false);
+    editUserDetail(detailToChange, newDetail).then((userDetail) => {
+      console.log(userDetail.user);
+      saveUserCookie(userDetail.user);
+      setIsChangeDetail({ ...isChangeDetail, [fieldToChange[0]]: false });
     });
   };
 
@@ -67,22 +63,12 @@ const ProfessorDash = (props) => {
     const currentPassword =
       event.target.parentNode.children[0].children[0].value.trim();
 
-    // console.log(event.target.parentNode.children[0].children[1]);
     const newPassword =
       event.target.parentNode.children[0].children[1].value.trim();
-    // console.log(newPassword);
+
     changePassword(currentPassword, newPassword, user).then((userData) => {
       saveUserCookie(userData);
-      setIsChangePassword(false);
-    });
-  };
-
-  const onClickSubmitNewAddress = (event) => {
-    const newAddress = event.target.parentNode.children[0].value.trim();
-
-    changeDetail("address", newAddress, user).then((userData) => {
-      saveUserCookie(userData);
-      setIsChangeAddress(false);
+      setIsChangeDetail({ ...isChangeDetail, ["isChangePassword"]: false });
     });
   };
 
@@ -90,58 +76,92 @@ const ProfessorDash = (props) => {
     navigate("/all-courses");
   };
 
+  const onClickAllStudentBtn = () => {
+    navigate("/professor-dashboard/students-list");
+  };
+
   return (
     <div className="dashboard">
       <h2>Prof.{!user.token ? user.name : user.user.name} Dashboard</h2>
       <div>
         <p>Name: {!user.token ? user.name : user.user.name}</p>
-        <button onClick={onClickChangeName}>Change</button>
+        <button
+          onClick={() => {
+            onClickChangeDetail("isChangeName");
+          }}
+        >
+          Change
+        </button>
       </div>
-      {isChangeName && (
+      {isChangeDetail.isChangeName && (
         <div>
           <input placeholder="Enter new name" />
-          <button onClick={onClickSubmitNewName}>Submit</button>
+          <button onClick={onClickSubmitNewDetail}>Submit</button>
         </div>
       )}
 
       <div>
         <p>Email: {!user.token ? user.email : user.user.email}</p>
-        <button onClick={onClickChangeEmail}>Change</button>
+        <button
+          onClick={() => {
+            onClickChangeDetail("isChangeEmail");
+          }}
+        >
+          Change
+        </button>
       </div>
-      {isChangeEmail && (
+      {isChangeDetail.isChangeEmail && (
         <div>
           <input placeholder="Enter new Email" />
-          <button onClick={onClickSubmitNewEmail}>Submit</button>
+          <button onClick={onClickSubmitNewDetail}>Submit</button>
         </div>
       )}
 
       <div>
         <p>Birth: {!user.token ? user.birth : user.user.birth}</p>
-        <button onClick={onClickChangeBirth}>Change</button>
+        <button
+          onClick={() => {
+            onClickChangeDetail("isChangeBirth");
+          }}
+        >
+          Change
+        </button>
       </div>
-      {isChangeBirth && (
+      {isChangeDetail.isChangeBirth && (
         <div>
           <input placeholder="Enter new Birth" />
-          <button onClick={onClickSubmitNewBirth}>Submit</button>
+          <button onClick={onClickSubmitNewDetail}>Submit</button>
         </div>
       )}
 
       <div>
         <p>Address: {!user.token ? user.address : user.user.address}</p>
-        <button onClick={onClickChangeAdress}>Change</button>
+        <button
+          onClick={() => {
+            onClickChangeDetail("isChangeAddress");
+          }}
+        >
+          Change
+        </button>
       </div>
-      {isChangeAddress && (
+      {isChangeDetail.isChangeAddress && (
         <div>
           <input placeholder="Enter new address" />
-          <button onClick={onClickSubmitNewAddress}>Submit</button>
+          <button onClick={onClickSubmitNewDetail}>Submit</button>
         </div>
       )}
 
       <div>
         <p>Password: ********</p>
-        <button onClick={onClickChangePassword}>Change</button>
+        <button
+          onClick={() => {
+            onClickChangeDetail("isChangePassword");
+          }}
+        >
+          Change
+        </button>
       </div>
-      {isChangePassword && (
+      {isChangeDetail.isChangePassword && (
         <div>
           <div className="input-password-container">
             <input placeholder="Enter current password" />
@@ -153,8 +173,8 @@ const ProfessorDash = (props) => {
 
       <div className="buttons-container">
         <button onClick={onClickAllCoursesButton}>All Courses</button>
-        <button>Add New Student</button>
-        <button>Students List</button>
+        <button onClick={onClickaddNewStudent}>Add New Student</button>
+        <button onClick={onClickAllStudentBtn}>All students</button>
       </div>
     </div>
   );

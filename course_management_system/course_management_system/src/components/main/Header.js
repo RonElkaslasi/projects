@@ -1,3 +1,5 @@
+import myImage from "../../assets/img/vecteezy_university-education-logo-design-vector-template_6470501.jpg";
+
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logoutAction } from "../../actions/loginAction";
@@ -29,6 +31,10 @@ const Header = () => {
     });
   };
 
+  const onClickLogo = () => {
+    navigate("/login");
+  };
+
   useEffect(() => {
     if (userData.user !== null) {
       setIsLogin(true);
@@ -52,7 +58,7 @@ const Header = () => {
             <button onClick={onClickDashboardButton}>Dashboard</button>
           </div>
         )}
-        <img src="./img/vecteezy_university-education-logo-design-vector-template_6470501.jpg" />
+        <img src={myImage} onClick={onClickLogo} />
       </div>
     </div>
   );

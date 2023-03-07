@@ -3,24 +3,34 @@ const userAuth = require("../middleware/userAuth");
 const User = require("../models/userModel");
 const Course = require("../models/courseModel");
 const bcrypt = require("bcryptjs");
-const { findOne } = require("../models/userModel");
 
 const router = new express.Router();
 
 router.post("/user", async (req, res) => {
+  const userExist = await User.find({ email: req.body.email });
+  if (userExist.email) {
+    return res.status(400).send({
+      status: 400,
+      message: "Email already exsist",
+    });
+  }
   const user = new User(req.body);
 
   try {
-    const token = await user.generateAuthToken();
+    if (user.roll !== "student") {
+      const token = await user.generateAuthToken();
+      return res.send({ user, token });
+    }
+
     await user.save();
-    res.send({ user, token });
+    res.send(user);
   } catch (err) {
     res.status(400).send(err.message);
   }
 });
 
-router.delete("/user/:_id", userAuth, async (req, res) => {
-  const id = req.params._id;
+router.delete("/user", userAuth, async (req, res) => {
+  const id = req.query._id;
 
   try {
     const user = await User.findByIdAndDelete(id);
@@ -31,6 +41,9 @@ router.delete("/user/:_id", userAuth, async (req, res) => {
         message: "user not found.",
       });
     }
+
+    await user.save();
+    res.send(user);
   } catch (err) {
     res.status(401).send(err.meesage);
   }
@@ -144,30 +157,32 @@ router.get("/my-courses", userAuth, async (req, res) => {
   }
 });
 
-router.get("/courses", userAuth, async (req, res) => {
-  try {
-    const courses = await Course.find({});
+// router.get("/courses", userAuth, async (req, res) => {
+//   try {
+//     const courses = await Course.find({})
 
-    if (courses.length === 0) {
-      return res.status(404).send({
-        status: 404,
-        message: "Not found courses",
-      });
-    }
+//     if (courses.length === 0) {
+//       return res.status(404).send({
+//         status: 404,
+//         message: "Not found courses",
+//       });
+//     }
 
-    res.send(courses);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
+//     res.send(courses);
+//   } catch (err) {
+//     res.status(500).send(err.message);
+//   }
+// });
 
 router.post("/add-user-to-class", userAuth, async (req, res) => {
   const userId = req.body.userId;
   const courseId = req.body.courseId;
 
   try {
-    const user = await User.findById(userId);
-    const course = await Course.findById(courseId);
+    const user = await User.findById(userId).populate("courses");
+    const course = await Course.findById(courseId)
+      .populate("registers")
+      .populate("professor");
 
     if (!user || !course) {
       return res.status(404).send({
@@ -195,8 +210,10 @@ router.post("/delete-user-from-class", userAuth, async (req, res) => {
   const courseId = req.body.courseId;
 
   try {
-    const user = await User.findById(userId);
-    const course = await Course.findById(courseId);
+    const user = await User.findById(userId).populate("courses");
+    const course = await Course.findById(courseId)
+      .populate("registers")
+      .populate("professor");
 
     if (!user || !course) {
       return res.status(404).send({
@@ -205,7 +222,7 @@ router.post("/delete-user-from-class", userAuth, async (req, res) => {
       });
     }
 
-    if (user.roll === "professor") course.professor = "";
+    if (user.roll === "professor") course.professor = undefined;
     else if (user.roll === "student") {
       course.registers.map((studentsDoc, index) => {
         if (studentsDoc._id.toString() === user._id.toString()) {
@@ -268,4 +285,24 @@ router.get("/user", async (req, res) => {
     res.status(500).send(err.meesage);
   }
 });
+
+router.get("/students", userAuth, async (req, res) => {
+  try {
+    const users = await User.find({}).populate("courses");
+
+    const students = users.filter((user) => user.roll !== "professor");
+
+    if (students.length === 0) {
+      res.status(404).send({
+        status: 404,
+        message: "No student found",
+      });
+    }
+
+    res.send(students);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
 module.exports = router;

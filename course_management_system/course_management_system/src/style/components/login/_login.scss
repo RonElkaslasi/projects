@@ -1,11 +1,13 @@
-.login {
+.login,
+.subscribe-student-page {
   @include flex(center, center);
   width: 100%;
   height: calc(100vh - 4rem);
   margin-top: 4rem;
 }
 
-.login-page-form {
+.login-page-form,
+.subscribe-student-container {
   width: 40%;
   border: 2px solid $myBlue;
   border-radius: 5px;
@@ -18,7 +20,8 @@
 }
 
 .login-form,
-.subscribe-professor {
+.subscribe-professor,
+.subscribe-student-form {
   h3 {
     text-align: center;
   }
@@ -53,6 +56,15 @@
       cursor: not-allowed;
     }
   }
+
+  select {
+    padding: 0.3rem;
+    border-radius: 5px;
+    color: $myBlue;
+    outline: none;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
 }
 
 .invalid-message {
@@ -79,7 +91,7 @@
 }
 
 .error-message {
-  color: $myBlue;
+  color: $myRed;
   background-color: #ccc;
   border-radius: 5px;
   padding: 0.5rem;

@@ -92,3 +92,8 @@
 .welcome-dashboard {
   color: #fff;
 }
+
+#students-list {
+  @include flex(flex-start, center);
+  
+}

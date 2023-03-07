@@ -28,15 +28,13 @@ const courseSchema = new mongoose.Schema(
     ],
     registers: [
       {
-        student: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Student",
-        },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
       },
     ],
     professor: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Professor",
+      ref: "User",
     },
   },
   { timestamps: true }
