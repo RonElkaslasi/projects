@@ -11,6 +11,7 @@ const LoginContextProvider = (props) => {
     loginReducer,
     getUserFromCookie() || userDataInitState
   );
+  console.log(userData);
 
   return (
     <loginContext.Provider value={{ userData, dispatchUserData }}>

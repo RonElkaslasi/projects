@@ -96,6 +96,7 @@ const ProfessorDash = (props) => {
       {isChangeDetail.isChangeName && (
         <div>
           <input placeholder="Enter new name" />
+         
           <button onClick={onClickSubmitNewDetail}>Submit</button>
         </div>
       )}

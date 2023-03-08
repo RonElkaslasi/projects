@@ -54,9 +54,18 @@
 }
 
 .message {
+  @include flex(center, center);
   color: #32de84;
-  background-color: #ccc;
   border-radius: 5px;
   padding: 0.5rem;
   text-align: center;
+}
+
+.empty-student-list {
+  @include flex(center, center);
+  color: $myRed;
+  border-radius: 5px;
+  height: 100vh;
+  width: 70vw;
+  font-size: 5vh;
 }

@@ -18,15 +18,6 @@
     @extend %a-nav;
   }
 
-  .home-nav {
-    font-weight: 700;
-    color: yellow;
-  }
-
-  .header-active-link {
-    color: $myLightBlue;
-  }
-
   img {
     position: absolute;
     right: 0;
@@ -41,7 +32,6 @@
 
 .welcome-and-logout-container {
   @include flex(space-between, center);
-  // width: 100%;
 
   button {
     color: $myYellow;

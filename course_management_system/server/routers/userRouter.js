@@ -144,35 +144,22 @@ router.get("/my-courses", userAuth, async (req, res) => {
   const user = req.user;
 
   try {
-    if (user.courses.length === 0) {
+    const courses = await Course.find({ registers: user })
+      .populate("registers")
+      .populate("professor");
+
+    if (courses.length === 0) {
       res.status(404).send({
         status: 404,
         message: "not courses found.",
       });
     }
 
-    res.send(user.courses);
+    res.send(courses);
   } catch (err) {
     res.status(401).send(err.message);
   }
 });
-
-// router.get("/courses", userAuth, async (req, res) => {
-//   try {
-//     const courses = await Course.find({})
-
-//     if (courses.length === 0) {
-//       return res.status(404).send({
-//         status: 404,
-//         message: "Not found courses",
-//       });
-//     }
-
-//     res.send(courses);
-//   } catch (err) {
-//     res.status(500).send(err.message);
-//   }
-// });
 
 router.post("/add-user-to-class", userAuth, async (req, res) => {
   const userId = req.body.userId;
@@ -293,7 +280,7 @@ router.get("/students", userAuth, async (req, res) => {
     const students = users.filter((user) => user.roll !== "professor");
 
     if (students.length === 0) {
-      res.status(404).send({
+      return res.status(404).send({
         status: 404,
         message: "No student found",
       });

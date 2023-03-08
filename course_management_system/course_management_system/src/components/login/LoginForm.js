@@ -10,10 +10,14 @@ const LoginForm = (props) => {
   const navigate = useNavigate();
   const { dispatchUserData } = useContext(loginContext);
   const [errorMessage, setErrorMessage] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isEmailInputValid, setIsEmailInputValid] = useState(true);
-  const [isPasswordInputValid, setIsPasswordInputValid] = useState(true);
+  const [detail, setDetail] = useState({
+    email: "",
+    password: "",
+  });
+  const [isDetailInputValid, setIsDetailInputValid] = useState({
+    isemailInputValid: true,
+    ispasswordInputValid: true,
+  });
 
   useEffect(() => {
     if (props.errorMessage !== "") setErrorMessage(props.errorMessage);
@@ -21,47 +25,37 @@ const LoginForm = (props) => {
 
   const onClickProfessorSubscribe = () => {
     props.setIsLoginMode(false);
+    navigate("/login/subscribe-professor");
   };
 
   const isFromInvalid = () => {
-    return email === "" || password === "";
+    return detail.email === "" || detail.password === "";
   };
 
-  const onBlurEmailInput = (event) => {
-    const email = event.target.value.trim();
-
-    if (email === "") {
-      setEmail("");
-      setIsEmailInputValid(false);
+  const onChangeDetail = (event) => {
+    setErrorMessage("");
+    const { name, value } = event.target;
+    if (value === "") {
+      setIsDetailInputValid({
+        ...isDetailInputValid,
+        [`is${name}InputValid`]: false,
+      });
     } else {
-      setEmail(email);
-      setIsEmailInputValid(true);
+      setIsDetailInputValid({
+        ...isDetailInputValid,
+        [`is${name}InputValid`]: true,
+      });
     }
-  };
-
-  const onBlurPasswordInput = (event) => {
-    const password = event.target.value.trim();
-
-    if (password === "") {
-      setPassword("");
-      setIsPasswordInputValid(false);
-    } else {
-      setPassword(password);
-      setIsPasswordInputValid(true);
-    }
+    setDetail({ ...detail, [name]: value });
   };
 
   const onSubmitForm = (event) => {
     event.preventDefault();
 
-    loginToSite(email, password).then(
+    loginToSite(detail.email, detail.password).then(
       (userData) => {
-        // dispatchUserData(loginAction(userData));
         dispatchUserData(loginAction(userData));
         saveUserCookie(userData);
-        console.log(userData);
-
-        // console.log(userData);
       },
 
       (err) => {
@@ -83,19 +77,28 @@ const LoginForm = (props) => {
       <form onSubmit={onSubmitForm}>
         <input
           placeholder="Email"
-          onBlur={onBlurEmailInput}
-          className={!isEmailInputValid ? "input-invalid" : null}
+          name="email"
+          value={detail.email}
+          onChange={onChangeDetail}
+          className={
+            !isDetailInputValid.isemailInputValid ? "input-invalid" : null
+          }
         />
-        {!isEmailInputValid && (
+        {!isDetailInputValid.isemailInputValid && (
           <div className="invalid-message">Email or password incorrect</div>
         )}
+
         <input
           type="password"
           placeholder="Password"
-          onBlur={onBlurPasswordInput}
-          className={!isPasswordInputValid ? "input-invalid" : null}
+          name="password"
+          value={detail.password}
+          onChange={onChangeDetail}
+          className={
+            !isDetailInputValid.ispasswordInputValid ? "input-invalid" : null
+          }
         />
-        {!isPasswordInputValid && (
+        {!isDetailInputValid.ispasswordInputValid && (
           <div className="invalid-message">Email or password incorrect</div>
         )}
         <div className="login-form-nav">

@@ -9,16 +9,21 @@ import {
 import AddCourse from "../components/courses/AddCourse";
 import AllCourses from "../components/courses/AllCourses";
 import EditCourse from "../components/courses/EditCourse";
+import MyCourses from "../components/courses/MyCourses";
 import ProfessorDash from "../components/dashbords/ProfessorDash";
+import StudentDashboard from "../components/dashbords/StudentDashboard";
 import StudentList from "../components/dashbords/StudentList";
 import Home from "../components/home/Home";
 import Login from "../components/login/Login";
+import SubscribeProfessor from "../components/login/SubscribeProfessor";
 import SubscribeStudent from "../components/login/SubscribeStudent";
 import Footer from "../components/main/Footer";
 import Header from "../components/main/Header";
+import Loader from "../components/main/Loader";
 import LoginContextProvider from "../context/loginContext";
+import DashboardsRouter from "./DashboardsRouter";
 import LoginRoute from "./LoginRoute";
-// import AddCourse from "../components/courses/AddCourse";
+import NotFoundPageRouter from "./NotFoundPageRouter";
 
 export const history = createBrowserHistory();
 
@@ -29,22 +34,48 @@ const AppRouter = () => {
         <Header />
         <Routes>
           <Route path="/" element={<LoginRoute element={Login} />} />
-          {/* <Route path="/" element={<Navigate to="/home" replace />} /> */}
           <Route path="/login" element={<LoginRoute element={Login} />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/professor-dashboard" element={<ProfessorDash />} />
-          <Route path="/all-courses" element={<AllCourses />} />
-          <Route path="/all-courses/add-course" element={<AddCourse />} />
-          <Route path="/all-courses/edit-course" element={<EditCourse />} />
+          <Route
+            path="/professor-dashboard"
+            element={<DashboardsRouter element={ProfessorDash} />}
+          />
+          <Route
+            path="/all-courses"
+            element={<DashboardsRouter element={AllCourses} />}
+          />
+          <Route
+            path="/all-courses/add-course"
+            element={<DashboardsRouter element={AddCourse} />}
+          />
+          <Route
+            path="/all-courses/edit-course"
+            element={<DashboardsRouter element={EditCourse} />}
+          />
+
           <Route
             path="/professor-dashboard/add-new-student"
-            element={<SubscribeStudent />}
+            element={<DashboardsRouter element={SubscribeStudent} />}
+          />
+          <Route
+            path="/login/subscribe-professor"
+            element={<LoginRoute element={SubscribeProfessor} />}
           />
 
           <Route
             path="/professor-dashboard/students-list"
-            element={<StudentList />}
+            element={<DashboardsRouter element={StudentList} />}
           />
+          <Route
+            path="/student-dashboard"
+            element={<DashboardsRouter element={StudentDashboard} />}
+          />
+          <Route
+            path="/student-dashboard/my-courses"
+            element={<DashboardsRouter element={MyCourses} />}
+          />
+          <Route path="/loader" element={<Loader />} />
+          <Route path="*" element={<NotFoundPageRouter />} />
         </Routes>
         <Footer />
       </LoginContextProvider>

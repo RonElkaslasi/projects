@@ -1,22 +1,27 @@
 .courses {
-  @include flexColumn(space-between, center);
+  @include flexColumn(space-evenly, center);
   width: 100%;
   height: calc(100vh - 4rem);
-  margin-top: 4rem;
-  margin-bottom: 4rem;
+  margin: 4rem auto;
   overflow-y: auto;
   gap: 0.5rem;
 
+  @media (max-width: 516px) {
+    display: grid;
+    justify-items: center;
+  }
+
   .course-details-container {
     @include flex(space-between, center);
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
     width: 100%;
     border-bottom: 1px solid #ccc;
 
     @media (max-width: 516px) {
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: space-around;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      margin-top: 1rem;
+      gap: 0.5rem;
     }
   }
 
@@ -51,6 +56,7 @@
 
     @media (max-width: 516px) {
       @include flexColumn(center, center);
+      margin-top: 0.5rem;
     }
   }
   .delete-course-button {
@@ -67,6 +73,11 @@
     padding: 1rem;
     width: 30%;
     font-size: 1rem;
+
+    @media (max-width: 516px) {
+      width: 70%;
+      padding: 0.75rem;
+    }
   }
 }
 

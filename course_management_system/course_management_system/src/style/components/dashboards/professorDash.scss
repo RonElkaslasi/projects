@@ -4,6 +4,7 @@
   height: calc(100vh - 4rem);
   margin-top: 4rem;
   margin-bottom: 4rem;
+  overflow-y: scroll;
 
   div {
     @include flex(space-between, center);
@@ -22,7 +23,10 @@
   h2 {
     color: $myBlue;
     margin: 0;
-    padding: 0;
+    padding: 0.2rem;
+    border-bottom: 1px solid $myBlue;
+    width: 100%;
+    text-align: center;
   }
 
   button {

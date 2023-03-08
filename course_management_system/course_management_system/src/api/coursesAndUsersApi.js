@@ -16,9 +16,7 @@ export const getAllCoursesForProfessor = async (user) => {
 
     return res.data;
   } catch (err) {
-    // if (err.rsponse) {
-    throw new Error(JSON.stringify(err.rsponse));
-    // }
+    throw new Error("404: No result's found...😢");
   }
 };
 
@@ -254,7 +252,7 @@ export const getAllStudents = async () => {
   } catch (err) {
     if (err.response && err.response.stauts === 404) {
       throw new Error("No student found.");
-    }
+    } else throw new Error("404: No result's found... 😢");
   }
 };
 
@@ -276,5 +274,24 @@ export const deleteStudent = async (studentId) => {
     if (err.response && err.response.status === 404) {
       throw new Error("No student found.");
     }
+  }
+};
+
+export const getMyCourses = async () => {
+  const myCoursesUrl = "http://localhost:4000/my-courses";
+  const token = getUserFromCookie().token;
+
+  try {
+    const res = await axios({
+      method: "get",
+      url: myCoursesUrl,
+      headers: {
+        Authorization: token,
+      },
+    });
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    if (err.response) throw new Error("404: No result's found... 😢");
   }
 };

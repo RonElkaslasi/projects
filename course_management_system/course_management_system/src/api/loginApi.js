@@ -96,12 +96,8 @@ export const logoutFromSite = async (token) => {
 //   }
 // };
 
-export const subscireProfToSite = async (
-  professorName,
-  professorEmail,
-  professorPassword
-) => {
-  const subscribeUrl = "http://localhost:4000/professors";
+export const subscireProfToSite = async (professorDetail) => {
+  const subscribeUrl = "http://localhost:4000/user";
 
   try {
     const res = await axios({
@@ -111,16 +107,19 @@ export const subscireProfToSite = async (
         "Content-Type": "application/json",
       },
       data: {
-        name: professorName,
-        email: professorEmail,
-        password: professorPassword,
+        name: professorDetail.name,
+        birth: professorDetail.birth,
+        address: professorDetail.address,
+        email: professorDetail.email,
+        roll: "professor",
+        password: professorDetail.password,
       },
     });
 
     return res.data;
   } catch (err) {
     if (err.response && err.response.status === 400) {
-      throw new Error("Invalid input");
+      throw new Error("Email or password are Invalid");
     }
   }
 };

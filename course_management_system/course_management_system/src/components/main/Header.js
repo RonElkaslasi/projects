@@ -44,6 +44,7 @@ const Header = () => {
   const onClickDashboardButton = () => {
     deleteCourseFromCookie();
     if (user.user.roll === "professor") navigate("/professor-dashboard");
+    else if (user.user.roll === "student") navigate("/student-dashboard");
   };
 
   return (
