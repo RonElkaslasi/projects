@@ -28,7 +28,12 @@ export const changeDetail = async (detail, value, user) => {
 
 export const changePassword = async (currentPassword, newPassword, user) => {
   const editPasswordUrl = "http://localhost:4000/change-password";
-  const token = !user.token.token ? user.token : user.token.token;
+  // const realToken = user.token;
+  const token = user.tokens[user.tokens.length - 1].token;
+  // console.log(token);
+  const passRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{0,}$/;
+
+  if (!passRegex.test(newPassword)) throw new Error("*Invalid password");
 
   try {
     const res = await axios({
@@ -46,8 +51,11 @@ export const changePassword = async (currentPassword, newPassword, user) => {
 
     return res.data;
   } catch (err) {
-    if (err.response || err.response.status === 500) {
-      throw new Error(JSON.stringify(err.response));
+    if (
+      err.response &&
+      (err.response.status === 500 || err.response.status === 400)
+    ) {
+      throw new Error("*Invalid password");
     }
   }
 };

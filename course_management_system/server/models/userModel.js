@@ -12,8 +12,9 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     birth: {
-      type: String,
-      trim: true,
+      type: Date,
+      min: '1955-01-01',
+      max: '2010-12-31', 
       required: true,
     },
     address: {
@@ -37,7 +38,7 @@ const userSchema = new mongoose.Schema(
         if (!validator.isEmail(value)) throw new Error("Invalid Email");
       },
     },
-    roll: {
+    role: {
       type: String,
       required: true,
       trim: true,
@@ -82,6 +83,7 @@ userSchema.statics.findUserByMailAndPass = async (email, password) => {
   if (!user) throw new Error("The email or password is incorrect.");
 
   const isMatchPass = await bcrypt.compare(password, user.password);
+
   if (!isMatchPass) throw new Error("The email or password is incorrect.");
 
   return user;

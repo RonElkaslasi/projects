@@ -1,0 +1,86 @@
+.add-attendenty-countainer {
+  @include flex(center, center);
+
+  width: 100%;
+  height: calc(100vh - 4rem);
+  margin-top: 4rem;
+}
+
+.add-attendenty-form {
+  @include flexColumn(center, center);
+  gap: 1rem;
+  width: 40%;
+  border: 2px solid $myBlue;
+  border-radius: 5px;
+  margin: 2rem;
+  padding: 1rem;
+
+  @media (max-width: 912px) {
+    width: 100%;
+  }
+}
+
+.add-attendenty-form {
+  h2 {
+    text-align: center;
+    color: $myBlue;
+  }
+  select {
+    border-radius: 5px;
+    padding: 0.2rem;
+    color: $myLightBlue;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .message {
+    border: 1px solid $myBlue;
+    color: #4bb543;
+  }
+  div {
+    color: $myBlue;
+    font-weight: bold;
+  }
+  span {
+    color: $myLightBlue;
+    font-weight: 510;
+    font-size: 0.9rem;
+  }
+  input {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid $myBlue;
+    margin-top: 1rem;
+    resize: none;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .input-invalid {
+    border: 1px solid $myRed;
+  }
+
+  button {
+    display: block;
+    padding: 0.5rem;
+    background-color: $myLightBlue;
+
+    color: #f9f8f8;
+
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+
+  .back-to-courses-lessons-button {
+    background-color: $myYellow;
+    color: $myBlue;
+  }
+}

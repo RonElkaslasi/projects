@@ -11,6 +11,7 @@ const AddCourse = (props) => {
     courseDays: [],
   });
   const [errorMessage, setErrorMessage] = useState("");
+  const currentDate = new Date().toLocaleString();
 
   const validateForm = () => {
     return (
@@ -28,18 +29,20 @@ const AddCourse = (props) => {
       if (!value) {
         setFormData({ ...formData, courseDays: [] });
       } else {
+        formData.courseDays.push(value);
         setFormData({
           ...formData,
-          courseDays: value.split(",").map((day) => parseInt(day.trim())),
+          courseDays: formData.courseDays,
         });
       }
     } else {
       setFormData({ ...formData, [name]: value.trim() });
     }
   };
+
   const onClickAddCourseBtn = (event) => {
     event.preventDefault();
-
+    console.log(formData);
     addNewCourse(formData).then(
       (courseData) => {
         navigate("/all-courses");
@@ -70,29 +73,97 @@ const AddCourse = (props) => {
           onChange={onChangeCourseDetail}
         />
         <input
-          placeholder="Date start DD/MM/YYYY"
+          type="date"
+          min={new Date().toISOString().split("T")[0]}
+          max={
+            new Date(new Date().getFullYear(), 11, 32)
+              .toISOString()
+              .split("T")[0]
+          }
           name="courseStartDate"
           value={formData.courseStartDate}
           onChange={onChangeCourseDetail}
         />
         <input
-          placeholder="endDate DD/MM/YYYY"
+          type="date"
+          min={new Date().toISOString().split("T")[0]}
+          max={
+            new Date(new Date().getFullYear(), 11, 32)
+              .toISOString()
+              .split("T")[0]
+          }
           name="courseEndDate"
           value={formData.courseEndDate}
           onChange={onChangeCourseDetail}
         />
-        <textarea
-          placeholder="Enter the course days (day number) separated by a comma.
-          for exmaple: '1, 2, 3' = Sunday, Monday, Tuesday"
-          rows="7"
-          name="courseDays"
-          value={
-            formData.courseDays.length > 0
-              ? formData.courseDays.join(",")
-              : undefined
-          }
-          onBlur={onChangeCourseDetail}
-        ></textarea>
+
+        <div className="days-holder">
+          <span>Days:</span>
+          <div className="days-container">
+            <label>Sunday</label>
+            <input
+              type="checkbox"
+              name="courseDays"
+              value={1}
+              onChange={onChangeCourseDetail}
+            />
+          </div>
+          <div className="days-container">
+            <label>Monday</label>
+            <input
+              type="checkbox"
+              name="courseDays"
+              value={2}
+              onChange={onChangeCourseDetail}
+            />
+          </div>
+          <div className="days-container">
+            <label>Tuesday</label>
+            <input
+              type="checkbox"
+              name="courseDays"
+              value={3}
+              onChange={onChangeCourseDetail}
+            />
+          </div>
+          <div className="days-container">
+            <label>Wednesday</label>
+            <input
+              type="checkbox"
+              name="courseDays"
+              value={4}
+              onChange={onChangeCourseDetail}
+            />
+          </div>
+          <div className="days-container">
+            <label>Thursday</label>
+            <input
+              type="checkbox"
+              name="courseDays"
+              value={5}
+              onChange={onChangeCourseDetail}
+            />
+          </div>
+          <div className="days-container">
+            <label>Friday</label>
+            <input
+              type="checkbox"
+              name="courseDays"
+              value={6}
+              onChange={onChangeCourseDetail}
+            />
+          </div>
+          <div className="days-container">
+            <label>Saturday</label>
+            <input
+              type="checkbox"
+              name="courseDays"
+              value={7}
+              onChange={onChangeCourseDetail}
+            />
+          </div>
+        </div>
+
         <div className="add-course-btns-container">
           <button
             className="back-to-all-courses-button"

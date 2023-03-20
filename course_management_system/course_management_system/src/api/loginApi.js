@@ -16,7 +16,6 @@ export const loginToSite = async (email, password) => {
       },
     });
 
-    console.log(res.data);
     return res.data;
   } catch (err) {
     if (err.response && err.response.status === 400) {
@@ -27,7 +26,7 @@ export const loginToSite = async (email, password) => {
 
 export const logoutFromSite = async (token) => {
   const logoutUrl = "http://localhost:4000/logout";
-  console.log(token);
+
   try {
     const res = await axios({
       method: "post",
@@ -44,57 +43,6 @@ export const logoutFromSite = async (token) => {
     }
   }
 };
-// export const loginProfToSite = async (emailProf, passwordProf) => {
-//   const loginProfUrl = "http://localhost:4000/professor/login";
-//   console.log(emailProf);
-//   console.log(passwordProf);
-//   try {
-//     const res = await axios({
-//       method: "post",
-//       url: loginProfUrl,
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       data: {
-//         email: emailProf,
-//         password: passwordProf,
-//       },
-//     });
-
-//     console.log(res.data);
-//     return res.data;
-//   } catch (err) {
-//     if (err.response && err.response.status === 401) {
-//       throw new Error("Email or password are invalid.");
-//     }
-//   }
-// };
-
-// export const loginStudentToSite = async (emailStudent, passwordStudent) => {
-//   const loginStudentfUrl = "http://localhost:4000/student/login";
-//   console.log(emailStudent);
-//   console.log(passwordStudent);
-//   try {
-//     const res = await axios({
-//       method: "post",
-//       url: loginStudentfUrl,
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       data: {
-//         email: emailStudent,
-//         password: passwordStudent,
-//       },
-//     });
-
-//     console.log(res.data);
-//     return res.data;
-//   } catch (err) {
-//     if (err.response && err.response.status === 401) {
-//       throw new Error("Email or password are invalid.");
-//     }
-//   }
-// };
 
 export const subscireProfToSite = async (professorDetail) => {
   const subscribeUrl = "http://localhost:4000/user";
@@ -111,7 +59,7 @@ export const subscireProfToSite = async (professorDetail) => {
         birth: professorDetail.birth,
         address: professorDetail.address,
         email: professorDetail.email,
-        roll: "professor",
+        role: "professor",
         password: professorDetail.password,
       },
     });

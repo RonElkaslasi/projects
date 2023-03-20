@@ -5,11 +5,14 @@ const COURSE_DATA = "course_data";
 
 export const saveUserCookie = (userData) => {
   const jsonUserData = JSON.stringify(userData);
+
+  // console.log(jsonUserData);
   Cookies.set(USER_DATA, jsonUserData, {
     expires: 24,
     sameSite: "strict",
     secure: true,
   });
+  // console.log(getUserFromCookie());
 };
 
 export const deleteUserFromCookie = () => {
@@ -18,9 +21,8 @@ export const deleteUserFromCookie = () => {
 
 export const getUserFromCookie = () => {
   const jsonUserData = Cookies.get(USER_DATA);
-
+  // if (jsonUserData) console.log(JSON.parse(jsonUserData));
   if (jsonUserData === undefined) return null;
-
   return JSON.parse(jsonUserData);
 };
 

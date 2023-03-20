@@ -12,25 +12,16 @@ import Loader from "../main/Loader";
 const AllCourses = (props) => {
   const user = getUserFromCookie();
   const [courses, setCourses] = useState([]);
-  // const [studentName, setStudentName] = useState("");
-  // const [professorName, setProfessorName] = useState("");
+
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-
-  // const fetchData = async () => {
-  //   const response = await getAllCoursesForProfessor(user);
-  //   console.log(response);
-  //   setCourses(response);
-  // };
 
   const fetchData = async () => {
     try {
       const response = await getAllCoursesForProfessor(user);
-      console.log(response);
       setCourses(response);
       setErrorMessage("");
     } catch (err) {
-      console.log(err);
       setErrorMessage(err.message);
       setCourses([]);
     }
@@ -38,6 +29,7 @@ const AllCourses = (props) => {
 
   useEffect(() => {
     fetchData();
+    console.log(courses);
   }, []);
 
   const onClickAddCourseButton = () => {
@@ -46,11 +38,13 @@ const AllCourses = (props) => {
   const onClickEditCourseButton = (course) => {
     navigate("/all-courses/edit-course", { state: { course } });
   };
+
+  const onClickLessonListButton = (course) => {
+    navigate("/all-courses/course-lessons-list", { state: { course } });
+  };
   const onClickDeleteCourseButton = (courseId) => {
-    console.log(courseId);
     deleteCourse(courseId).then((courseData) => {
       fetchData();
-      console.log(courseData);
     });
   };
 
@@ -61,7 +55,7 @@ const AllCourses = (props) => {
       <h2>Courses List</h2>
       {errorMessage !== "" && (
         <div className="empty-student-list">
-          <span>{errorMessage}</span>
+          {/* <span>{errorMessage}</span> */}
         </div>
       )}
       {courses.length > 0
@@ -75,25 +69,15 @@ const AllCourses = (props) => {
 
                 <span className="title">
                   Start: <br />
-                  <span className="detail">{course.startDate}</span>
+                  <span className="detail">
+                    {course.startDate.slice(0, 10)}
+                  </span>
                 </span>
                 <span className="title">
                   End: <br />
-                  <span className="detail">{course.endDate}</span>
+                  <span className="detail">{course.endDate.slice(0, 10)}</span>
                 </span>
-                <span>
-                  <div className="days title">
-                    Days:
-                    {course.dayClass.map((day) => {
-                      return (
-                        <span key={nanoid()} className="days detail">
-                          {" "}
-                          {convertNumberToDay(day)}
-                        </span>
-                      );
-                    })}
-                  </div>
-                </span>
+
                 <span className="title">
                   Professor:
                   <br />
@@ -103,16 +87,34 @@ const AllCourses = (props) => {
                     </span>
                   }
                 </span>
+                <span>
+                  <div className="days title">
+                    <span className="title">Days:</span>
+                    <select multiple>
+                      {/* <option>Days</option> */}
+                      {course.dayClass.map((day) => {
+                        return (
+                          <option disabled key={nanoid()}>
+                            {convertNumberToDay(day)}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                </span>
 
                 <div>
                   <span className="title">Students:</span>
-                  {course.registers.map((student) => {
-                    return (
-                      <span key={student._id} className="detail">
-                        {student.name}
-                      </span>
-                    );
-                  })}
+                  <select multiple>
+                    {/* <option>Students</option> */}
+                    {course.registers.map((student) => {
+                      return (
+                        <option key={student._id} disabled>
+                          {student.name}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
 
                 <div className="buttons-course-container">
@@ -131,6 +133,13 @@ const AllCourses = (props) => {
                     }}
                   >
                     Edit Course
+                  </button>
+                  <button
+                    onClick={() => {
+                      onClickLessonListButton(course);
+                    }}
+                  >
+                    Lessons list
                   </button>
                 </div>
               </div>

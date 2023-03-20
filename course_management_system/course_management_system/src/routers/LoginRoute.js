@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { loginContext } from "../context/loginContext";
-import Home from "../components/home/Home";
+
 import Login from "../components/login/Login";
 const LoginRoute = ({ element: Element, ...rest }) => {
   const { userData } = useContext(loginContext);
-  console.log(userData);
+
   if (!userData.user || userData.user === null) {
     return <Element {...rest} />;
   }
-  if (userData.user.roll === "professor") {
+  if (userData.user.role === "professor") {
     return (
       <Navigate
         to="/professor-dashboard"
@@ -19,7 +19,7 @@ const LoginRoute = ({ element: Element, ...rest }) => {
     );
   }
 
-  if (userData.user.roll === "student") {
+  if (userData.user.role === "student") {
     return (
       <Navigate
         to="/student-dashboard"

@@ -8,6 +8,8 @@ import {
   getUserDetail,
   registerUserToCourse,
   deleteUserFromCourse,
+  getAllStudents,
+  getAllProfessors,
 } from "../../api/coursesAndUsersApi";
 import {
   deleteCourseFromCookie,
@@ -28,21 +30,48 @@ const EditCourse = (props) => {
     isChangeDateEnd: false,
     isChangeDays: false,
   });
-
   const [isClickedOnEnrollStudent, setIsClickedOnEnrollStudent] =
     useState(false);
   const [isClikedOnPlacementProf, setIsClikedOnPlacementProf] = useState(false);
   const [isClickedOnRemoveBtn, setIsClickedOnRemoveBtn] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState("");
   const onClickChangeDetail = (detail) => {
     setIsChangeDetail({ ...isChangeDetail, [detail]: true });
   };
 
+  const [newDays, setNewDays] = useState([]);
+  const [studentsList, setStudentList] = useState([]);
+  const [professorsList, setProfessorsList] = useState([]);
+  const [daysToCheckbox, setDaysToCheckbox] = useState([]);
+
+  useEffect(() => {
+    getAllStudentOptions();
+    getAllProfessorsOption();
+    // checkedDaysCourse();
+  }, []);
+  const checkedDaysCourse = () => {
+    let daysName = [];
+    course.dayClass.map((day) => {
+      let nameOfDay = convertNumberToDay(day);
+      daysName.push(nameOfDay);
+      setDaysToCheckbox(daysName);
+      // console.log(daysToCheckbox);
+    });
+  };
+  const onClickCheckbox = (event) => {
+    newDays.push(event.target.value);
+    // console.log(newDays);
+    setNewDays(newDays);
+  };
+
   const onSubmitNewDetail = (event) => {
-    let newDetail = event.target.parentNode.children[0].value.trim();
+    let newDetail;
     const fieldToChange = Object.keys(isChangeDetail).filter(
       (field) => isChangeDetail[field]
     );
+
+    if (fieldToChange[0] === "isChangeDays") newDetail = newDays;
+    else newDetail = event.target.parentNode.children[0].value.trim();
 
     let detailToChange = "";
     switch (fieldToChange[0]) {
@@ -59,17 +88,36 @@ const EditCourse = (props) => {
         detailToChange = "dayClass";
         break;
     }
-    if (fieldToChange[0] === "isChangeDays") {
-      newDetail = newDetail.split(",");
-    }
 
     editCourseDetails(course.name, detailToChange, newDetail).then(
       (courseDetail) => {
         setCourse(courseDetail);
         saveCourseCookie(courseDetail);
         setIsChangeDetail({ ...isChangeDetail, [fieldToChange[0]]: false });
+        setNewDays([]);
+      },
+      (err) => {
+        setErrorMessage("*Invalid input");
+        setIsChangeDetail({ ...isChangeDetail, [fieldToChange[0]]: false });
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 2000);
       }
     );
+  };
+
+  const getAllStudentOptions = () => {
+    getAllStudents().then((students) => {
+      console.log(students);
+      setStudentList(students);
+    });
+  };
+
+  const getAllProfessorsOption = () => {
+    getAllProfessors().then((professors) => {
+      console.log(professors);
+      setProfessorsList(professors);
+    });
   };
 
   const onClickAllCourses = () => {
@@ -82,6 +130,9 @@ const EditCourse = (props) => {
   const onClickEnrollStudent = () => {
     setIsClickedOnEnrollStudent(true);
   };
+  // const onClickCourseSchedule = () => {
+  //   navigate("/all-courses/schedule-classes-for-course", { state: { course } });
+  // };
 
   const onClickPlacementProfessor = () => {
     setIsClikedOnPlacementProf(true);
@@ -91,17 +142,37 @@ const EditCourse = (props) => {
     setIsClickedOnEnrollStudent(false);
     setIsClikedOnPlacementProf(false);
     const email = event.target.parentNode.children[0].value.trim();
-    findUserByEmail(email).then((user) => {
-      if (user) {
-        const courseId = course._id;
-        const userId = user._id;
+    console.log(email);
+    findUserByEmail(email).then(
+      (user) => {
+        if (user) {
+          const courseId = course._id;
+          const userId = user._id;
 
-        registerUserToCourse(courseId, userId).then((data) => {
-          setCourse(data.course);
-          saveCourseCookie(data.course);
-        });
+          registerUserToCourse(courseId, userId).then(
+            (data) => {
+              setCourse(data.course);
+              saveCourseCookie(data.course);
+            },
+            (err) => {
+              setErrorMessage(err.message);
+              console.log(err.status);
+              setTimeout(() => {
+                setErrorMessage("");
+              }, 2000);
+            }
+          );
+        } else {
+          setCourse(getCourseFromCookie());
+        }
+      },
+      (err) => {
+        setErrorMessage(err.message);
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 2000);
       }
-    });
+    );
   };
 
   const removeUserFromCourse = (event) => {
@@ -112,10 +183,15 @@ const EditCourse = (props) => {
         const courseId = course._id;
         const userId = user._id;
 
-        deleteUserFromCourse(courseId, userId).then((data) => {
-          setCourse(data.course);
-          saveCourseCookie(data.course);
-        });
+        deleteUserFromCourse(courseId, userId).then(
+          (data) => {
+            setCourse(data.course);
+            saveCourseCookie(data.course);
+          },
+          (err) => {
+            console.log(err.message);
+          }
+        );
       }
     });
   };
@@ -126,11 +202,39 @@ const EditCourse = (props) => {
     return user;
   };
 
+  const closeInputChangeDetail = (event) => {
+    const name = event.target.innerText;
+    console.log(name);
+    if (name.includes("Student")) setIsClickedOnEnrollStudent(false);
+    else if (name.includes("professor")) setIsClikedOnPlacementProf(false);
+
+    switch (name) {
+      case name.includes("Student"):
+        setIsClickedOnEnrollStudent(false);
+        break;
+      case name.includes("professor"):
+        setIsClikedOnPlacementProf(false);
+        break;
+      case name.includes("Days"):
+        setIsChangeDetail({ ...isChangeDetail, ["isChangeDays"]: false });
+        break;
+      case name.includes("Date end"):
+        setIsChangeDetail({ ...isChangeDetail, ["isChangeDateEnd"]: false });
+        break;
+      case name.includes("Date start"):
+        setIsChangeDetail({ ...isChangeDetail, ["isChangeDateStart"]: false });
+        break;
+      case name.includes("Name"):
+        setIsChangeDetail({ ...isChangeDetail, ["isChangeName"]: false });
+        break;
+    }
+  };
+
   return (
     <div className="edit-course-container">
       <h2>{course.name} Course</h2>
 
-      <div>
+      <div /*onClick={closeInputChangeDetail}*/>
         <p>Name: {course.name}</p>
         <button
           onClick={() => {
@@ -148,7 +252,7 @@ const EditCourse = (props) => {
       )}
 
       <div>
-        <p>Date start: {course.startDate}</p>
+        <p>Date start: {course.startDate.slice(0, 10)}</p>
         <button
           onClick={() => {
             onClickChangeDetail("isChangeDateStart");
@@ -159,13 +263,21 @@ const EditCourse = (props) => {
       </div>
       {isChangeDetail.isChangeDateStart && (
         <div>
-          <input placeholder="Enter new Date start DD/MM/YYYY" />
+          <input
+            type="date"
+            min={new Date().toISOString().split("T")[0]}
+            max={
+              new Date(new Date().getFullYear(), 11, 32)
+                .toISOString()
+                .split("T")[0]
+            }
+          />
           <button onClick={onSubmitNewDetail}>Submit</button>
         </div>
       )}
 
       <div>
-        <p>Date end: {course.endDate}</p>
+        <p>Date end: {course.endDate.slice(0, 10)}</p>
         <button
           onClick={() => {
             onClickChangeDetail("isChangeDateEnd");
@@ -176,7 +288,15 @@ const EditCourse = (props) => {
       </div>
       {isChangeDetail.isChangeDateEnd && (
         <div>
-          <input placeholder="Enter new Date End DD/MM/YYYY" />
+          <input
+            type="date"
+            min={new Date().toISOString().split("T")[0]}
+            max={
+              new Date(new Date().getFullYear(), 11, 32)
+                .toISOString()
+                .split("T")[0]
+            }
+          />
           <button onClick={onSubmitNewDetail}>Submit</button>
         </div>
       )}
@@ -185,6 +305,7 @@ const EditCourse = (props) => {
         <p>
           Days:
           {course.dayClass.map((day) => {
+            console.log(day);
             return " " + convertNumberToDay(day) + ", ";
           })}
         </p>
@@ -198,16 +319,83 @@ const EditCourse = (props) => {
       </div>
       {isChangeDetail.isChangeDays && (
         <div>
-          <textarea
-            placeholder="Enter the course days (day number) separated by a comma.
-          for exmaple: '1, 2, 3' = Sunday, Monday, Tuesday"
-            rows="4"
-          />
+          <div className="days-container">
+            <div>
+              <label>Sunday</label>
+              <input
+                type="checkbox"
+                name="courseDays"
+                value={1}
+                onChange={onClickCheckbox}
+                // checked={daysToCheckbox.includes("Sunday")}
+              />
+            </div>
+            <div>
+              <label>Monday</label>
+              <input
+                type="checkbox"
+                name="courseDays"
+                value={2}
+                onChange={onClickCheckbox}
+                // checked={daysToCheckbox.includes("Monday")}
+              />
+            </div>
+            <div>
+              <label>Tuesday</label>
+              <input
+                type="checkbox"
+                name="courseDays"
+                value={3}
+                onChange={onClickCheckbox}
+                // checked={daysToCheckbox.includes("Tuesday")}
+              />
+            </div>
+            <div>
+              <label>Wednesday</label>
+              <input
+                type="checkbox"
+                name="courseDays"
+                value={4}
+                onChange={onClickCheckbox}
+                // checked={daysToCheckbox.includes("Wednesday")}
+              />
+            </div>
+            <div>
+              <label>Thursday</label>
+              <input
+                type="checkbox"
+                name="courseDays"
+                value={5}
+                onChange={onClickCheckbox}
+                // checked={daysToCheckbox.includes("Thursday")}
+              />
+            </div>
+            <div>
+              <label>Friday</label>
+              <input
+                type="checkbox"
+                name="courseDays"
+                value={6}
+                onChange={onClickCheckbox}
+                // checked={daysToCheckbox.includes("Friday")}
+              />
+            </div>
+            <div>
+              <label>Saturday</label>
+              <input
+                type="checkbox"
+                name="courseDays"
+                value={7}
+                onChange={onClickCheckbox}
+                // checked={daysToCheckbox.includes("Saturday")}
+              />
+            </div>
+          </div>
           <button onClick={onSubmitNewDetail}>Submit</button>
         </div>
       )}
 
-      <div>
+      <div /*onClick={closeInputStudentAndProfessor}*/>
         <p>
           professor:{" "}
           {course.professor?.name
@@ -216,26 +404,39 @@ const EditCourse = (props) => {
         </p>
       </div>
 
-      <div>
+      <div /*onClick={closeInputStudentAndProfessor}*/>
         <p>
           Student:
           {course.registers.map((student) => {
-            console.log(student.name);
+            console.log(student);
             return ` ${student.name}, `;
           })}
         </p>
       </div>
-
+      {errorMessage !== "" && (
+        <span className="error-message">{errorMessage}</span>
+      )}
       {isClickedOnEnrollStudent && (
         <div>
-          <input placeholder="Enter student Email" />{" "}
+          <select>
+            <option>Students List</option>
+            {studentsList.map((student) => {
+              return <option key={student._id}>{student.email}</option>;
+            })}
+          </select>
           <button onClick={addUserToCourse}>Submit</button>
         </div>
       )}
 
       {isClikedOnPlacementProf && (
         <div>
-          <input placeholder="Enter professor Email" />
+          <select>
+            <option>Professors List</option>
+            {professorsList.map((professor) => {
+              return <option key={professor._id}>{professor.email}</option>;
+            })}
+          </select>
+          {/* <input placeholder="Enter professor Email" /> */}
           <button onClick={addUserToCourse}>Submit</button>
         </div>
       )}
@@ -248,6 +449,9 @@ const EditCourse = (props) => {
       )}
 
       <div className="buttons-container">
+        {/* <button className="add-course-button" onClick={onClickCourseSchedule}>
+          Add class to course
+        </button> */}
         <button onClick={onClickEnrollStudent}>Enroll student</button>
         <button onClick={onClickPlacementProfessor}>Placement professor</button>
         <button onClick={onClickRemoveBtn}>Remove student/professor</button>

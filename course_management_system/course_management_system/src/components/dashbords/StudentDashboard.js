@@ -16,6 +16,7 @@ const StudentDashboard = () => {
     isClickChangePassword: false,
   });
   const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onClickChangeDetail = (detail) => {
     setIsClickChangeDetailBtn({ ...isClickChangeDetailBtn, [detail]: true });
@@ -47,17 +48,30 @@ const StudentDashboard = () => {
         break;
     }
 
-    editUserDetail(detailToChange, newDetail).then((userDetail) => {
-      saveUserCookie(userDetail.user);
-      setIsClickChangeDetailBtn({
-        ...isClickChangeDetailBtn,
-        [fieldToChange[0]]: false,
-      });
-      setMessage(`${detailToChange} was successfully change `);
-      setTimeout(() => {
-        setMessage("");
-      }, 2000);
-    });
+    editUserDetail(detailToChange, newDetail).then(
+      (userDetail) => {
+        saveUserCookie(userDetail.user);
+        setIsClickChangeDetailBtn({
+          ...isClickChangeDetailBtn,
+          [fieldToChange[0]]: false,
+        });
+        setMessage(`${detailToChange} was successfully change `);
+        setTimeout(() => {
+          setMessage("");
+        }, 2000);
+      },
+      (err) => {
+        setErrorMessage("*Invalid input");
+        setIsClickChangeDetailBtn({
+          ...isClickChangeDetailBtn,
+          [fieldToChange[0]]: false,
+        });
+
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 2000);
+      }
+    );
   };
 
   const onSubmitNewPassword = (event) => {
@@ -66,13 +80,25 @@ const StudentDashboard = () => {
     const newPassword =
       event.target.parentNode.children[0].children[1].value.trim();
 
-    changePassword(oldPassword, newPassword, user).then((userData) => {
-      saveUserCookie(userData);
-      setIsClickChangeDetailBtn({
-        ...isClickChangeDetailBtn,
-        ["isClickChangePassword"]: false,
-      });
-    });
+    changePassword(oldPassword, newPassword, user).then(
+      (userData) => {
+        saveUserCookie(userData.user);
+        setIsClickChangeDetailBtn({
+          ...isClickChangeDetailBtn,
+          ["isClickChangePassword"]: false,
+        });
+      },
+      (err) => {
+        setErrorMessage(err.message);
+        setIsClickChangeDetailBtn({
+          ...isClickChangeDetailBtn,
+          ["isClickChangePassword"]: false,
+        });
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 2000);
+      }
+    );
   };
 
   const onClickMyCourses = () => {
@@ -81,10 +107,12 @@ const StudentDashboard = () => {
 
   return (
     <div className="dashboard">
-      <h2>{!user.token ? user.name : user.user.name} Dashboard</h2>
+      {/* <h2>{!user.token ? user.name : user.user.name} Dashboard</h2> */}
+      <h2>{user.name} Dashboard</h2>
 
       <div>
-        <p>Name: {!user.token ? user.name : user.user.name}</p>
+        {/* <p>Name: {!user.token ? user.name : user.user.name}</p> */}
+        <p>Name: {user.name}</p>
         <button
           onClick={() => {
             onClickChangeDetail("isClickChangeName");
@@ -101,7 +129,11 @@ const StudentDashboard = () => {
       )}
 
       <div>
-        <p>Birth: {!user.token ? user.birth : user.user.birth}</p>
+        <p>
+          Birth:{" "}
+          {/* {!user.token ? user.birth.slice(0, 10) : user.user.birth.slice(0, 10)} */}
+          {user.birth.slice(0, 10)}
+        </p>
         <button
           onClick={() => {
             onClickChangeDetail("isClickChangeBirth");
@@ -112,13 +144,19 @@ const StudentDashboard = () => {
       </div>
       {isClickChangeDetailBtn.isClickChangeBirth && (
         <div>
-          <input placeholder="Enter new birth" />
+          <input
+            placeholder="Enter new birth"
+            type="date"
+            min="1955-01-01"
+            max="2010-12-31"
+          />
           <button onClick={onSubmitNewDetail}>Submit</button>
         </div>
       )}
 
       <div>
-        <p>Address: {!user.token ? user.address : user.user.address}</p>
+        {/* <p>Address: {!user.token ? user.address : user.user.address}</p> */}
+        <p>Address: {user.address}</p>
         <button
           onClick={() => {
             onClickChangeDetail("isClickChangeAddress");
@@ -135,7 +173,8 @@ const StudentDashboard = () => {
       )}
 
       <div>
-        <p>Email: {!user.token ? user.email : user.user.email}</p>
+        {/* <p>Email: {!user.token ? user.email : user.user.email}</p> */}
+        <p>Email: {user.email}</p>
         <button
           onClick={() => {
             onClickChangeDetail("isClickChangeEmail");
@@ -171,6 +210,9 @@ const StudentDashboard = () => {
         </div>
       )}
       {message !== "" && <span className="message">{message}</span>}
+      {errorMessage !== "" && (
+        <span className="error-message">{errorMessage}</span>
+      )}
       <div className="buttons-container">
         <button onClick={onClickMyCourses}>My courses</button>
       </div>

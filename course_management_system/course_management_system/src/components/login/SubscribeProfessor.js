@@ -71,17 +71,27 @@ const SubscribeProfessor = (props) => {
         [`is${name}InputValid`]: true,
       });
     }
-    setProfessorDetails({
-      ...professorDetails,
-      [name]: value.trim(),
-    });
+    if (name === "birth") {
+      let validDate = value.slice(0, 10);
+      setProfessorDetails({
+        ...professorDetails,
+        [name]: validDate,
+      });
+    } else {
+      setProfessorDetails({
+        ...professorDetails,
+        [name]: value.trim(),
+      });
+    }
   };
 
   const onSubmitForm = (event) => {
     event.preventDefault();
+    console.log(professorDetails);
     subscireProfToSite(professorDetails).then((userData) => {
-      saveUserCookie(userData);
-      dispatchUserData(loginAction(userData));
+      console.log(userData.user);
+      saveUserCookie(userData.user);
+      dispatchUserData(loginAction(userData.user));
     });
   };
 
@@ -107,6 +117,9 @@ const SubscribeProfessor = (props) => {
             <input
               placeholder="Birth"
               name="birth"
+              type="date"
+              min="1955-01-01"
+              max="2010-12-31"
               value={professorDetails.birth}
               className={
                 !isDetailInputValid.isbirthInputValid ? "input-invalid" : null

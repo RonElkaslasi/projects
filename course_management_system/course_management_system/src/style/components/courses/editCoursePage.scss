@@ -5,6 +5,23 @@
   margin-top: 4rem;
   margin-bottom: 4rem;
 
+  .days-container {
+    border: none;
+    font-size: 0.75rem;
+
+    @media (max-width: 516px) {
+      @include flex(space-evenly, center);
+      flex-flow: column;
+    }
+
+    div {
+      @include flex(space-evenly, center);
+      border: none;
+      color: $myBlue;
+      font-weight: bold;
+    }
+  }
+
   div {
     @include flex(space-between, center);
     padding: 0.75rem;
@@ -34,6 +51,18 @@
     border-radius: 5px;
     &:hover {
       opacity: 0.7;
+    }
+  }
+  select {
+    padding: 0.75rem;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    color: $myBlue;
+    font-weight: bold;
+    option {
+      color: $myLightBlue;
+      font-weight: bold;
     }
   }
 
@@ -95,5 +124,4 @@
 
 #students-list {
   @include flex(flex-start, center);
-  
 }

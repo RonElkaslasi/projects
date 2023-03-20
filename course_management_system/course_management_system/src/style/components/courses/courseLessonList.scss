@@ -1,15 +1,17 @@
-.courses {
-  @include flexColumn(space-evenly, center);
+.lessons {
+  display: grid;
+  justify-items: center;
+  // @include flexColumn(space-evenly, center);
   width: 100%;
   height: calc(100vh - 4rem);
   margin: 4rem auto;
   overflow-y: auto;
   gap: 0.5rem;
 
-  @media (max-width: 516px) {
-    display: grid;
-    justify-items: center;
-  }
+  //   @media (max-width: 516px) {
+  //     display: grid;
+  //     justify-items: center;
+  //   }
 
   .course-details-container {
     @include flex(space-between, center);

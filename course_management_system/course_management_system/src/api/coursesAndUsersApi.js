@@ -3,7 +3,8 @@ import { getUserFromCookie } from "../cookies/cookies";
 
 export const getAllCoursesForProfessor = async (user) => {
   const getCoursesUrl = "http://localhost:4000/courses";
-  const token = !user.token.token ? user.token : user.token.token;
+  const token =
+    getUserFromCookie().tokens[getUserFromCookie().tokens.length - 1].token;
 
   try {
     const res = await axios({
@@ -32,10 +33,12 @@ export const getUserDetail = async (id) => {
 };
 
 export const addNewCourse = async (courseData) => {
-  const getAddCourseUrl = "http://localhost:4000/course";
-  const token = getUserFromCookie().token;
-  console.log(token);
   console.log(courseData);
+  const getAddCourseUrl = "http://localhost:4000/course";
+  const token =
+    getUserFromCookie().tokens[getUserFromCookie().tokens.length - 1].token;
+  console.log(token);
+
   try {
     const res = await axios({
       method: "post",
@@ -74,7 +77,7 @@ export const addNewStudent = async (detailsStudent) => {
         birth: detailsStudent.birth,
         address: detailsStudent.address,
         email: detailsStudent.email,
-        roll: "student",
+        role: "student",
         password: detailsStudent.password,
       },
     });
@@ -88,7 +91,8 @@ export const addNewStudent = async (detailsStudent) => {
 };
 export const deleteCourse = async (id) => {
   const deleteCourseUrl = "http://localhost:4000/course";
-  const token = getUserFromCookie().token;
+  const token =
+    getUserFromCookie().tokens[getUserFromCookie().tokens.length - 1].token;
 
   try {
     const res = await axios({
@@ -117,7 +121,8 @@ export const editCourseDetails = async (
   newDetail
 ) => {
   const editCourseUrl = `http://localhost:4000/course-details/?name=${courseName}`;
-  const token = getUserFromCookie().token;
+  const token =
+    getUserFromCookie().tokens[getUserFromCookie().tokens.length - 1].token;
 
   try {
     const res = await axios({
@@ -142,12 +147,11 @@ export const editCourseDetails = async (
 
 export const editUserDetail = async (detailToChange, newDetail) => {
   const editUserUrl = "http://localhost:4000/personal-details";
-  console.log(detailToChange);
-  console.log(newDetail);
+
   const currToken = getUserFromCookie().tokens
     ? getUserFromCookie().tokens[getUserFromCookie().tokens.length - 1].token
     : getUserFromCookie().token;
-  console.log(currToken);
+
   try {
     const res = await axios({
       method: "patch",
@@ -163,7 +167,10 @@ export const editUserDetail = async (detailToChange, newDetail) => {
 
     return res.data;
   } catch (err) {
-    if (err.response && err.response.status === 400) {
+    if (
+      (err.response && err.response.status === 400) ||
+      err.response.status === 401
+    ) {
       throw new Error("You cannot edit that.");
     }
   }
@@ -171,21 +178,25 @@ export const editUserDetail = async (detailToChange, newDetail) => {
 
 export const findUser = async (email) => {
   const findUrl = `http://localhost:4000/user?email=${email}`;
-  console.log(email);
 
   try {
     const res = await axios.get(findUrl);
 
     return res.data;
   } catch (err) {
-    if (err.response && err.response.status === 500)
+    if (
+      err.response &&
+      (err.response.status === 500 || err.response.status === 404)
+    )
       throw new Error("No user found.");
   }
 };
 
 export const registerUserToCourse = async (courseId, userId) => {
   const addUserToCourseUrl = "http://localhost:4000/add-user-to-class";
-  const token = getUserFromCookie().token;
+  const user = getUserFromCookie();
+  const token = user.tokens[user.tokens.length - 1].token;
+
   try {
     const res = await axios({
       method: "post",
@@ -202,16 +213,20 @@ export const registerUserToCourse = async (courseId, userId) => {
 
     return res.data;
   } catch (err) {
+    console.log(err.response.status);
     if (err.response && err.response.status === 404)
-      throw new Error("Somthing happened");
-    else throw err;
+      throw new Error("User or course not found...");
+    else if (err.response && err.response.status === 400)
+      throw new Error("Student already enrolled to course");
+    else throw new Error("Somthing happened...");
   }
 };
 
 export const deleteUserFromCourse = async (courseId, userId) => {
   const removeUserFromCourseUrl =
     "http://localhost:4000/delete-user-from-class";
-  const token = getUserFromCookie().token;
+  const token =
+    getUserFromCookie().tokens[getUserFromCookie().tokens.length - 1].token;
 
   try {
     const res = await axios({
@@ -237,7 +252,30 @@ export const deleteUserFromCourse = async (courseId, userId) => {
 
 export const getAllStudents = async () => {
   const allStudentsUrl = "http://localhost:4000/students";
-  const token = getUserFromCookie().token;
+  const token =
+    getUserFromCookie().tokens[getUserFromCookie().tokens.length - 1].token;
+
+  try {
+    const res = await axios({
+      method: "get",
+      url: allStudentsUrl,
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    return res.data;
+  } catch (err) {
+    if (err.response && err.response.stauts === 404) {
+      throw new Error("No student found.");
+    } else throw new Error("404: No result's found... 😢");
+  }
+};
+
+export const getAllProfessors = async () => {
+  const allStudentsUrl = "http://localhost:4000/professors";
+  const token =
+    getUserFromCookie().tokens[getUserFromCookie().tokens.length - 1].token;
 
   try {
     const res = await axios({
@@ -258,7 +296,8 @@ export const getAllStudents = async () => {
 
 export const deleteStudent = async (studentId) => {
   const deletStudentUrl = `http://localhost:4000/user/?_id=${studentId}`;
-  const token = getUserFromCookie().token;
+  const token =
+    getUserFromCookie().tokens[getUserFromCookie().tokens.length - 1].token;
 
   try {
     const res = await axios({
@@ -279,7 +318,8 @@ export const deleteStudent = async (studentId) => {
 
 export const getMyCourses = async () => {
   const myCoursesUrl = "http://localhost:4000/my-courses";
-  const token = getUserFromCookie().token;
+  const token =
+    getUserFromCookie().tokens[getUserFromCookie().tokens.length - 1].token;
 
   try {
     const res = await axios({
@@ -289,7 +329,7 @@ export const getMyCourses = async () => {
         Authorization: token,
       },
     });
-    console.log(res.data);
+
     return res.data;
   } catch (err) {
     if (err.response) throw new Error("404: No result's found... 😢");

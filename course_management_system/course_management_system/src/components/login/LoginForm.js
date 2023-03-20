@@ -4,7 +4,7 @@ import { loginAction } from "../../actions/loginAction";
 import { loginToSite } from "../../api/loginApi";
 import { loginContext } from "../../context/loginContext";
 import { saveUserCookie } from "../../cookies/cookies";
-import SubscribeProfessor from "./SubscribeProfessor";
+// import SubscribeProfessor from "./SubscribeProfessor";
 
 const LoginForm = (props) => {
   const navigate = useNavigate();
@@ -54,8 +54,12 @@ const LoginForm = (props) => {
 
     loginToSite(detail.email, detail.password).then(
       (userData) => {
-        dispatchUserData(loginAction(userData));
-        saveUserCookie(userData);
+        // console.log(userData.user);
+        // dispatchUserData(loginAction(userData));
+        // saveUserCookie(userData);
+        saveUserCookie(userData.user);
+
+        dispatchUserData(loginAction(userData.user));
       },
 
       (err) => {

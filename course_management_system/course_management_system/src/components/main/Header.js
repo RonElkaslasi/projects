@@ -17,12 +17,9 @@ const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
   const user = getUserFromCookie();
   const { dispatchUserData } = useContext(loginContext);
-
+  // console.log(userData);
   const onClickLogoutButton = () => {
-    console.log(user);
-    console.log(userData);
     logoutFromSite(user.token).then((res) => {
-      console.log(res);
       dispatchUserData(logoutAction());
       deleteUserFromCookie();
       deleteCourseFromCookie();
@@ -36,15 +33,21 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (userData.user !== null) {
+    // if (userData.user !== null) {
+    //   setIsLogin(true);
+    // }
+    if (Object.values(userData)[0] !== null) {
       setIsLogin(true);
     }
   }, [userData, setIsLogin]);
 
   const onClickDashboardButton = () => {
     deleteCourseFromCookie();
-    if (user.user.roll === "professor") navigate("/professor-dashboard");
-    else if (user.user.roll === "student") navigate("/student-dashboard");
+    console.log(user);
+    if (user.role === "professor") navigate("/professor-dashboard");
+    else if (user.role === "student") navigate("/student-dashboard");
+    // if (user.user.role === "professor") navigate("/professor-dashboard");
+    // else if (user.user.role === "student") navigate("/student-dashboard");
   };
 
   return (
@@ -53,10 +56,13 @@ const Header = () => {
         {isLogin && (
           <div className="welcome-and-logout-container">
             <div className="welcome-dashboard">
+              {/* Welcome, {userData.user.name} */}
               Welcome, {userData.user.name}
             </div>
-            <button onClick={onClickLogoutButton}>Logout</button>
             <button onClick={onClickDashboardButton}>Dashboard</button>
+            <button onClick={onClickLogoutButton} className="logout-button">
+              Logout
+            </button>
           </div>
         )}
         <img src={myImage} onClick={onClickLogo} />

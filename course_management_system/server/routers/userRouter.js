@@ -3,6 +3,7 @@ const userAuth = require("../middleware/userAuth");
 const User = require("../models/userModel");
 const Course = require("../models/courseModel");
 const bcrypt = require("bcryptjs");
+const Attendency = require("../models/attendencyModel");
 
 const router = new express.Router();
 
@@ -17,7 +18,7 @@ router.post("/user", async (req, res) => {
   const user = new User(req.body);
 
   try {
-    if (user.roll !== "student") {
+    if (user.role !== "student") {
       const token = await user.generateAuthToken();
       return res.send({ user, token });
     }
@@ -40,6 +41,12 @@ router.delete("/user", userAuth, async (req, res) => {
         status: 404,
         message: "user not found.",
       });
+    }
+    const attendancies = await Attendency.find({ student: user._id });
+    console.log(attendancies);
+    if (attendancies.length > 0) {
+      for (let i = 0; i < attendancies.length; i++)
+        await Attendency.findByIdAndDelete(attendancies[i]._id);
     }
 
     await user.save();
@@ -68,6 +75,7 @@ router.post("/login", async (req, res) => {
 
   try {
     const user = await User.findUserByMailAndPass(userEmail, userPassword);
+
     const token = await user.generateAuthToken();
 
     res.send({ user, token });
@@ -116,11 +124,12 @@ router.patch("/personal-details", userAuth, async (req, res) => {
 });
 
 router.patch("/change-password", userAuth, async (req, res) => {
-  // const { currentPassword, newPassword } = req.body;
   const currentPassword = req.body.currentPassword;
   const newPassword = req.body.newPassword;
+  const passRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{0,}$/;
 
   try {
+    console.log(req.user);
     const user = await User.findOne(req.user);
     const token = user.tokens[user.tokens.length - 1].token;
     const isMatch = await bcrypt.compare(currentPassword, user.password);
@@ -131,8 +140,13 @@ router.patch("/change-password", userAuth, async (req, res) => {
         message: "Incorrect current password",
       });
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    user.password = hashedPassword;
+    if (!passRegex.test(newPassword))
+      return res.status(400).send({
+        status: 400,
+        message: "Invalid password",
+      });
+
+    user.password = newPassword;
     await user.save();
     res.send({ user, token });
   } catch (err) {
@@ -148,8 +162,8 @@ router.get("/my-courses", userAuth, async (req, res) => {
       .populate("registers")
       .populate("professor");
 
-    if (courses.length === 0) {
-      res.status(404).send({
+    if (!courses || courses.length === 0) {
+      return res.status(404).send({
         status: 404,
         message: "not courses found.",
       });
@@ -164,9 +178,11 @@ router.get("/my-courses", userAuth, async (req, res) => {
 router.post("/add-user-to-class", userAuth, async (req, res) => {
   const userId = req.body.userId;
   const courseId = req.body.courseId;
+  console.log(userId);
+  console.log(courseId);
 
   try {
-    const user = await User.findById(userId).populate("courses");
+    const user = await User.findById(userId);
     const course = await Course.findById(courseId)
       .populate("registers")
       .populate("professor");
@@ -177,10 +193,32 @@ router.post("/add-user-to-class", userAuth, async (req, res) => {
         message: "not found.",
       });
     }
+    let check = course.registers.filter(
+      (student) => student.email === user.email
+    );
 
-    if (user.roll === "student") course.registers.push(user);
-    else if (user.roll === "professor") course.professor = user;
+    if (check.length > 0) {
+      return res.status(400).send({
+        status: 400,
+        message: "Student already enrolled to course",
+      });
+    }
+    if (user.role === "student") {
+      const courseAttendency = new Attendency({ student: user, course });
+      for (let i = 0; i < course.classes.length; i++) {
+        courseAttendency.classes.push({ date: course.classes[i] });
+      }
 
+      await courseAttendency.save();
+    }
+
+    // for (let i = 0; i < course.classes.length; i++) {
+    //   courseAttendency.classes.push({ date: course.classes[i] });
+    // }
+
+    if (user.role === "student") course.registers.push(user);
+    else if (user.role === "professor") course.professor = user;
+    console.log(user.role);
     user.courses.push(course);
 
     await user.save();
@@ -188,7 +226,8 @@ router.post("/add-user-to-class", userAuth, async (req, res) => {
 
     res.send({ user, course });
   } catch (err) {
-    res.status(401).send(err.message);
+    console.log(err.message);
+    res.status(500).send(err.message);
   }
 });
 
@@ -208,9 +247,18 @@ router.post("/delete-user-from-class", userAuth, async (req, res) => {
         message: "not found.",
       });
     }
-
-    if (user.roll === "professor") course.professor = undefined;
-    else if (user.roll === "student") {
+    const attendencies = await Attendency.find({});
+    const relatedAttends = attendencies.filter((attend) => {
+      return (
+        attend.course._id.equals(course._id) &&
+        attend.student.toString() === user._id.toString()
+      );
+    });
+    for (let i = 0; i < relatedAttends.length; i++) {
+      await Attendency.findByIdAndDelete(relatedAttends[i]._id);
+    }
+    if (user.role === "professor") course.professor = undefined;
+    else if (user.role === "student") {
       course.registers.map((studentsDoc, index) => {
         if (studentsDoc._id.toString() === user._id.toString()) {
           course.registers.splice(index, 1);
@@ -226,6 +274,7 @@ router.post("/delete-user-from-class", userAuth, async (req, res) => {
 
     await user.save();
     await course.save();
+    // await attendencies.save();
     res.send({ user, course });
   } catch (err) {
     res.status(401).send(err.message);
@@ -233,7 +282,6 @@ router.post("/delete-user-from-class", userAuth, async (req, res) => {
 });
 
 router.get("/user-data", async (req, res) => {
-  // const id = req.params.id;
   const id = req.query.id;
 
   try {
@@ -253,9 +301,7 @@ router.get("/user-data", async (req, res) => {
 });
 
 router.get("/user", async (req, res) => {
-  console.log(req.query);
   const email = req.query.email;
-  console.log(email);
 
   try {
     const user = await User.findOne({ email });
@@ -277,7 +323,7 @@ router.get("/students", userAuth, async (req, res) => {
   try {
     const users = await User.find({}).populate("courses");
 
-    const students = users.filter((user) => user.roll !== "professor");
+    const students = users.filter((user) => user.role !== "professor");
 
     if (students.length === 0) {
       return res.status(404).send({
@@ -287,6 +333,25 @@ router.get("/students", userAuth, async (req, res) => {
     }
 
     res.send(students);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+router.get("/professors", userAuth, async (req, res) => {
+  try {
+    const users = await User.find({}).populate("courses");
+
+    const professors = users.filter((user) => user.role !== "student");
+
+    if (professors.length === 0) {
+      return res.status(404).send({
+        status: 404,
+        message: "No professor found",
+      });
+    }
+
+    res.send(professors);
   } catch (err) {
     res.status(400).send(err.message);
   }

@@ -12,11 +12,16 @@
     padding: 0.5rem;
     width: 100%;
     border-bottom: 1px solid #ccc;
+    gap: 0.5rem;
 
     @media (max-width: 516px) {
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: space-around;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      margin-top: 1rem;
+      gap: 0.5rem;
+      // flex-direction: column;
+      // align-items: flex-start;
+      // justify-content: space-around;
     }
   }
 
@@ -62,10 +67,24 @@
 }
 
 .empty-student-list {
-  @include flex(center, center);
+  background-image: url("../../../../public/ae8ac2fa217d23aadcc913989fcc34a2.jpg");
+  // background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: center;
+  @include flexColumn(center, center);
   color: $myRed;
-  border-radius: 5px;
+  // border-radius: 5px;
   height: 100vh;
   width: 70vw;
   font-size: 5vh;
+  // span {
+  //   position: fixed;
+  //   top: 9rem;
+  // }
+  button {
+    position: absolute;
+    bottom: 0;
+    padding: 1rem;
+    background-color: $myLightBlue;
+  }
 }

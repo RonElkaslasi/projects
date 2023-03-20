@@ -2,7 +2,6 @@
 @import "./base/setting";
 @import "./components/main/header";
 @import "./components/main/footer";
-@import "./components/home/home.scss";
 @import "./components/login/login";
 @import "./components/dashboards/professorDash.scss";
 @import "./components/courses/allCourses.scss";
@@ -11,3 +10,5 @@
 @import "./components/dashboards/studentsList.scss";
 @import "./components/main/loader.scss";
 @import "./components/main/notFoundPage.scss";
+@import "./components/courses/addAttendenty.scss";
+@import "./components/courses/courseLessonList.scss";

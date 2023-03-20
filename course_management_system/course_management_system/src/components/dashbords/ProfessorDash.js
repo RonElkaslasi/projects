@@ -1,4 +1,4 @@
-import react, { useContext, useState } from "react";
+import react, { useContext, useEffect, useState } from "react";
 import { loginContext } from "../../context/loginContext";
 import Header from "../main/Header";
 import { getUserFromCookie, saveCourseCookie } from "../../cookies/cookies";
@@ -10,7 +10,9 @@ import { editUserDetail } from "../../api/coursesAndUsersApi";
 
 const ProfessorDash = (props) => {
   const navigate = useNavigate();
+  // const { userData, dispatchUserData } = useContext(loginContext);
   const user = getUserFromCookie();
+  // console.log(user);
   const [isChangeDetail, setIsChangeDetail] = useState({
     isChangeName: false,
     isChangeBirth: false,
@@ -18,6 +20,7 @@ const ProfessorDash = (props) => {
     isChangeEmail: false,
     isChangePassword: false,
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onClickChangeDetail = (detail) => {
     setIsChangeDetail({ ...isChangeDetail, [detail]: true });
@@ -32,6 +35,10 @@ const ProfessorDash = (props) => {
     const fieldToChange = Object.keys(isChangeDetail).filter(
       (field) => isChangeDetail[field]
     );
+
+    // if (fieldToChange[0] === "isChangeBirth") {
+    //   newDetail = event.target.parentNode.children[0].valueAsDate;
+    // }
     let detailToChange = "";
     switch (fieldToChange[0]) {
       case "isChangeName":
@@ -39,6 +46,7 @@ const ProfessorDash = (props) => {
         break;
       case "isChangeBirth":
         detailToChange = "birth";
+        // newDetail = newDetail.toLocalDateString("en-CA");
         break;
       case "isChangeAddress":
         detailToChange = "address";
@@ -52,11 +60,23 @@ const ProfessorDash = (props) => {
         break;
     }
 
-    editUserDetail(detailToChange, newDetail).then((userDetail) => {
-      console.log(userDetail.user);
-      saveUserCookie(userDetail.user);
-      setIsChangeDetail({ ...isChangeDetail, [fieldToChange[0]]: false });
-    });
+    editUserDetail(detailToChange, newDetail).then(
+      (userDetail) => {
+        console.log(userDetail.user);
+        // saveUserCookie(userDetail.user);
+        saveUserCookie(userDetail.user);
+        setIsChangeDetail({ ...isChangeDetail, [fieldToChange[0]]: false });
+      },
+      (err) => {
+        setErrorMessage("*Invalid input");
+        setIsChangeDetail({ ...isChangeDetail, [fieldToChange[0]]: false });
+        // saveUserCookie(user);
+
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 2000);
+      }
+    );
   };
 
   const onClickSubmitNewPassword = (event) => {
@@ -65,11 +85,23 @@ const ProfessorDash = (props) => {
 
     const newPassword =
       event.target.parentNode.children[0].children[1].value.trim();
-
-    changePassword(currentPassword, newPassword, user).then((userData) => {
-      saveUserCookie(userData);
-      setIsChangeDetail({ ...isChangeDetail, ["isChangePassword"]: false });
-    });
+    console.log(currentPassword);
+    console.log(newPassword);
+    console.log(user);
+    changePassword(currentPassword, newPassword, user).then(
+      (userData) => {
+        console.log(userData.user);
+        saveUserCookie(userData.user);
+        setIsChangeDetail({ ...isChangeDetail, ["isChangePassword"]: false });
+      },
+      (err) => {
+        setErrorMessage(err.message);
+        setIsChangeDetail({ ...isChangeDetail, ["isChangePassword"]: false });
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 2000);
+      }
+    );
   };
 
   const onClickAllCoursesButton = () => {
@@ -80,11 +112,17 @@ const ProfessorDash = (props) => {
     navigate("/professor-dashboard/students-list");
   };
 
+  // useEffect(() => {
+  //   console.log(user.user.birth);
+  // }, []);
+
   return (
     <div className="dashboard">
-      <h2>Prof.{!user.token ? user.name : user.user.name} Dashboard</h2>
+      {/* <h2>Prof.{!user.token ? user.name : user.user.name} Dashboard</h2> */}
+      <h2>Prof.{user.name} Dashboard</h2>
       <div>
-        <p>Name: {!user.token ? user.name : user.user.name}</p>
+        {/* <p>Name: {!user.token ? user.name : user.user.name}</p> */}
+        <p>Name: {user.name}</p>
         <button
           onClick={() => {
             onClickChangeDetail("isChangeName");
@@ -96,13 +134,14 @@ const ProfessorDash = (props) => {
       {isChangeDetail.isChangeName && (
         <div>
           <input placeholder="Enter new name" />
-         
+
           <button onClick={onClickSubmitNewDetail}>Submit</button>
         </div>
       )}
 
       <div>
-        <p>Email: {!user.token ? user.email : user.user.email}</p>
+        {/* <p>Email: {!user.token ? user.email : user.user.email}</p> */}
+        <p>Email: {user.email}</p>
         <button
           onClick={() => {
             onClickChangeDetail("isChangeEmail");
@@ -119,7 +158,11 @@ const ProfessorDash = (props) => {
       )}
 
       <div>
-        <p>Birth: {!user.token ? user.birth : user.user.birth}</p>
+        <p>
+          Birth:{" "}
+          {/* {!user.token ? user.birth.slice(0, 10) : user.user.birth.slice(0, 10)} */}
+          {user.birth.slice(0, 10)}
+        </p>
         <button
           onClick={() => {
             onClickChangeDetail("isChangeBirth");
@@ -130,13 +173,19 @@ const ProfessorDash = (props) => {
       </div>
       {isChangeDetail.isChangeBirth && (
         <div>
-          <input placeholder="Enter new Birth" />
+          <input
+            placeholder="Enter new Birth"
+            type="date"
+            min="1955-01-01"
+            max="2010-12-31"
+          />
           <button onClick={onClickSubmitNewDetail}>Submit</button>
         </div>
       )}
 
       <div>
-        <p>Address: {!user.token ? user.address : user.user.address}</p>
+        {/* <p>Address: {!user.token ? user.address : user.user.address}</p> */}
+        <p>Address: {user.address}</p>
         <button
           onClick={() => {
             onClickChangeDetail("isChangeAddress");
@@ -170,6 +219,9 @@ const ProfessorDash = (props) => {
           </div>
           <button onClick={onClickSubmitNewPassword}>Submit</button>
         </div>
+      )}
+      {errorMessage !== "" && (
+        <span className="error-message">{errorMessage}</span>
       )}
 
       <div className="buttons-container">

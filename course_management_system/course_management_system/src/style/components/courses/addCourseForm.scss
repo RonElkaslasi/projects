@@ -35,6 +35,36 @@
       outline: none;
     }
   }
+  .days-holder {
+    border: 0.5px solid $myBlue;
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin: 0.2rem;
+    width: 100%;
+    
+    display: grid;
+    grid-template-columns: repeat(4, 0.5fr);
+    align-items: center;
+    justify-items: center;
+    font-size: 0.75rem;
+    // background-color: $myLightBlue;
+    @media (max-width: 516px) {
+      @include flexColumn(center,center)
+    }
+    span {
+      color: $myYellow;
+      font-weight: bold;
+      margin: 0;
+    }
+    div {
+      @include flex(space-evenly, center);
+
+      color: #fff;
+      color: $myBlue;
+      font-weight: bold;
+    }
+    // @include flex(space-evenly, center);
+  }
 
   .input-invalid {
     border: 1px solid $myRed;

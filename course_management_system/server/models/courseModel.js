@@ -10,14 +10,12 @@ const courseSchema = new mongoose.Schema(
       unique: true,
     },
     startDate: {
-      type: String,
+      type: Date,
       required: true,
-      trim: true,
     },
     endDate: {
-      type: String,
+      type: Date,
       required: true,
-      trim: true,
     },
     dayClass: [
       {
@@ -36,6 +34,11 @@ const courseSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    classes: [
+      {
+        type: Date,
+      },
+    ],
   },
   { timestamps: true }
 );

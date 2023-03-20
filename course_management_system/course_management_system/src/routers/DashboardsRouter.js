@@ -12,18 +12,18 @@ import { loginContext } from "../context/loginContext";
 
 const DashboardsRouter = ({ element: Element, ...rest }) => {
   const { userData } = useContext(loginContext);
-
+  // console.log(userData);
   if (
     userData.user &&
     Element === StudentDashboard &&
-    userData.user.roll === "student"
+    userData.user.role === "student"
   ) {
     return <Element {...rest} />;
   }
   if (
     userData.user &&
     Element === ProfessorDash &&
-    userData.user.roll === "professor"
+    userData.user.role === "professor"
   ) {
     return <Element {...rest} />;
   }
@@ -31,7 +31,7 @@ const DashboardsRouter = ({ element: Element, ...rest }) => {
   if (
     userData.user &&
     Element === AllCourses &&
-    userData.user.roll === "professor"
+    userData.user.role === "professor"
   ) {
     return <Element {...rest} />;
   }
@@ -39,14 +39,14 @@ const DashboardsRouter = ({ element: Element, ...rest }) => {
   if (
     userData.user &&
     Element === AddCourse &&
-    userData.user.roll === "professor"
+    userData.user.role === "professor"
   ) {
     return <Element {...rest} />;
   }
   if (
     userData.user &&
     Element === EditCourse &&
-    userData.user.roll === "professor"
+    userData.user.role === "professor"
   ) {
     return <Element {...rest} />;
   }
@@ -54,7 +54,7 @@ const DashboardsRouter = ({ element: Element, ...rest }) => {
   if (
     userData.user &&
     Element === SubscribeStudent &&
-    userData.user.roll === "professor"
+    userData.user.role === "professor"
   ) {
     return <Element {...rest} />;
   }
@@ -62,7 +62,7 @@ const DashboardsRouter = ({ element: Element, ...rest }) => {
   if (
     userData.user &&
     Element === StudentList &&
-    userData.user.roll === "professor"
+    userData.user.role === "professor"
   ) {
     return <Element {...rest} />;
   }
@@ -70,7 +70,7 @@ const DashboardsRouter = ({ element: Element, ...rest }) => {
   if (
     userData.user &&
     Element === MyCourses &&
-    userData.user.roll === "student"
+    userData.user.role === "student"
   ) {
     return <Element {...rest} />;
   }

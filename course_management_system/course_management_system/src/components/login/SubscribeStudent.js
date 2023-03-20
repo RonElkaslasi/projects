@@ -30,7 +30,6 @@ const SubscribeStudent = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const isFromInvalid = () => {
-    console.log(inputDetail.role);
     return (
       inputDetail.name === "" ||
       inputDetail.birth === "" ||
@@ -100,6 +99,9 @@ const SubscribeStudent = () => {
             <input
               placeholder="Student Birth of date"
               name="birth"
+              type="date"
+              min="1955-01-01"
+              max="2010-12-31"
               value={inputDetail.birth}
               className={
                 !isInputValid.isInputbirthValid ? "input-invalid" : null

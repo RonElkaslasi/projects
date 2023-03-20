@@ -6,6 +6,7 @@
   left: 0;
   z-index: 1;
   background-color: $myBlue;
+  box-shadow: 0 0 5px 0 $myBlue;
 }
 
 .header_nav {
@@ -32,7 +33,12 @@
 
 .welcome-and-logout-container {
   @include flex(space-between, center);
+  .logout-button {
+    // color: #a2b223;
+    color: #848484;
 
+    // color: rgb(85, 187, 51);
+  }
   button {
     color: $myYellow;
     background-color: $myBlue;
